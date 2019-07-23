@@ -23,4 +23,12 @@
     <TypeScriptCompile Include="ClientApp\polyfills.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TerritoriesAssignment.Core\TerritoriesAssignment.Core.csproj" />
+  </ItemGroup>
+
 </Project>
