@@ -9,27 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { CountryService } from "../../services/country.service";
-var CountryComponent = /** @class */ (function () {
-    function CountryComponent(countryService) {
+var CountryListComponent = /** @class */ (function () {
+    function CountryListComponent(countryService) {
         this.countryService = countryService;
     }
-    CountryComponent.prototype.ngOnInit = function () {
+    CountryListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.countryService.getCountries().subscribe(function (data) {
-            debugger;
             _this.Countries = data;
         });
     };
-    CountryComponent = __decorate([
+    CountryListComponent = __decorate([
         Component({
-            selector: 'ks-country',
-            templateUrl: 'country.component.html',
-            styleUrls: ['country.component.css'],
+            selector: 'ks-country-list',
+            templateUrl: 'country-list.component.html',
             providers: [CountryService]
         }),
         __metadata("design:paramtypes", [CountryService])
-    ], CountryComponent);
-    return CountryComponent;
+    ], CountryListComponent);
+    return CountryListComponent;
 }());
-export { CountryComponent };
-//# sourceMappingURL=country.component.js.map
+export { CountryListComponent };
+//# sourceMappingURL=country-list.component.js.map

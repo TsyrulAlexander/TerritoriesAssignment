@@ -3,11 +3,11 @@ import {CountryService} from "../../services/country.service";
 import {Country} from "../../models/country";
 
 @Component({
-	selector: 'ks-country',
-	templateUrl: 'country.component.html',
+	selector: 'ks-country-list',
+	templateUrl: 'country-list.component.html',
 	providers: [CountryService]
 })
-export class CountryComponent implements OnInit {
+export class CountryListComponent implements OnInit {
 
 	public Countries: Country[];
 

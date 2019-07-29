@@ -5,7 +5,8 @@ import { HomeComponent } from "./components/home/home.component";
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from "./components/app/app.component";
-import { CountryComponent } from "./components/country/country.component";
+import { CountryListComponent } from "./components/country-list/country-list.component";
+import { CityListComponent } from "./components/city-list/city-list.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent }
@@ -13,7 +14,7 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule],
-    declarations: [AppComponent, HomeComponent, CountryComponent],
+    declarations: [AppComponent, HomeComponent, CountryListComponent, CityListComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

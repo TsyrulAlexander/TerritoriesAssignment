@@ -7,20 +7,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
-var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+import { Injectable, } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+var CityService = /** @class */ (function () {
+    function CityService(http) {
+        this.http = http;
+        this.url = "api/city";
     }
-    HomeComponent.prototype.ngOnInit = function () {
+    CityService.prototype.getCities = function (country) {
+        if (country == null) {
+            throw new null;
+        }
+        this.http.get(this.url + "?country_id=" + country.id);
     };
-    HomeComponent = __decorate([
-        Component({
-            selector: 'ks-home',
-            templateUrl: "home.component.html"
-        }),
-        __metadata("design:paramtypes", [])
-    ], HomeComponent);
-    return HomeComponent;
+    CityService = __decorate([
+        Injectable(),
+        __metadata("design:paramtypes", [HttpClient])
+    ], CityService);
+    return CityService;
 }());
-export { HomeComponent };
-//# sourceMappingURL=home.component.js.map
+export { CityService };
+//# sourceMappingURL=city.service.js.map

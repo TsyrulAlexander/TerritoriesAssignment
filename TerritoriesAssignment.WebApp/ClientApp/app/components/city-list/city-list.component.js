@@ -8,19 +8,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+var CityListComponent = /** @class */ (function () {
+    function CityListComponent() {
     }
-    HomeComponent.prototype.ngOnInit = function () {
+    CityListComponent.prototype.ngOnInit = function () {
     };
-    HomeComponent = __decorate([
+    CityListComponent = __decorate([
         Component({
-            selector: 'ks-home',
-            templateUrl: "home.component.html"
+            selector: 'ks-city-list',
+            templateUrl: 'city-list.component.html',
+            providers: []
         }),
         __metadata("design:paramtypes", [])
-    ], HomeComponent);
-    return HomeComponent;
+    ], CityListComponent);
+    return CityListComponent;
 }());
-export { HomeComponent };
-//# sourceMappingURL=home.component.js.map
+export { CityListComponent };
+//# sourceMappingURL=city-list.component.js.map
