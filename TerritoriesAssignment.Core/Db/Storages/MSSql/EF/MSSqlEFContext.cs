@@ -6,7 +6,8 @@ namespace TerritoriesAssignment.Core.Db.Storages.MSSql.EF {
 		public string ConnectionString { get; }
 
 		public DbSet<Country> Countries { get; set; }
-		public DbSet<City> Cities { get; set; }
+		public DbSet<Area> Areas { get; set; }
+		public DbSet<Region> Regions { get; set; }
 		public MSSqlEFContext(string connectionString) {
 			ConnectionString = connectionString;
 			Database.EnsureCreated();

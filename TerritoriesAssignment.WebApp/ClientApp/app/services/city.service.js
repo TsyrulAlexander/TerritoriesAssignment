@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Injectable, } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 var CityService = /** @class */ (function () {
     function CityService(http) {
@@ -15,10 +15,11 @@ var CityService = /** @class */ (function () {
         this.url = "api/city";
     }
     CityService.prototype.getCities = function (country) {
+        // : Observable<City[]>
         if (country == null) {
-            throw new null;
+            //todo
         }
-        this.http.get(this.url + "?country_id=" + country.id);
+        return this.http.get(this.url + "?country_id=" + country.id);
     };
     CityService = __decorate([
         Injectable(),

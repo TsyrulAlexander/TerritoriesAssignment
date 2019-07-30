@@ -5,6 +5,5 @@ using TerritoriesAssignment.Core.Db;
 namespace TerritoriesAssignment.Core.Entities
 {
 	public class Country : BaseLookup {
-
 	}
 }
