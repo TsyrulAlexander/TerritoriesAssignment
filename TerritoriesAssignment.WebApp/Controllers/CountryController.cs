@@ -17,16 +17,16 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 			return Storage.GetCountries();
 		}
 		public Country Get(Guid id) {
-			throw new NotImplementedException();
+			return Storage.GetCountry(id);
 		}
 		public void Post(Country item) {
-			throw new NotImplementedException();
+			Storage.AddCountry(item);
 		}
-		public void Put(int id, Country item) {
-			throw new NotImplementedException();
+		public void Put(Country item) {
+			Storage.UpdateCountry(item);
 		}
 		public void Delete(Guid id) {
-			throw new NotImplementedException();
+			Storage.DeleteCountry(id);
 		}
 	}
 }

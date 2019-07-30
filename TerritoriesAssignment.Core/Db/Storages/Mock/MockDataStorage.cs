@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.Core.Db.Storages.Mock {
@@ -49,11 +48,32 @@ namespace TerritoriesAssignment.Core.Db.Storages.Mock {
 				Area = _areas.First(area => area.Name == "Vinnytsia")
 			});
 		}
+		public Country GetCountry(Guid id) {
+			return _countries.Find(country => country.Id == id);
+		}
+		public Area GetArea(Guid id) {
+			return _areas.Find(area => area.Id == id);
+		}
+		public Region GetRegion(Guid id) {
+			return _regions.Find(region => region.Id == id);
+		}
 		public void AddCountry(Country country) {
 			_countries.Add(country);
 		}
 		public void AddRegion(Region region) {
 			_regions.Add(region);
+		}
+		public void UpdateCountry(Country country) {
+			var item = GetCountry(country.Id);
+			item.Name = country.Name;
+		}
+		public void UpdateArea(Area area) {
+			var item = GetArea(area.Id);
+			item.Name = area.Name;
+		}
+		public void UpdateRegion(Region region) {
+			var item = GetRegion(region.Id);
+			item.Name = region.Name;
 		}
 		public void AddArea(Area area) {
 			_areas.Add(area);
@@ -66,6 +86,18 @@ namespace TerritoriesAssignment.Core.Db.Storages.Mock {
 		}
 		public IEnumerable<Region> GetRegions(Guid areaId) {
 			return _regions.Where(region => region.Area.Id == areaId);
+		}
+		public void DeleteCountry(Guid countryId) {
+			var item = GetCountry(countryId);
+			_countries.Remove(item);
+		}
+		public void DeleteArea(Guid areaId) {
+			var item = GetArea(areaId);
+			_areas.Remove(item);
+		}
+		public void DeleteRegion(Guid regionId) {
+			var item = GetRegion(regionId);
+			_regions.Remove(item);
 		}
 	}
 }

@@ -12,8 +12,8 @@ namespace TerritoriesAssignment.WebApp.Controllers
 		T Get(Guid id);
 		[HttpPost]
 		void Post([FromBody] T item);
-		[HttpPut("{id}")]
-		void Put(int id, [FromBody] T item);
+		[HttpPut]
+		void Put([FromBody] T item);
 		[HttpDelete("{id}")]
 		void Delete(Guid id);
 	}
