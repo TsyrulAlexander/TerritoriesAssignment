@@ -14,8 +14,8 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public AreaController(IDataStorage storage) {
 			Storage = storage;
 		}
-		[HttpGet("{countryId}")]
-		public IEnumerable<Area> GetItems(Guid countryId) {
+		[HttpGet("getItems/{countryId?}")]
+		public IEnumerable<Area> GetItems([FromQuery]Guid countryId) {
 			return Storage.GetAreas(countryId);
 		}
 		public Area Get(Guid id) {

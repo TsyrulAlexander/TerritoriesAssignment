@@ -21,8 +21,9 @@ var CountryListComponent = /** @class */ (function () {
     };
     CountryListComponent = __decorate([
         Component({
-            selector: 'ks-country-list',
-            templateUrl: 'country-list.component.html',
+            selector: "ks-country-list",
+            templateUrl: "country-list.component.html",
+            styleUrls: ["country-list.component.css"],
             providers: [CountryService]
         }),
         __metadata("design:paramtypes", [CountryService])

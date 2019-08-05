@@ -15,7 +15,7 @@ var CountryService = /** @class */ (function () {
         this.url = "/api/country";
     }
     CountryService.prototype.getCountries = function () {
-        return this.http.get(this.url);
+        return this.http.get(this.url + "/getItems");
     };
     CountryService = __decorate([
         Injectable(),

@@ -24,7 +24,7 @@ namespace TerritoriesAssignment.Core.Db.Storages.Mock {
 			});
 			_areas.Add(new Area {
 				Id = Guid.NewGuid(),
-				Name = "Kyiv",
+				Name = "Lviv",
 				Country = _countries.First(country => country.Name == "Ukraina")
 			});
 			_areas.Add(new Area {

@@ -5,13 +5,14 @@ using TerritoriesAssignment.Core.Db;
 using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.WebApp.Controllers {
+	[Route("api/region")]
 	public class RegionController : Controller, IStorageController<Region> {
 		public IDataStorage Storage { get; }
 
 		public RegionController(IDataStorage storage) {
 			Storage = storage;
 		}
-		[HttpGet("{areaId}")]
+		[HttpGet("getItems/{areaId?}")]
 		public IEnumerable<Region> GetItems(Guid areaId) {
 			return Storage.GetRegions(areaId);
 		}
