@@ -2,8 +2,7 @@
 
 @Component({
     selector: 'ks-region-list',
-    templateUrl: './region-list.component.html',
-    styleUrls: ['./region-list.component.css']
+    templateUrl: 'region-list.component.html'
 })
 /** region-list component*/
 export class RegionListComponent {

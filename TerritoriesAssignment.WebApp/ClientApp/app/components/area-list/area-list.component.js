@@ -7,25 +7,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-var CityService = /** @class */ (function () {
-    function CityService(http) {
-        this.http = http;
-        this.url = "api/city";
+import { Component } from '@angular/core';
+var AreaListComponent = /** @class */ (function () {
+    /** area-list ctor */
+    function AreaListComponent() {
     }
-    CityService.prototype.getCities = function (country) {
-        // : Observable<City[]>
-        if (country == null) {
-            //todo
-        }
-        return this.http.get(this.url + "?country_id=" + country.id);
-    };
-    CityService = __decorate([
-        Injectable(),
-        __metadata("design:paramtypes", [HttpClient])
-    ], CityService);
-    return CityService;
+    AreaListComponent = __decorate([
+        Component({
+            selector: 'ks-area-list',
+            templateUrl: './area-list.component.html',
+            styleUrls: ['./area-list.component.css']
+        })
+        /** area-list component*/
+        ,
+        __metadata("design:paramtypes", [])
+    ], AreaListComponent);
+    return AreaListComponent;
 }());
-export { CityService };
-//# sourceMappingURL=city.service.js.map
+export { AreaListComponent };
+//# sourceMappingURL=area-list.component.js.map

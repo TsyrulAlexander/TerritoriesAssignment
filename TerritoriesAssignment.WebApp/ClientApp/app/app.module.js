@@ -12,7 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from "./components/app/app.component";
 import { CountryListComponent } from "./components/country-list/country-list.component";
-import { CityListComponent } from "./components/city-list/city-list.component";
+import { AreaListComponent } from "./components/area-list/area-list.component";
+import { RegionListComponent } from "./components/region-list/region-list.component";
 var appRoutes = [
     { path: '', component: HomeComponent }
 ];
@@ -22,7 +23,7 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         NgModule({
             imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule],
-            declarations: [AppComponent, HomeComponent, CountryListComponent, CityListComponent],
+            declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent],
             bootstrap: [AppComponent]
         })
     ], AppModule);

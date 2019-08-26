@@ -2,8 +2,7 @@
 
 @Component({
     selector: 'ks-area-list',
-    templateUrl: './area-list.component.html',
-    styleUrls: ['./area-list.component.css']
+    templateUrl: 'area-list.component.html',
 })
 /** area-list component*/
 export class AreaListComponent {

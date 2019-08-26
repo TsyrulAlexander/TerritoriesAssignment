@@ -8,6 +8,7 @@ import { AppComponent } from "./components/app/app.component";
 import { CountryListComponent } from "./components/country-list/country-list.component";
 import { AreaListComponent } from "./components/area-list/area-list.component";
 import { RegionListComponent } from "./components/region-list/region-list.component";
+import {CountryItemComponent} from "./components/country-item/country-item.component";
 
 
 const appRoutes: Routes = [
@@ -16,7 +17,7 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule],
-    declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent],
+    declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent, CountryItemComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
