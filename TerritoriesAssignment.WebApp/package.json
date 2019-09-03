@@ -3,6 +3,10 @@
   "name": "asp.net",
   "private": true,
   "author": "Eugene Popov <metanit.com>",
+  "scripts": {
+    "dev": "webpack-dev-server --hot --open",
+    "build": "webpack"
+  },
   "dependencies": {
     "@angular/common": "~8.0.0",
     "@angular/compiler": "~8.0.0",

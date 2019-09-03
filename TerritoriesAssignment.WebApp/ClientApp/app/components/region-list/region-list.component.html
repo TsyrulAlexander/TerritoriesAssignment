@@ -1,1 +1,5 @@
-﻿<div style="border: 1px solid red">region-list Component</div>
+﻿<div>
+    <div *ngFor="let region of regions" class="list-group-item">
+        <ks-region [region]="region"></ks-region>
+    </div>
+</div>

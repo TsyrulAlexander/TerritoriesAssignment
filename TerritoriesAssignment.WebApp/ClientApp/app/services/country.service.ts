@@ -8,6 +8,6 @@ export class CountryService {
 	}
 	private url = "/api/country";
 	getCountries(): Observable<Country[]> {
-		return this.http.get<Country[]>(this.url);
+		return this.http.get<Country[]>(this.url + "/getItems");
 	}
 }

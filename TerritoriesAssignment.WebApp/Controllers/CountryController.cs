@@ -6,13 +6,14 @@ using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.WebApp.Controllers {
 	[Route("api/country")]
+	[ApiController]
 	public class CountryController : Controller, IStorageController<Country> {
 		public IDataStorage Storage { get; }
 
 		public CountryController(IDataStorage storage) {
 			Storage = storage;
 		}
-		[HttpGet]
+		[HttpGet("getItems")]
 		public IEnumerable<Country> Get() {
 			return Storage.GetCountries();
 		}

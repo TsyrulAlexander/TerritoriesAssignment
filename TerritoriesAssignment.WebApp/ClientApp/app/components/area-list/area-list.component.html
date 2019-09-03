@@ -1,1 +1,5 @@
-﻿<div style="border: 1px solid red">area-list Component</div>
+﻿<div>
+    <div *ngFor="let area of areas" class="list-group-item">
+        <ks-area [area]="area"></ks-area>
+    </div>
+</div>

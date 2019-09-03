@@ -20,7 +20,10 @@ namespace TerritoriesAssignment.WebApp {
 			}
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
-			app.UseMvc();
+			app.UseMvc(routes => {
+				routes
+				.MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
+			});
 		}
 	}
 }
