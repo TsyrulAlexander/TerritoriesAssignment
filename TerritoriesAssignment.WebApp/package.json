@@ -5,7 +5,7 @@
   "author": "Eugene Popov <metanit.com>",
   "scripts": {
     "dev": "webpack-dev-server --hot --open",
-    "build": "webpack"
+    "build": "webpack -p"
   },
   "dependencies": {
     "@angular/common": "~8.0.0",

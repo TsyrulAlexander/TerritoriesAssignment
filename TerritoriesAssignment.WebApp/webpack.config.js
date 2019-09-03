@@ -5,21 +5,21 @@ module.exports = {
 	entry: {
 		'polyfills': './ClientApp/polyfills.ts',
 		'app': './ClientApp/main.ts'
+		//'styles': path.resolve(__dirname, './wwwroot/styles/style.css')
 	},
 	output: {
-		path: path.resolve(__dirname, './wwwroot/dist'),     // путь к каталогу выходных файлов - папка public
+		path: path.resolve(__dirname, './wwwroot/dist'),
 		publicPath: '/dist/',
-		filename: "[name].js"       // название создаваемого файла
+		filename: "[name].js"
 	},
 	resolve: {
 		extensions: ['.ts', '.js']
 	},
 	module: {
-		rules: [   //загрузчик для ts
+		rules: [
 			{
-				test: /\.ts$/, // определяем тип файлов
-				use: [
-					{
+				test: /\.ts$/,
+				use: [{
 						loader: 'awesome-typescript-loader',
 						options: { configFileName: path.resolve(__dirname, 'tsconfig.json') }
 					},

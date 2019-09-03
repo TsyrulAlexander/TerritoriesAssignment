@@ -7,20 +7,53 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { RegionService } from "../../services/region.service";
+import { Area } from "../../models/area";
 var RegionListComponent = /** @class */ (function () {
-    /** region-list ctor */
-    function RegionListComponent() {
+    function RegionListComponent(regionService) {
+        this.regionService = regionService;
+        this._isShow = false;
     }
+    Object.defineProperty(RegionListComponent.prototype, "isShow", {
+        get: function () {
+            return this._isShow;
+        },
+        set: function (value) {
+            this._isShow = value;
+            if (value) {
+                this.initRegions();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RegionListComponent.prototype.initRegions = function () {
+        var _this = this;
+        if (!this.area) {
+            return;
+        }
+        this.regionService.getRegions(this.area).subscribe(function (data) {
+            _this.regions = data;
+        });
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", Area)
+    ], RegionListComponent.prototype, "area", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], RegionListComponent.prototype, "isShow", null);
     RegionListComponent = __decorate([
         Component({
             selector: 'ks-region-list',
-            templateUrl: './region-list.component.html',
-            styleUrls: ['./region-list.component.css']
-        })
-        /** region-list component*/
-        ,
-        __metadata("design:paramtypes", [])
+            templateUrl: 'region-list.component.html',
+            styleUrls: ['region-list.component.css'],
+            providers: [RegionService]
+        }),
+        __metadata("design:paramtypes", [RegionService])
     ], RegionListComponent);
     return RegionListComponent;
 }());
