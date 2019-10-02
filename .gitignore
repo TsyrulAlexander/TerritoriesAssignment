@@ -1,3 +1,7 @@
 TerritoriesAssignment.WebApp/.idea/
 **/*.map 
 **/app/**/*.js
+bin
+obj
+.vs
+node_modules
