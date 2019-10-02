@@ -11,7 +11,7 @@ import { RegionListComponent } from "./components/region-list/region-list.compon
 import { CountryComponent } from "./components/country/country.component";
 import { AreaComponent } from "./components/area/area.component";
 import { RegionComponent } from "./components/region/region.component";
-import { NgbModule, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const appRoutes: Routes = [

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Country} from "../models/country";
-import {Area} from "../models/area";
+import { Country } from "../models/country";
+import { Area } from "../models/area";
 @Injectable()
 export class AreaService {
 	constructor(private http: HttpClient) {
