@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\app\components\home\**" />
-    <Content Remove="ClientApp\app\components\home\**" />
-    <EmbeddedResource Remove="ClientApp\app\components\home\**" />
-    <None Remove="ClientApp\app\components\home\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="ClientApp\app.component.ts" />
     <None Remove="ClientApp\app\app.module.ts" />
     <None Remove="ClientApp\main.ts" />

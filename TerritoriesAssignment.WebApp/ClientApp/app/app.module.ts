@@ -8,7 +8,9 @@ import { AppComponent } from "./components/app/app.component";
 import { CountryListComponent } from "./components/country-list/country-list.component";
 import { AreaListComponent } from "./components/area-list/area-list.component";
 import { RegionListComponent } from "./components/region-list/region-list.component";
-import {CountryItemComponent} from "./components/country-item/country-item.component";
+import { CountryComponent } from "./components/country/country.component";
+import { AreaComponent } from "./components/area/area.component";
+import { RegionComponent } from "./components/region/region.component";
 
 
 const appRoutes: Routes = [
@@ -17,7 +19,7 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule],
-    declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent, CountryItemComponent],
+    declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent, CountryComponent, AreaComponent, RegionComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
