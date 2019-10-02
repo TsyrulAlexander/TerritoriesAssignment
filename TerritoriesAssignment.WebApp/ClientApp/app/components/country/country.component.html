@@ -1,4 +1,4 @@
-﻿<!--<div>
+﻿<div>
     <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isShowArea"
             [attr.aria-controls]="country.id + '-content'" (click)="isShowArea = !isShowArea">
         <p>{{country.name}}</p>
@@ -6,5 +6,4 @@
     <div id="{{country.id}}-content" class="collapse" [ngbCollapse]="!isShowArea">
         <ks-area-list [country]="country" [isShow]="isShowArea"></ks-area-list>
     </div>
-</div>-->
-    <p>{{country.name}}</p>
+</div>
