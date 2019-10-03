@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TerritoriesAssignment.Core.Entities;
 
-namespace TerritoriesAssignment.Core.Db
+namespace TerritoriesAssignment.Database
 {
 	public interface IDataStorage {
 		Country GetCountry(Guid id);

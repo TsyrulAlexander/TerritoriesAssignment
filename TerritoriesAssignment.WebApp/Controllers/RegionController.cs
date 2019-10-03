@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using TerritoriesAssignment.Core.Db;
 using TerritoriesAssignment.Core.Entities;
+using TerritoriesAssignment.Database;
 
 namespace TerritoriesAssignment.WebApp.Controllers {
 	[Route("api/region")]

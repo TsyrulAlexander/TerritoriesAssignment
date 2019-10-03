@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TerritoriesAssignment.Core.Db;
-using TerritoriesAssignment.Core.Db.Storages.Mock;
+using TerritoriesAssignment.Database;
+using TerritoriesAssignment.Database.Storages.Mock;
 
 namespace TerritoriesAssignment.WebApp.Extensions {
 	public static class DataStorageExtensions {

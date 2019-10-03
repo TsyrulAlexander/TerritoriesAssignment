@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TerritoriesAssignment.Core.Db;
+using TerritoriesAssignment.Database;
 
 namespace TerritoriesAssignment.WebApp.Controllers {
 	[Route("api/home")]

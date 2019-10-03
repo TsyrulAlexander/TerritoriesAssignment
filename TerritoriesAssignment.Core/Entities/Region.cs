@@ -1,7 +1,7 @@
-﻿using TerritoriesAssignment.Core.Db;
+using TerritoriesAssignment.Core.Entities.Map;
 
 namespace TerritoriesAssignment.Core.Entities {
-	public class Region : BaseLookup {
+	public class Region : BaseMapLookup {
 		public Area Area { get; set; }
 	}
 }

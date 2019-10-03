@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace TerritoriesAssignment.Core.Db
-{
+namespace TerritoriesAssignment.Core {
 	public class BaseObject {
 		public Guid Id { get; set; }
 	}

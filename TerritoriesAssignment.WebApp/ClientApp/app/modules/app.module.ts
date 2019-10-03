@@ -16,7 +16,7 @@ import { MapComponent } from "../components/map/map.component";
 
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent}
+    { path: '', component: HomeComponent }
 ];
 
 @NgModule({
