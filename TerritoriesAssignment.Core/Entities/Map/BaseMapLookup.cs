@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace TerritoriesAssignment.Core.Entities.Map {
 	public class BaseMapLookup : BaseLookup {
-		public string Path { get; set; }
+		public string MapPoint { get; set; }
 		public IEnumerable<MapPoint> GetPoints() {
-			return ParseCoordinateList(Path);
+			return ParseCoordinateList(MapPoint);
 		}
 
 		public IEnumerable<MapPoint> ParseCoordinateList(string coordinateStr) {
-			return Path.Split(new []{ ',' }, StringSplitOptions.RemoveEmptyEntries).Select(ParseCoordinate);
+			return MapPoint.Split(new []{ ',' }, StringSplitOptions.RemoveEmptyEntries).Select(ParseCoordinate);
 		}
 
 		public MapPoint ParseCoordinate(string coordinateStr) {
