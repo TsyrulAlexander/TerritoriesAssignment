@@ -8,8 +8,8 @@ namespace SQLiteFramework.Condition.Value {
 		public StringConditionValue(string value) {
 			Value = value;
 		}
-		public object GetValue() {
-			return Value;
+		public string GetValue() {
+			return $"'{Value}'";
 		}
 	}
 }

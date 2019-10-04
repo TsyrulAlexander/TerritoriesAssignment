@@ -8,5 +8,10 @@ namespace SQLiteFramework.Condition {
 		public string ColumnPath { get; set; }
 		public SQLiteComparisonType ComparisonType { get; set; }
 		public IConditionValue Value { get; set; }
+		public SQLiteCondition(string columnPath = null, SQLiteComparisonType comparisonType = SQLiteComparisonType.Equal, IConditionValue value = null) {
+			ColumnPath = columnPath;
+			ComparisonType = comparisonType;
+			Value = value;
+		}
 	}
 }

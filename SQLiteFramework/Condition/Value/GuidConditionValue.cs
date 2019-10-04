@@ -8,8 +8,8 @@ namespace SQLiteFramework.Condition.Value {
 		public GuidConditionValue(Guid value) {
 			Value = value;
 		}
-		public object GetValue() {
-			return Value;
+		public string GetValue() {
+			return $"'{Value.ToString()}'";
 		}
 	}
 }
