@@ -8,7 +8,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app.component.ts" />
     <None Remove="ClientApp\app\app.module.ts" />
-    <None Remove="ClientApp\app\models\i-map-item.ts" />
+    <None Remove="ClientApp\app\models\imap-item.ts" />
     <None Remove="ClientApp\app\models\map-item.ts" />
     <None Remove="ClientApp\app\models\map-point.ts" />
     <None Remove="ClientApp\main.ts" />
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\models\i-map-item.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\imap-item.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\map-item.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\map-point.ts" />
     <TypeScriptCompile Include="ClientApp\app\modules\app.module.ts" />
@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TerritoriesAssignment.Core\TerritoriesAssignment.Core.csproj" />
     <ProjectReference Include="..\TerritoriesAssignment.Database\TerritoriesAssignment.Database.csproj" />
   </ItemGroup>
 

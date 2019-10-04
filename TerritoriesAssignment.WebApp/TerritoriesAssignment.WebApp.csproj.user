@@ -4,7 +4,7 @@
     <ToolsVersionPromptShown>2.8</ToolsVersionPromptShown>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="ClientApp\app\models\i-map-item.ts">
+    <TypeScriptCompile Update="ClientApp\app\models\imap-item.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
