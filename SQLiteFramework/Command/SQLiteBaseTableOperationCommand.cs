@@ -12,9 +12,9 @@ namespace SQLiteFramework.Command
 		protected const string FromCommandName = "FROM";
 		protected const string WhereCommandName = "WHERE";
 		protected string TableName { get; set; }
-		protected IEnumerable<SQLiteCondition> Conditions { get; set; }
+		protected IEnumerable<ISQLiteCondition> Conditions { get; set; }
 		
-		public SQLiteBaseTableOperationCommand(string tableName = null, IEnumerable<SQLiteCondition> conditions = null) {
+		public SQLiteBaseTableOperationCommand(string tableName = null, IEnumerable<ISQLiteCondition> conditions = null) {
 			TableName = tableName;
 			Conditions = conditions;
 		}
@@ -25,8 +25,8 @@ namespace SQLiteFramework.Command
 			}
 			return $"{WhereCommandName} {string.Join("AND", Conditions.Select(GetConditionSql))}";
 		}
-		protected virtual string GetConditionSql(SQLiteCondition condition) {
-			return $" {condition.ColumnPath} {SQLiteUtilities.ToString(condition.ComparisonType)} {condition.Value.GetValue()} ";
+		protected virtual string GetConditionSql(ISQLiteCondition condition) {
+			return condition.GetSqlText();
 		}
 	}
 }

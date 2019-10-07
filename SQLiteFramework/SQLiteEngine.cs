@@ -37,12 +37,10 @@ namespace SQLiteFramework {
 		}
 
 		public virtual IEnumerable<T> ExecuteCommand<T>(SQLiteCommand command) {
-			using (var connection = CreateConnection()) {
-				return command.Execute<T>(connection);
-			}
+			return command.Execute<T>(this);
 		}
 
-		protected virtual SQLiteConnection CreateConnection() {
+		public virtual SQLiteConnection CreateConnection() {
 			var connectionString = GetConnectionString();
 			return new SQLiteConnection(connectionString);
 		}

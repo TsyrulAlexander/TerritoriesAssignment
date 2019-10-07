@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SQLiteFramework;
 using SQLiteFramework.Command;
 using SQLiteFramework.Condition;
-using SQLiteFramework.Condition.Column;
 using SQLiteFramework.Condition.Value;
-using SQLiteFramework.Table;
+using SQLiteFramework.Query;
 using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.Database.Storages.SQLite
@@ -26,11 +24,10 @@ namespace TerritoriesAssignment.Database.Storages.SQLite
 			creator.CreateIfNotExist();
 		}
 		public Country GetCountry(Guid id) {
-			var selectCommand = new SQLiteSelectCommand(typeof(Country), new [] {
-				new SQLiteCondition("Id", SQLiteComparisonType.Equal, new GuidConditionValue(id)) 
-			});
-			var response = Engine.ExecuteCommand<Country>(selectCommand);
-			return response.First();
+			var select = new SQLiteSelect(Engine);
+			select.Conditions.Add(new SQLiteCondition("Id", SQLiteComparisonType.Equal,
+				new GuidConditionValue(id)));
+			return select.GetEntities<Country>().FirstOrDefault();
 		}
 		public Area GetArea(Guid id) {
 			throw new NotImplementedException();
@@ -61,9 +58,8 @@ namespace TerritoriesAssignment.Database.Storages.SQLite
 			throw new NotImplementedException();
 		}
 		public IEnumerable<Country> GetCountries() {
-			var selectCommand = new SQLiteSelectCommand(typeof(Country));
-			var response = Engine.ExecuteCommand<Country>(selectCommand);
-			return response;
+			SQLiteSelect select = new SQLiteSelect(Engine);
+			return select.GetEntities<Country>();
 		}
 		public IEnumerable<Area> GetAreas(Guid countryId) {
 			throw new NotImplementedException();

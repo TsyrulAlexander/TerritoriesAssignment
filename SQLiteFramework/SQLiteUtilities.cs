@@ -12,12 +12,7 @@ namespace SQLiteFramework {
 		public static IConditionValue Value(Guid value) {
 			return new GuidConditionValue(value);
 		}
-		//public static SQLiteColumn<string> StringColumn(string columnName) {
-		//	return new SQLiteColumn<string>();
-		//}
-		//public static SQLiteColumn<Guid> GuidColumn(string columnName) {
-		//	return new SQLiteColumn<Guid>();
-		//}
+
 		public static string ToString(this SQLiteColumnType columnType) {
 			switch (columnType) {
 				case SQLiteColumnType.Guid:
@@ -26,17 +21,6 @@ namespace SQLiteFramework {
 					return "TEXT";
 				default:
 					throw new NotSupportedException(nameof(columnType));
-			}
-		}
-
-		public static string ToString(this SQLiteComparisonType comparisonType) {
-			switch (comparisonType) {
-				case SQLiteComparisonType.Equal:
-					return "=";
-				case SQLiteComparisonType.NotEqual:
-					return "!=";
-				default:
-					throw new NotSupportedException(nameof(comparisonType));
 			}
 		}
 

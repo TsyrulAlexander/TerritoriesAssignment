@@ -4,10 +4,8 @@ using System.Text;
 using SQLiteFramework.Condition.Value;
 using SQLiteFramework.Table;
 
-namespace SQLiteFramework.Condition.Column
-{
-	public class SQLiteColumnValue: SQLiteColumn
-	{
+namespace SQLiteFramework.Condition.Column {
+	public class SQLiteColumnValue : SQLiteColumn {
 		public IConditionValue Value { get; set; }
 		public SQLiteColumnValue(string name, SQLiteColumnType type, IConditionValue value) : base(name, type) {
 			Value = value;
@@ -22,10 +20,10 @@ namespace SQLiteFramework.Condition.Column
 			}
 			var type = value.GetType();
 			if (type == typeof(Guid)) {
-				return new GuidConditionValue((Guid)value);
+				return new GuidConditionValue((Guid) value);
 			}
 			if (type == typeof(string)) {
-				return new StringConditionValue((string)value);
+				return new StringConditionValue((string) value);
 			}
 			throw new NotSupportedException(type.Name);
 		}

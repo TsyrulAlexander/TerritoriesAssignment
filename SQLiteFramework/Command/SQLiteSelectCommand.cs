@@ -12,10 +12,10 @@ namespace SQLiteFramework.Command {
 	{
 		protected const string SelectCommandName = "SELECT";
 		protected IEnumerable<SQLiteColumn> Columns { get; set; }
-		public SQLiteSelectCommand(Type type, IEnumerable<SQLiteCondition> conditions = null) : base(type.Name, conditions) {
+		public SQLiteSelectCommand(Type type, IEnumerable<ISQLiteCondition> conditions = null) : base(type.Name, conditions) {
 			Columns = type.GetProperties().Select(info => new SQLiteColumn(info.Name, info.PropertyType));
 		}
-		public SQLiteSelectCommand(string tableName, IEnumerable<SQLiteColumn> columns, IEnumerable<SQLiteCondition> conditions = null): base(tableName, conditions) {
+		public SQLiteSelectCommand(string tableName, IEnumerable<SQLiteColumn> columns, IEnumerable<ISQLiteCondition> conditions = null): base(tableName, conditions) {
 			Columns = columns;
 		}
 		public override string GetCommandSql() {
@@ -28,7 +28,6 @@ namespace SQLiteFramework.Command {
 		}
 
 		protected override T Read<T>(SQLiteDataReader dataReader) {
-			var type = typeof(T);
 			var instance = Activator.CreateInstance<T>();
 			foreach (var sqLiteColumn in Columns) {
 				instance.SatValue(sqLiteColumn.Name, GetReaderValue(dataReader, sqLiteColumn));

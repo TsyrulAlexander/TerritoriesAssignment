@@ -12,7 +12,9 @@ namespace SQLiteFramework.Condition.Column
 			Type = type;
 		}
 		public SQLiteColumn(string name, Type type): this(name) {
-			Type = GetSQLiteColumnType(type);
+			if (type != null) {
+				Type = GetSQLiteColumnType(type);
+			}
 		}
 		public SQLiteColumn(string name) {
 			Name = name;

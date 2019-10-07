@@ -4,10 +4,8 @@ using System.Text;
 using SQLiteFramework;
 using SQLiteFramework.Table;
 
-namespace TerritoriesAssignment.Database.Storages.SQLite
-{
-	internal class SQLiteDatabaseCreator
-	{
+namespace TerritoriesAssignment.Database.Storages.SQLite {
+	internal class SQLiteDatabaseCreator {
 		private SQLiteEngine Engine { get; }
 		public SQLiteDatabaseCreator(string path) {
 			Engine = new SQLiteEngine(path);
@@ -32,7 +30,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite
 		}
 
 		protected virtual void CreateCountryTable() {
-			Engine.CreateTable("Country", new [] {
+			Engine.CreateTable("Country", new[] {
 				CreatePrimaryColumn(),
 				CreateStringColumn("Name"),
 				CreateStringColumn("MapPoint", false, false)
@@ -63,7 +61,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite
 			return guidColumn;
 		}
 		protected virtual SQLiteTableColumn CreateGuidColumn(string columnName, bool isRequired = true,
-				bool isUnique = true, SQLiteForeignKey foreignKey = null) {
+			bool isUnique = true, SQLiteForeignKey foreignKey = null) {
 			return new SQLiteTableColumn {
 				Name = columnName,
 				Type = SQLiteColumnType.Guid,
