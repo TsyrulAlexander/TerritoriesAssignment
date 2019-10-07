@@ -42,7 +42,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				CreatePrimaryColumn(),
 				CreateStringColumn("Name"),
 				CreateStringColumn("MapPoint", false, false),
-				CreateGuidColumn("CountryId", true, true, new SQLiteForeignKey("Country", "Id"))
+				CreateGuidColumn("CountryId", true, false, new SQLiteForeignKey("Country", "Id"))
 			});
 		}
 
@@ -51,7 +51,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				CreatePrimaryColumn(),
 				CreateStringColumn("Name"),
 				CreateStringColumn("MapPoint", false, false),
-				CreateGuidColumn("AreaId", true, true, new SQLiteForeignKey("Area", "Id"))
+				CreateGuidColumn("AreaId", true, false, new SQLiteForeignKey("Area", "Id"))
 			});
 		}
 

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using SQLiteFramework.Command;
 using SQLiteFramework.Condition;
 using SQLiteFramework.Condition.Column;
+using SQLiteFramework.Table;
 
 namespace SQLiteFramework.Query {
 	public class SQLiteSelect {
@@ -13,26 +15,43 @@ namespace SQLiteFramework.Query {
 			Engine = engine;
 			Conditions = new List<ISQLiteCondition>(conditions ?? new ISQLiteCondition[0]);
 		}
-		public IEnumerable<T> GetEntities<T>() {
-			var select = new SQLiteSelectCommand(typeof(T), Conditions);
-			return Engine.ExecuteCommand<T>(select);
+		public void AddCondition(params ISQLiteCondition[] conditions) {
+			foreach (var condition in conditions) {
+				Conditions.Add(condition);
+			}
 		}
-		public IEnumerable<QueryRowValue> GetEntities(string tableName, IEnumerable<SQLiteColumn> columns) {
+		public IEnumerable<T> GetEntities<T>() {
+			var type = typeof(T);
+			var columns = SQLiteUtilities.GetColumns(type).ToArray();
+			var select = new SQLiteSelectCommand(type.Name, columns, Conditions);
+			return select.Execute(Engine, reader => Read<T>(reader, columns));
+		}
+		public IEnumerable<QueryRowValue> GetEntities(string tableName, params SQLiteColumn[] columns) {
 			var select = new SQLiteSelectCommand(tableName, columns, Conditions);
-			return select.Execute(Engine, reader => GetQueryColumnValue(reader, columns));
+			return select.Execute(Engine, columns);
 
 		}
-		protected virtual QueryRowValue GetQueryColumnValue(SQLiteDataReader dataReader,
-			IEnumerable<SQLiteColumn> columns) {
-			return new QueryRowValue {
-				Values = columns.Select(column => {
-					var index = dataReader.GetOrdinal(column.Name);
-					return new QueryColumnValue {
-						ColumnName = column.Name,
-						Value = dataReader.GetValue(index)
-					};
-				})
-			};
+		
+		protected T Read<T>(SQLiteDataReader dataReader, IEnumerable<SQLiteColumn> columns) {
+			var instance = Activator.CreateInstance<T>();
+			foreach (var sqLiteColumn in columns) {
+				SQLiteUtilities.SetPropertyValue(instance, sqLiteColumn, GetReaderValue(dataReader, sqLiteColumn));
+			}
+			return instance;
+		}
+		protected virtual object GetReaderValue(SQLiteDataReader dataReader, SQLiteColumn column) {
+			var index = dataReader.GetOrdinal(column.Name);
+			if (dataReader.IsDBNull(index)) {
+				return null;
+			}
+			switch (column.Type) {
+				case SQLiteColumnType.Guid:
+					return Guid.Parse(dataReader.GetString(index));
+				case SQLiteColumnType.String:
+					return dataReader.GetString(index);
+				default:
+					return dataReader.GetValue(index);
+			}
 		}
 	}
 }

@@ -80,13 +80,13 @@ namespace TerritoriesAssignment.Database.Storages.Mock {
 		public void AddArea(Area area) {
 			_areas.Add(area);
 		}
-		public IEnumerable<Country> GetCountries() {
+		public IEnumerable<Country> GetCountries(string search = null) {
 			return _countries;
 		}
-		public IEnumerable<Area> GetAreas(Guid countryId) {
+		public IEnumerable<Area> GetAreas(Guid countryId, string search = null) {
 			return _areas.Where(area => area.Country.Id == countryId);
 		}
-		public IEnumerable<Region> GetRegions(Guid areaId) {
+		public IEnumerable<Region> GetRegions(Guid areaId, string search = null) {
 			return _regions.Where(region => region.Area.Id == areaId);
 		}
 		public void DeleteCountry(Guid countryId) {

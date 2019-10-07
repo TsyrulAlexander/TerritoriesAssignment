@@ -12,9 +12,6 @@ namespace SQLiteFramework.Command {
 	{
 		protected const string SelectCommandName = "SELECT";
 		protected IEnumerable<SQLiteColumn> Columns { get; set; }
-		public SQLiteSelectCommand(Type type, IEnumerable<ISQLiteCondition> conditions = null) : base(type.Name, conditions) {
-			Columns = type.GetProperties().Select(info => new SQLiteColumn(info.Name, info.PropertyType));
-		}
 		public SQLiteSelectCommand(string tableName, IEnumerable<SQLiteColumn> columns, IEnumerable<ISQLiteCondition> conditions = null): base(tableName, conditions) {
 			Columns = columns;
 		}
@@ -25,29 +22,6 @@ namespace SQLiteFramework.Command {
 		}
 		protected virtual string GetColumnsSql() {
 			return string.Join(",", Columns.Select(column => column.Name));
-		}
-
-		protected override T Read<T>(SQLiteDataReader dataReader) {
-			var instance = Activator.CreateInstance<T>();
-			foreach (var sqLiteColumn in Columns) {
-				instance.SatValue(sqLiteColumn.Name, GetReaderValue(dataReader, sqLiteColumn));
-			}
-			return instance;
-		}
-
-		protected virtual object GetReaderValue(SQLiteDataReader dataReader, SQLiteColumn column) {
-			var index = dataReader.GetOrdinal(column.Name);
-			if (dataReader.IsDBNull(index)) {
-				return null;
-			}
-			switch (column.Type) {
-				case SQLiteColumnType.Guid:
-					return Guid.Parse(dataReader.GetString(index));
-				case SQLiteColumnType.String:
-					return dataReader.GetString(index);
-				default:
-					return dataReader.GetValue(index);
-			}
 		}
 	}
 }

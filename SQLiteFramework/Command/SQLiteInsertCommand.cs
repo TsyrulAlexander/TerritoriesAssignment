@@ -11,12 +11,6 @@ namespace SQLiteFramework.Command {
 		private const string IntoCommandName = "INTO";
 		private const string ValuesCommandName = "VALUES";
 		public IEnumerable<SQLiteColumnValue> Columns { get; }
-		public SQLiteInsertCommand(object obj) {
-			var objType = obj.GetType();
-			TableName = objType.Name;
-			Columns = objType.GetProperties().Select(propertyInfo =>
-				new SQLiteColumnValue(propertyInfo.Name, propertyInfo.GetValue(obj)));
-		}
 		public SQLiteInsertCommand(string tableName, IEnumerable<SQLiteColumnValue> columns) : base(tableName) {
 			Columns = columns;
 		}

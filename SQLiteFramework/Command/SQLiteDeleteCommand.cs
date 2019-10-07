@@ -7,10 +7,10 @@ using SQLiteFramework.Condition.Value;
 namespace SQLiteFramework.Command {
 	public class SQLiteDeleteCommand : SQLiteBaseTableOperationCommand {
 		private const string DeleteCommandName = "DELETE";
-		public SQLiteDeleteCommand(string tableName, IEnumerable<SQLiteCondition> conditions) : base(tableName,
+		public SQLiteDeleteCommand(string tableName, IEnumerable<ISQLiteCondition> conditions) : base(tableName,
 			conditions) { }
 		public override string GetCommandSql() {
-			return $"{DeleteCommandName} {TableName} {GetConditionsSql()}";
+			return $"{DeleteCommandName} {FromCommandName} {TableName} {GetConditionsSql()}";
 		}
 	}
 }

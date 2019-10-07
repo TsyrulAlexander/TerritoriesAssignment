@@ -14,14 +14,8 @@ namespace SQLiteFramework.Command
 		public IEnumerable<SQLiteColumnValue> Columns {
 			get; set;
 		}
-		public SQLiteUpdateCommand(object obj, IEnumerable<SQLiteCondition> conditions = null) : base(
-			obj.GetType().Name, conditions) {
-			var objType = obj.GetType();
-			Columns = objType.GetProperties().Select(propertyInfo =>
-				new SQLiteColumnValue(propertyInfo.Name, propertyInfo.GetValue(obj)));
-		}
 		public SQLiteUpdateCommand(string tableName, IEnumerable<SQLiteColumnValue> columns,
-			IEnumerable<SQLiteCondition> conditions = null) : base(tableName, conditions) {
+			IEnumerable<ISQLiteCondition> conditions = null) : base(tableName, conditions) {
 			Columns = columns;
 		}
 		public override string GetCommandSql() {
