@@ -1,9 +1,9 @@
 ﻿<div>
-    <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isShowRegion"
-            [attr.aria-controls]="area.id + '-content'" (click)="isShowRegion = !isShowRegion">
-        <p>{{area.name}}</p>
+    <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isSelected"
+            [attr.aria-controls]="item.id + '-content'" (click)="itemClick()">
+        <p>{{item.name}}</p>
     </button>
-    <div id="{{area.id}}-content" class="collapse" [ngbCollapse]="!isShowRegion">
-        <ks-region-list [area]="area" [isShow]="isShowRegion"></ks-region-list>
+    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
+        <ks-region-list [area]="item" [isShow]="isSelected"></ks-region-list>
     </div>
 </div>

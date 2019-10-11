@@ -10,4 +10,7 @@ export class CountryService {
 	getCountries(): Observable<Country[]> {
 		return this.http.get<Country[]>(this.url + "/getItems");
 	}
+	addCountry(country: Country) {
+		return this.http.post(this.url, country);
+	}
 }

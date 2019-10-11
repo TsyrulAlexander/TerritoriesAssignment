@@ -1,9 +1,18 @@
-﻿<div>
-    <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isShowArea"
-            [attr.aria-controls]="country.id + '-content'" (click)="isShowArea = !isShowArea">
-        <p>{{country.name}}</p>
-    </button>
-    <div id="{{country.id}}-content" class="collapse" [ngbCollapse]="!isShowArea">
-        <ks-area-list [country]="country" [isShow]="isShowArea"></ks-area-list>
+﻿<div class="container">
+    <div class="row no-gutter">
+        <div [class.col-md-10] = "isSelected" [class.col-md-12] = "!isSelected">
+            <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isSelected"
+                    [attr.aria-controls]="item.id + '-content'" (click)="itemClick()">
+                <p>{{item.name}}</p>
+            </button>
+        </div>
+        <div class="col-md-2" [class.add-item-button-hover] = "isSelected">
+            <button *ngIf="isSelected" class="btn btn-default btn-block add-item-button" (click)="addClick()">
+                <p>+</p>
+            </button>
+        </div>
+    </div>
+    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
+        <ks-area-list [country]="item" [isShow]="isSelected"></ks-area-list>
     </div>
 </div>

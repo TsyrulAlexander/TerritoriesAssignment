@@ -1,5 +1,8 @@
 ﻿<div>
     <div *ngFor="let country of Countries">
-        <ks-country [country]="country"></ks-country>
+        <ks-country [item]="country" (add)="addCountry()" (selected)="countrySelected(country, $event)"></ks-country>
     </div>
+    <ks-modal [name]="'modal2'">
+        <ks-add-country (countryCreated)="countryCreated($event)"></ks-add-country>
+    </ks-modal>
 </div>
