@@ -23,7 +23,7 @@ namespace SQLiteFramework.Command
 				$"{GetConditionsSql()}";
 		}
 		protected virtual string GetColumnsSql() {
-			return string.Join(",", Columns.Select(column => $"{column.Name} = {column.Value.GetValue()}"));
+			return string.Join(",", Columns.Select(column => $"{GetColumnSql(column)} = {column.Value.GetValue()}"));
 		}
 	}
 }

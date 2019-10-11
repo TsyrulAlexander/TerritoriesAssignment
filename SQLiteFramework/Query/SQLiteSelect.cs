@@ -38,12 +38,12 @@ namespace SQLiteFramework.Query {
 		protected T Read<T>(SQLiteDataReader dataReader, params SQLiteColumn[] columns) {
 			var instance = Activator.CreateInstance<T>();
 			foreach (var sqLiteColumn in columns) {
-				SQLiteUtilities.SetPropertyValue(instance, sqLiteColumn, GetReaderValue(dataReader, sqLiteColumn));
+				SQLiteUtilities.SetPropertyValue(instance, GetColumnDataReaderName(sqLiteColumn), GetReaderValue(dataReader, sqLiteColumn));
 			}
 			return instance;
 		}
 		protected virtual object GetReaderValue(SQLiteDataReader dataReader, SQLiteColumn column) {
-			var index = dataReader.GetOrdinal(column.Name);
+			var index = dataReader.GetOrdinal(GetColumnDataReaderName(column));
 			if (dataReader.IsDBNull(index)) {
 				return null;
 			}
@@ -55,6 +55,10 @@ namespace SQLiteFramework.Query {
 				default:
 					return dataReader.GetValue(index);
 			}
+		}
+
+		protected virtual string GetColumnDataReaderName(SQLiteColumn column) {
+			return column.Name.Replace('.', '_');
 		}
 	}
 }

@@ -9,6 +9,12 @@ using SQLiteFramework.Table;
 
 namespace SQLiteFramework {
 	public static class SQLiteUtilities {
+		public static SQLiteColumn CreateStringColumn(string columnName) {
+			return new SQLiteColumn(columnName, SQLiteColumnType.String);
+		}
+		public static SQLiteColumn CreateGuidColumn(string columnName) {
+			return new SQLiteColumn(columnName, SQLiteColumnType.Guid);
+		}
 		public static IConditionValue Value(string value) {
 			return new StringConditionValue(value);
 		}
@@ -44,13 +50,16 @@ namespace SQLiteFramework {
 		}
 
 		public static IEnumerable<SQLiteColumn> GetColumns(Type type) {
-			var properties = type.GetProperties();
+			var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 			return properties.Select(info => new SQLiteColumn(GetColumnName(info), GetColumnType(info)));
 		}
 
-		public static IEnumerable<SQLiteColumnValue> GetColumnValues(object value) {
+		public static IEnumerable<SQLiteColumnValue> GetColumnValues(object value, IEnumerable<string> columns = null) {
 			var type = value.GetType();
-			var properties = type.GetProperties();
+			var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			if (columns != null) {
+				properties = properties.Where(info => columns.Contains(GetColumnName(info))).ToArray();
+			}
 			return properties.Select(info => new SQLiteColumnValue(GetColumnName(info), GetColumnValue(info, value)));
 		}
 		private static object GetColumnValue(PropertyInfo info, object value) {
@@ -102,31 +111,31 @@ namespace SQLiteFramework {
 			info = (path[0], path[1]);
 			return true;
 		}
-		public static void SetPropertyValue(object obj, SQLiteColumn column, object value) {
-			var columnName = column.Name;
+		public static void SetPropertyValue(object obj, string columnName, object value) {
 			var objType = obj.GetType();
 			var property = objType.GetProperty(columnName);
 			if (columnName.Contains("_") && property == null) {
-				var path = columnName.Split(new[] {'_'}, StringSplitOptions.RemoveEmptyEntries);
+				var path = columnName.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 				var tableName = path[0];
 				var tableColumnName = path[1];
-				SetPropertyClassValue(objType, tableName, tableColumnName, value);
-				return;
+				SetPropertyClassValue(obj, tableName, tableColumnName, value);
+			} else {
+				obj.SatValue(columnName, value);
 			}
-			obj.SatValue(columnName, value);
 		}
-		private static object SetPropertyClassValue(Type objType, string tableName, string columnName, object value) {
+		private static void SetPropertyClassValue(object obj, string tableName, string columnName, object value) {
+			var objType = obj.GetType();
 			var property = objType.GetProperty(tableName);
 			if (property == null) {
 				throw new ArgumentException(tableName);
 			}
-			var instance = property.GetValue(objType);
+			var instance = property.GetValue(obj);
 			if (instance == null) {
 				var propertyType = property.PropertyType;
 				instance = Activator.CreateInstance(propertyType);
+				obj.SatValue(tableName, instance);
 			}
 			instance.SatValue(columnName, value);
-			return instance;
 		}
 	}
 }

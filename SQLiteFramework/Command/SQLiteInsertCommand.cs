@@ -18,7 +18,7 @@ namespace SQLiteFramework.Command {
 			return $"{InsertCommandName} {IntoCommandName} {TableName}({GetColumnNamesSql()}) {ValuesCommandName} ({GetColumnValuesSql()}) ";
 		}
 		protected virtual string GetColumnNamesSql() {
-			return string.Join(",", Columns.Select(column => column.Name));
+			return string.Join(",", Columns.Select(GetColumnSql));
 		}
 		protected virtual string GetColumnValuesSql() {
 			return string.Join(",", Columns.Select(column => column.Value.GetValue()));

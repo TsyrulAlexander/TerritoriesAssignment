@@ -32,23 +32,21 @@ namespace SQLiteFramework.Command {
 					if (joinTables.Contains(info.tableName)) {
 						continue;
 					}
-					sql += $"{LeftCommandName} {JoinCommandName} {info.tableName} {OnCommandName} {info.columnName}.Id = {TableName}.Id\n";
+					sql += $"{LeftCommandName} {JoinCommandName} {info.tableName} {OnCommandName} {info.tableName}.Id = {TableName}.{info.tableName}Id\n";
 					joinTables.Add(info.tableName);
 				}
 			}
 			return sql;
 		}
-		protected virtual bool GetJoinPath(string columnName, out (string tableName, string columnName) info) {
-			return SQLiteUtilities.GetJoinPath(columnName, out info);
-		}
+		
 		protected virtual string GetColumnsSql() {
 			return string.Join(",", Columns.Select(GetColumnSql));
 		}
-		protected virtual string GetColumnSql(SQLiteColumn column) {
+		protected override string GetColumnSql(SQLiteColumn column) {
 			if (GetJoinPath(column.Name, out var info)) {
 				return $"{info.tableName}.{info.columnName} AS {info.tableName}_{info.columnName}";
 			}
-			return column.Name;
+			return $"{TableName}.{column.Name}";
 		}
 	}
 }

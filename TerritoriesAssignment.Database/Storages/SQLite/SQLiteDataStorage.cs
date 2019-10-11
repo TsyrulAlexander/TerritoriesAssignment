@@ -24,31 +24,31 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			creator.CreateIfNotExist();
 		}
 		public virtual Country GetCountry(Guid id) {
-			return GetRecord<Country>(id);
+			return GetRecord<Country>(id, GetBaseRecordSelectColumns());
 		}
 		public virtual Area GetArea(Guid id) {
-			return GetRecord<Area>(id);
+			return GetRecord<Area>(id, GetAreaRecordSelectColumns());
 		}
 		public virtual Region GetRegion(Guid id) {
-			return GetRecord<Region>(id);
+			return GetRecord<Region>(id, GetRegionRecordSelectColumns());
 		}
 		public virtual void AddCountry(Country country) {
-			AddRecord(country);
+			AddRecord(country, GetBaseRecordColumns());
 		}
 		public virtual void AddArea(Area area) {
-			AddRecord(area);
+			AddRecord(area, GetAreaRecordColumns());
 		}
 		public virtual void AddRegion(Region region) {
-			AddRecord(region);
+			AddRecord(region, GetRegionRecordColumns());
 		}
 		public virtual void UpdateCountry(Country country) {
-			UpdateRecord(country, country.Id);
+			UpdateRecord(country, country.Id, GetBaseRecordColumns());
 		}
 		public virtual void UpdateArea(Area area) {
-			UpdateRecord(area, area.Id);
+			UpdateRecord(area, area.Id, GetAreaRecordColumns());
 		}
 		public virtual void UpdateRegion(Region region) {
-			UpdateRecord(region, region.Id);
+			UpdateRecord(region, region.Id, GetRegionRecordColumns());
 		}
 		public virtual IEnumerable<BaseLookup> GetCountries(string search = null) {
 			return GetRecords(nameof(Country), search);
@@ -68,18 +68,54 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public virtual void DeleteRegion(Guid regionId) {
 			DeleteRecord(nameof(Region), regionId);
 		}
-		protected virtual T GetRecord<T>(Guid recordId, string primaryColumnName = "Id") {
+		protected virtual T GetRecord<T>(Guid recordId, IEnumerable<SQLiteColumn> columns) {
 			var select = new SQLiteSelect(Engine);
-			select.AddCondition(GetPrimaryCondition(recordId, primaryColumnName));
-			return select.GetEntities<T>().FirstOrDefault();
+			select.AddCondition(GetPrimaryCondition(recordId));
+			return select.GetEntities<T>(typeof(T).Name, columns.ToArray()).FirstOrDefault();
 		}
-		protected virtual void AddRecord(object entity) {
+		protected virtual void AddRecord(object entity, IEnumerable<string> columnNames) {
 			var insert = new SQLiteInsert(Engine);
-			insert.Execute(entity);
+			insert.Execute(entity, columnNames);
 		}
-		protected virtual void UpdateRecord(object entity, Guid recordId, string primaryColumnName = "Id") {
+		protected virtual void UpdateRecord(object entity, Guid recordId, IEnumerable<string> columnNames) {
 			var update = new SQLiteUpdate(Engine);
-			update.Execute(entity, GetPrimaryCondition(recordId, primaryColumnName));
+			update.Execute(entity, new []{ GetPrimaryCondition(recordId) }, columnNames);
+		}
+		protected virtual IEnumerable<string> GetAreaRecordColumns() {
+			return GetBaseRecordColumns().Concat(new[] {
+				"Country.Id"
+			});
+		}
+		protected virtual IEnumerable<string> GetRegionRecordColumns() {
+			return GetBaseRecordColumns().Concat(new[] {
+				"Area.Id"
+			});
+		}
+		protected virtual IEnumerable<string> GetBaseRecordColumns() {
+			return new[] {
+				"Id",
+				"Name",
+				"MapPoint"
+			};
+		}
+		protected virtual IEnumerable<SQLiteColumn> GetAreaRecordSelectColumns() {
+			return GetBaseRecordSelectColumns().Concat(new[] {
+				SQLiteUtilities.CreateGuidColumn("Country.Id"),
+				SQLiteUtilities.CreateGuidColumn("Country.Name")
+			});
+		}
+		protected virtual IEnumerable<SQLiteColumn> GetRegionRecordSelectColumns() {
+			return GetBaseRecordSelectColumns().Concat(new[] {
+				SQLiteUtilities.CreateGuidColumn("Area.Id"),
+				SQLiteUtilities.CreateGuidColumn("Area.Name")
+			});
+		}
+		protected virtual IEnumerable<SQLiteColumn> GetBaseRecordSelectColumns() {
+			return new[] {
+				SQLiteUtilities.CreateGuidColumn("Id"),
+				SQLiteUtilities.CreateGuidColumn("Name"),
+				SQLiteUtilities.CreateGuidColumn("MapPoint")
+			};
 		}
 		protected virtual IEnumerable<BaseLookup> GetRecords(string tableName, string search, string displayColumnName = "Name",
 			params ISQLiteCondition[] conditions) {
@@ -97,7 +133,8 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			var delete = new SQLiteDelete(Engine);
 			delete.Execute(tableName, GetPrimaryCondition(id));
 		}
-		protected virtual ISQLiteCondition GetPrimaryCondition(Guid id, string columnName = "Id") {
+		protected virtual ISQLiteCondition GetPrimaryCondition(Guid id) {
+			string columnName = "Id";
 			return id.CreateCondition(columnName);
 		}
 	}

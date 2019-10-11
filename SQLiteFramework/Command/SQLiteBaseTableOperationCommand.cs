@@ -28,5 +28,14 @@ namespace SQLiteFramework.Command
 		protected virtual string GetConditionSql(ISQLiteCondition condition) {
 			return condition.GetSqlText();
 		}
+		protected virtual bool GetJoinPath(string columnName, out (string tableName, string columnName) info) {
+			return SQLiteUtilities.GetJoinPath(columnName, out info);
+		}
+		protected virtual string GetColumnSql(SQLiteColumn column) {
+			if (GetJoinPath(column.Name, out var info)) {
+				return $"{info.tableName}{info.columnName}";
+			}
+			return column.Name;
+		}
 	}
 }

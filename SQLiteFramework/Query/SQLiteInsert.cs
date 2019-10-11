@@ -12,10 +12,10 @@ namespace SQLiteFramework.Query {
 			Engine = engine;
 		}
 
-		public void Execute(object value) {
+		public void Execute(object value, IEnumerable<string> columnNames = null) {
 			var objType = value.GetType();
 			var tableName = objType.Name;
-			var columns = SQLiteUtilities.GetColumnValues(value);
+			var columns = SQLiteUtilities.GetColumnValues(value, columnNames);
 			Execute(tableName, columns);
 		}
 
