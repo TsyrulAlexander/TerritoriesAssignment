@@ -4,12 +4,16 @@ using System.Text;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
-	public class Attribute
+	public class Attribute<T> : ICloneable
 	{
-		public int Value { get; }
+		public T Value { get; }
 
-		public Attribute(int value) {
+		public Attribute(T value) {
 			Value = value;
+		}
+
+		public object Clone() {
+			return new Attribute<T>(Value);
 		}
 	}
 }
