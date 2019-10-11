@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.Database
@@ -14,9 +15,9 @@ namespace TerritoriesAssignment.Database
 		void UpdateCountry(Country country);
 		void UpdateArea(Area area);
 		void UpdateRegion(Region region);
-		IEnumerable<Country> GetCountries(string search = null);
-		IEnumerable<Area> GetAreas(Guid countryId, string search = null);
-		IEnumerable<Region> GetRegions(Guid areaId, string search = null);
+		IEnumerable<BaseLookup> GetCountries(string search = null);
+		IEnumerable<BaseLookup> GetAreas(Guid countryId, string search = null);
+		IEnumerable<BaseLookup> GetRegions(Guid areaId, string search = null);
 		void DeleteCountry(Guid countryId);
 		void DeleteArea(Guid areaId);
 		void DeleteRegion(Guid regionId);

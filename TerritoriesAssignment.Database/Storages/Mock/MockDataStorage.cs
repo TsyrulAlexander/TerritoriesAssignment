@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.Database.Storages.Mock {
@@ -80,13 +81,13 @@ namespace TerritoriesAssignment.Database.Storages.Mock {
 		public void AddArea(Area area) {
 			_areas.Add(area);
 		}
-		public IEnumerable<Country> GetCountries(string search = null) {
+		public IEnumerable<BaseLookup> GetCountries(string search = null) {
 			return _countries;
 		}
-		public IEnumerable<Area> GetAreas(Guid countryId, string search = null) {
+		public IEnumerable<BaseLookup> GetAreas(Guid countryId, string search = null) {
 			return _areas.Where(area => area.Country.Id == countryId);
 		}
-		public IEnumerable<Region> GetRegions(Guid areaId, string search = null) {
+		public IEnumerable<BaseLookup> GetRegions(Guid areaId, string search = null) {
 			return _regions.Where(region => region.Area.Id == areaId);
 		}
 		public void DeleteCountry(Guid countryId) {

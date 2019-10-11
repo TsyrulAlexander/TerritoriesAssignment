@@ -10,7 +10,7 @@ namespace TerritoriesAssignment.Core.Entities.Map {
 		}
 
 		public IEnumerable<MapPoint> ParseCoordinateList(string coordinateStr) {
-			return MapPoint.Split(new []{ ',' }, StringSplitOptions.RemoveEmptyEntries).Select(ParseCoordinate);
+			return MapPoint?.Split(new []{ ',' }, StringSplitOptions.RemoveEmptyEntries).Select(ParseCoordinate);
 		}
 
 		public MapPoint ParseCoordinate(string coordinateStr) {

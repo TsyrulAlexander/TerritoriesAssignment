@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using SQLiteFramework;
 using SQLiteFramework.Condition;
+using SQLiteFramework.Condition.Column;
 using SQLiteFramework.Exception;
 using SQLiteFramework.Query;
+using SQLiteFramework.Table;
+using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 
 namespace TerritoriesAssignment.Database.Storages.SQLite {
@@ -47,14 +50,14 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public virtual void UpdateRegion(Region region) {
 			UpdateRecord(region, region.Id);
 		}
-		public virtual IEnumerable<Country> GetCountries(string search = null) {
-			return GetRecords<Country>(search);
+		public virtual IEnumerable<BaseLookup> GetCountries(string search = null) {
+			return GetRecords(nameof(Country), search);
 		}
-		public virtual IEnumerable<Area> GetAreas(Guid countryId, string search = null) {
-			return GetRecords<Area>(search, "Name", countryId.CreateCondition("CountryId"));
+		public virtual IEnumerable<BaseLookup> GetAreas(Guid countryId, string search = null) {
+			return GetRecords(nameof(Area), search, "Name", countryId.CreateCondition("CountryId"));
 		}
-		public virtual IEnumerable<Region> GetRegions(Guid areaId, string search = null) {
-			return GetRecords<Region>(search, "Name", areaId.CreateCondition("AreaId"));
+		public virtual IEnumerable<BaseLookup> GetRegions(Guid areaId, string search = null) {
+			return GetRecords(nameof(Region), search, "Name", areaId.CreateCondition("AreaId"));
 		}
 		public virtual void DeleteCountry(Guid countryId) {
 			DeleteRecord(nameof(Country), countryId);
@@ -78,14 +81,17 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			var update = new SQLiteUpdate(Engine);
 			update.Execute(entity, GetPrimaryCondition(recordId, primaryColumnName));
 		}
-		protected virtual IEnumerable<T> GetRecords<T>(string search, string searchColumnName = "Name",
+		protected virtual IEnumerable<BaseLookup> GetRecords(string tableName, string search, string displayColumnName = "Name",
 			params ISQLiteCondition[] conditions) {
 			var select = new SQLiteSelect(Engine);
 			if (!string.IsNullOrEmpty(search)) {
-				select.AddCondition(search.CreateCondition(searchColumnName, SQLiteComparisonType.Contains));
+				select.AddCondition(search.CreateCondition(displayColumnName, SQLiteComparisonType.Contains));
 			}
 			select.AddCondition(conditions);
-			return select.GetEntities<T>();
+			return select.GetEntities<BaseLookup>(tableName, 
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn(displayColumnName, SQLiteColumnType.String)
+			);
 		}
 		protected virtual void DeleteRecord(string tableName, Guid id) {
 			var delete = new SQLiteDelete(Engine);

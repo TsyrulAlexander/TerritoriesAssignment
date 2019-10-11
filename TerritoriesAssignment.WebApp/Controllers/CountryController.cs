@@ -17,7 +17,7 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 			Storage = storage;
 		}
 		[HttpGet("getItems")]
-		public IEnumerable<CountryView> Get() {
+		public IEnumerable<BaseLookupViewItem> Get() {
 			return Storage.GetCountries().ToView();
 		}
 		public CountryView Get(Guid id) {

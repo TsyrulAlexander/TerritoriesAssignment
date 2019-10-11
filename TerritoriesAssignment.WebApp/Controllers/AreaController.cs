@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TerritoriesAssignment.Core.Entities;
 using TerritoriesAssignment.Database;
+using TerritoriesAssignment.WebApp.Models;
+using TerritoriesAssignment.WebApp.Utilities;
 
 namespace TerritoriesAssignment.WebApp.Controllers {
 	[Route("api/area")]
-	public class AreaController : Controller, IStorageController<Area> {
+	public class AreaController : Controller, IStorageController<AreaView> {
 		public IDataStorage Storage { get; }
 
 		public AreaController(IDataStorage storage) {
 			Storage = storage;
 		}
 		[HttpGet("getItems/{countryId?}")]
-		public IEnumerable<Area> GetItems([FromQuery]Guid countryId) {
-			return Storage.GetAreas(countryId);
+		public IEnumerable<BaseLookupViewItem> GetItems([FromQuery]Guid countryId) {
+			return Storage.GetAreas(countryId).ToView();
 		}
-		public Area Get(Guid id) {
-			return Storage.GetArea(id);
+		public AreaView Get(Guid id) {
+			return Storage.GetArea(id).ToView();
 		}
-		public void Post(Area item) {
-			Storage.AddArea(item);
+		public void Post(AreaView item) {
+			Storage.AddArea(item.Cast());
 		}
-		public void Put(Area item) {
-			Storage.UpdateArea(item);
+		public void Put(AreaView item) {
+			Storage.UpdateArea(item.Cast());
 		}
 		public void Delete(Guid id) {
 			Storage.DeleteArea(id);

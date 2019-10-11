@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TerritoriesAssignment.Database;
 using TerritoriesAssignment.Database.Storages.Mock;
+using TerritoriesAssignment.Database.Storages.SQLite;
 
 namespace TerritoriesAssignment.WebApp.Extensions {
 	public static class DataStorageExtensions {
@@ -8,6 +9,7 @@ namespace TerritoriesAssignment.WebApp.Extensions {
 			//Configuration.GetConnectionString("MSSqlEFDataStorage"));
 			//services.Add(ServiceDescriptor.Singleton<IDataStorage>(provider => new MSSqlEFDataStorage()));
 			services.Add(ServiceDescriptor.Singleton<IDataStorage>(provider => new MockDataStorage()));
+			//services.Add(ServiceDescriptor.Singleton<IDataStorage>(provider => new SQLiteDataStorage("C:\\Temp")));
 		}
 	}
 }
