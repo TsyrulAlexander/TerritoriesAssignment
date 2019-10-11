@@ -6,3 +6,5 @@ node_modules
 dist
 **/*.map 
 **/app/**/*.js
+TerritoriesAssignment.WebApp/ClientApp/main.js
+TerritoriesAssignment.WebApp/ClientApp/main.js.map

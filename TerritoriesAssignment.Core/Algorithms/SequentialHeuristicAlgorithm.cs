@@ -14,6 +14,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 		private int[,] AttributiveMatrix; // n * k
 		private int ManagerCount;
 		private int BricksCount;
+		private int AttributesCount;
 		private List<Brick<int>> StartBricks { get; set; }
 
 		public SequentialHeuristicAlgorithm() {
@@ -68,12 +69,11 @@ namespace TerritoriesAssignment.Core.Algorithms
 			AllBricks = NeighborhoodMatrix.Select(pair => new Brick<int>(pair.Key, pair.Value.Select(id => new Brick<int>(id))));
 			BricksCount = NeighborhoodMatrix.Count;
 			for (int i = 0; i < AttributiveMatrix.Length/2; i++) {
+				var attributes = new Dictionary<int, Attribute<double>>();
 				for (int j = 0; j < 2; j++) {
-					AllBricks.FirstOrDefault(x => x.Id.Equals(i)).Attributes 
-						= new BrickAttributes(new Dictionary<int, Attribute> {
-							{j, new Attribute(AttributiveMatrix[i, j])}
-						});;
+					attributes.Add(j, new Attribute<double>(AttributiveMatrix[i, j]));
 				}
+				AllBricks.FirstOrDefault(x => x.Id.Equals(i)).Attributes = new DoubleBrickAttributes<int>(attributes);
 			}
 		}
 
@@ -115,24 +115,20 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return validBricks.ToList();
 		}
 
-		/*private IEnumerable<int> GetValidBricksToJoin(Territory<int> currentTerritory,
-			TerritorySolution<int> allCurrentTerritories) {
-			var validBricks = new HashSet<int>();
-			foreach (var brick in currentTerritory.Bricks) {
-				foreach (var neighborhoodId in NeighborhoodMatrix[brick.Id]) {
-					validBricks.Add(neighborhoodId);
-				}
-			}
-			validBricks.ExceptWith(currentTerritory.GetBrickIds());
-			validBricks.ExceptWith(allCurrentTerritories.GetAllBrickIds());
-			return validBricks.ToList();
-		}*/
-
-		private double TargetFunction(Territory<int> currentTerritory,
-			TerritorySolution<int> allCurrentTerritories) {
+		private double TargetFunction(Territory<int> newTerritory, TerritorySolution<int> allCurrentTerritories) {
 			double result = 0;
-
+			for (int i = 0; i < AttributesCount; i++) {
+				var averageByManager = GetAttribyteAverageByManager(i, allCurrentTerritories);
+			}
+			 
 			return result;
 		}
+
+		private double GetAttribyteAverageByManager(int attributeId, TerritorySolution<int> allCurrentTerritories) {
+			var attribyteAverageByManager = allCurrentTerritories.Territories.Values
+				.Select(territories => territories.GetAttributesSum(attributeId)).Sum();
+			attribyteAverageByManager /= ManagerCount;
+			return attribyteAverageByManager;
+		} 
 	}
 }

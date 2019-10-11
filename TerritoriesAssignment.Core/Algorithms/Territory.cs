@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TerritoriesAssignment.Core.Utilities;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
+	[Serializable]
 	public class Territory<T> : ICloneable
 	{
 		public T Id { get; }		//Manager Id
@@ -28,16 +30,22 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return Bricks.Select(x => x.Id);
 		}
 
+		public double GetAttributesSum() {
+			//return Bricks.Select(x => x.Attributes.Values.Select(y => y.Value).Sum()).Sum();
+			return Bricks.Select(brick => brick.Attributes.GetAttributesValueSum()).Sum();
+		}
+
+		public double GetAttributesSum(T attributeId) {
+			//return Bricks.Select(x => x.Attributes[].Value).Sum();
+			return Bricks.Select(brick => brick.Attributes.GetAttributeValue(attributeId)).Sum();
+		}
+
 		public virtual void AddBrick(Brick<T> brick) {
 			Bricks.Add(brick);
 		}
 
 		public object Clone() {
-			var bricks = new HashSet<Brick<T>>();
-			foreach (var brick in Bricks) {
-				bricks.Add(new Brick<T>(brick.Id));
-			}
-			return new Territory<T>(Id, bricks); 
+			return this.DeepClone();
 		}
 	}
 }
