@@ -26,13 +26,16 @@ namespace SQLiteFramework.Query {
 			var select = new SQLiteSelectCommand(type.Name, columns, Conditions);
 			return select.Execute(Engine, reader => Read<T>(reader, columns));
 		}
+		public IEnumerable<T> GetEntities<T>(string tableName, params SQLiteColumn[] columns) {
+			var select = new SQLiteSelectCommand(tableName, columns, Conditions);
+			return select.Execute(Engine, reader => Read<T>(reader, columns));
+		}
 		public IEnumerable<QueryRowValue> GetEntities(string tableName, params SQLiteColumn[] columns) {
 			var select = new SQLiteSelectCommand(tableName, columns, Conditions);
 			return select.Execute(Engine, columns);
-
 		}
 		
-		protected T Read<T>(SQLiteDataReader dataReader, IEnumerable<SQLiteColumn> columns) {
+		protected T Read<T>(SQLiteDataReader dataReader, params SQLiteColumn[] columns) {
 			var instance = Activator.CreateInstance<T>();
 			foreach (var sqLiteColumn in columns) {
 				SQLiteUtilities.SetPropertyValue(instance, sqLiteColumn, GetReaderValue(dataReader, sqLiteColumn));

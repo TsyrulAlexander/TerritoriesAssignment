@@ -82,7 +82,7 @@ namespace SQLiteFramework {
 			var columnName = info.Name;
 			var propertyType = info.PropertyType;
 			if (IsClass(propertyType)) {
-				return columnName + "Id";
+				return columnName + ".Id";
 			}
 			if (info.PropertyType.IsEnum) {
 				return columnName;//todo
@@ -90,24 +90,42 @@ namespace SQLiteFramework {
 			return columnName;
 		}
 
+		public static bool GetJoinPath(string columnName, out (string tableName, string columnName) info) {
+			info = (null, null);
+			var path = columnName.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+			if (path.Length == 1) {
+				return false;
+			}
+			if (path.Length > 2) {
+				throw new NotImplementedException(columnName);
+			}
+			info = (path[0], path[1]);
+			return true;
+		}
 		public static void SetPropertyValue(object obj, SQLiteColumn column, object value) {
 			var columnName = column.Name;
 			var objType = obj.GetType();
 			var property = objType.GetProperty(columnName);
-			if (columnName.EndsWith("Id") && property == null) {
-				columnName = columnName.Remove(columnName.Length - 2);
-				value = GetPropertyClassValue(objType, columnName, value);
+			if (columnName.Contains("_") && property == null) {
+				var path = columnName.Split(new[] {'_'}, StringSplitOptions.RemoveEmptyEntries);
+				var tableName = path[0];
+				var tableColumnName = path[1];
+				SetPropertyClassValue(objType, tableName, tableColumnName, value);
+				return;
 			}
 			obj.SatValue(columnName, value);
 		}
-		private static object GetPropertyClassValue(Type objType, string columnName, object value) {
-			var property = objType.GetProperty(columnName);
-			var propertyType = property?.PropertyType;
-			if (property == null || !IsClass(propertyType)) {
-				throw new FormatException(columnName);
+		private static object SetPropertyClassValue(Type objType, string tableName, string columnName, object value) {
+			var property = objType.GetProperty(tableName);
+			if (property == null) {
+				throw new ArgumentException(tableName);
 			}
-			var instance = Activator.CreateInstance(propertyType);
-			instance.SatValue("Id", value);
+			var instance = property.GetValue(objType);
+			if (instance == null) {
+				var propertyType = property.PropertyType;
+				instance = Activator.CreateInstance(propertyType);
+			}
+			instance.SatValue(columnName, value);
 			return instance;
 		}
 	}
