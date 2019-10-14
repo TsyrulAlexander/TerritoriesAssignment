@@ -31,21 +31,24 @@ namespace TerritoriesAssignment.Core.Algorithms
 		}
 
 		public double GetAttributesSum() {
-			//return Bricks.Select(x => x.Attributes.Values.Select(y => y.Value).Sum()).Sum();
 			return Bricks.Select(brick => brick.Attributes.GetAttributesValueSum()).Sum();
 		}
 
 		public double GetAttributesSum(T attributeId) {
-			//return Bricks.Select(x => x.Attributes[].Value).Sum();
 			return Bricks.Select(brick => brick.Attributes.GetAttributeValue(attributeId)).Sum();
 		}
 
-		public virtual void AddBrick(Brick<T> brick) {
+		public virtual Territory<T> AddBrick(Brick<T> brick) {
 			Bricks.Add(brick);
+			return this;
 		}
 
 		public object Clone() {
 			return this.DeepClone();
+		}
+
+		public override string ToString() {
+			return string.Join(", ", Bricks.Select(brick => brick.ToString()).ToArray());
 		}
 	}
 }

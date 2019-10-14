@@ -14,6 +14,14 @@ namespace TerritoriesAssignment.Core.Algorithms
 			Territories = startTerritories;
 		}
 
+		public virtual TerritorySolution<T> AddBrick(T territoryId, Brick<T> brick) {
+			if (brick == null) {
+				throw new ArgumentException($"TerritoryId = {territoryId}. Unknown brick.");
+			}
+			Territories[territoryId].Bricks.Add(brick);
+			return this;
+		}
+
 		public virtual IEnumerable<Brick<T>> GetAllBricks() {
 			var bricks = new List<Brick<T>>();
 			foreach (var territory in Territories.Values) {

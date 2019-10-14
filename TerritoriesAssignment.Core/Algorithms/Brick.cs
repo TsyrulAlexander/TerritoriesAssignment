@@ -9,15 +9,14 @@ namespace TerritoriesAssignment.Core.Algorithms
 	public class Brick<T> : ICloneable
 	{
 		public T Id { get; }
-		public IEnumerable<Brick<T>> NeighborhoodBricks { get; }
-		//public IEnumerable<Attribute> Attributes { get; }
+		public List<Brick<T>> NeighborhoodBricks { get; set; }
+
 		public IBrickAttributes<T, double> Attributes { get; set; }
 		//public Dictionary<T, Attribute<double>> Attributes { get; set; }
 
-		public Brick(T brickId, IEnumerable<Brick<T>> neighborhoodBricks = null, Dictionary<T, Attribute<double>> attributes = null) {
+		public Brick(T brickId, Dictionary<T, Attribute<double>> attributes = null, List<Brick<T>> neighborhoodBricks = null) {
 			Id = brickId;
 			NeighborhoodBricks = neighborhoodBricks;
-			//Attributes = attributes;
 			Attributes = new DoubleBrickAttributes<T>(attributes);
 		}
 
@@ -36,6 +35,10 @@ namespace TerritoriesAssignment.Core.Algorithms
 
 		public object Clone() {
 			return this.DeepClone();
+		}
+
+		public override string ToString() {
+			return Id.ToString();
 		}
 	}
 }

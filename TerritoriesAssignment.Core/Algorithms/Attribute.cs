@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TerritoriesAssignment.Core.Utilities;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
+	[Serializable]
 	public class Attribute<T> : ICloneable
 	{
 		public T Value { get; }
@@ -13,7 +15,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 		}
 
 		public object Clone() {
-			return new Attribute<T>(Value);
+			return this.DeepClone();
 		}
 	}
 }
