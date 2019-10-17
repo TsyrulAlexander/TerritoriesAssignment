@@ -2,6 +2,9 @@
 const webpack = require('webpack');
 module.exports = {
 	mode: 'development',
+	optimization: {
+		minimize: false
+	},
 	entry: {
 		'polyfills': './ClientApp/polyfills.ts',
 		'app': './ClientApp/main.ts'
@@ -31,6 +34,24 @@ module.exports = {
 			}, {
 				test: /\.css$/,
                 loaders: ['to-string-loader', 'css-loader']
+			}, {
+				test: /\.(scss|sass)$/,
+				use: [
+					'to-string-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true
+						}
+					}
+				],
+				include: path.resolve(__dirname, 'ClientApp')
 			}
 		]
 	},

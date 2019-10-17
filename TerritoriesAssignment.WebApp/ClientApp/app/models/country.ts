@@ -1,5 +1,5 @@
-import {BaseLookup} from "./base-lookup";
+import {CountryListItem} from "./country-list-item";
+import {MapItem} from "./map-item";
 
-export class Country implements BaseLookup {
-    constructor(public id: string, public name: string) {}
+export class Country extends MapItem implements CountryListItem {
 }

@@ -1,9 +1,10 @@
 ﻿import { BaseLookup } from "./base-lookup";
 import { MapPoint } from "./map-point";
 import { IMapItem } from "./imap-item";
+import {Guid} from "guid-typescript";
 
-export class MapItem implements BaseLookup, IMapItem {
-    public points: MapPoint[];
-    public name: string;
-    public id: string;
+export class MapItem extends BaseLookup implements IMapItem {
+    constructor(id: Guid, name: string = null, public points: MapPoint[] = null) {
+        super(id, name);
+    }
 }

@@ -1,9 +1,15 @@
 ﻿<div>
-    <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isSelected"
-            [attr.aria-controls]="item.id + '-content'" (click)="itemClick()">
-        <p>{{item.name}}</p>
-    </button>
+    <div>
+        <button type="button" class="btn btn-block collapse-btn" [attr.aria-expanded]="!isSelected"
+                [class.selected-list-item-button] = "isSelected"
+                [attr.aria-controls]="item.id + '-content'" (click)="itemClick()">
+            <p>{{item.name}}</p>
+        </button>
+    </div>
     <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
         <ks-region-list [area]="item" [isShow]="isSelected"></ks-region-list>
+    </div>
+    <div>
+        <button *ngIf="isEdit" class="btn btn-block add-list-item-button">Add region</button>
     </div>
 </div>

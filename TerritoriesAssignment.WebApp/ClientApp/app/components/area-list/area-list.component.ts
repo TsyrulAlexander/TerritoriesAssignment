@@ -1,7 +1,12 @@
 ﻿import { Component, Input, OnInit } from '@angular/core';
-import { Country } from "../../models/country";
-import { Area } from "../../models/area";
+import { CountryListItem } from "../../models/country-list-item";
+import { AreaListItem } from "../../models/area-list-item";
 import { AreaService } from "../../services/area.service";
+import {BaseListComponent} from "../base-list/base-list.component";
+import {AddCountryComponent} from "../add-country/add-country.component";
+import {MatDialog} from "@angular/material";
+import {AddAreaComponent} from "../add-area/add-area.component";
+import {Area} from "../../models/area";
 
 @Component({
     selector: 'ks-area-list',
@@ -9,16 +14,31 @@ import { AreaService } from "../../services/area.service";
     providers: [AreaService]
 })
 
-export class AreaListComponent implements OnInit {
+export class AreaListComponent extends BaseListComponent<AreaListItem> implements OnInit {
     @Input() isShow: boolean;
-    @Input() country: Country;
-    public areas: Area[];
-    constructor(public areaService: AreaService) {
-
+    @Input() country: CountryListItem;
+    constructor(public areaService: AreaService, private dialog: MatDialog) {
+        super();
     }
     ngOnInit(): void {
         this.areaService.getAreas(this.country).subscribe(date => {
-            this.areas = date;
+            this.items = date;
+        });
+    }
+
+    createItem(): void {
+        let dialog = this.dialog.open(AddAreaComponent);
+        dialog.afterClosed().subscribe(country => {
+            if (country == null) {
+                return;
+            }
+            this.onAreaCreated(country);
+        });
+    }
+
+    onAreaCreated(area: Area) {
+        this.areaService.addArea(area).subscribe(() => {
+            this.items.push(area);
         });
     }
 }

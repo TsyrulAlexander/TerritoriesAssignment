@@ -1,12 +1,16 @@
-﻿import {Component, EventEmitter, Input, Output} from '@angular/core';
+﻿import {Component} from '@angular/core';
+import {ModalComponent} from "../modal/modal.component";
+import {Guid} from "guid-typescript";
 import {Country} from "../../models/country";
 
 @Component({
     selector: 'ks-add-country',
     templateUrl: './add-country.component.html',
-    styleUrls: ['./add-country.component.css']
+    styleUrls: ["./add-country.component.scss"]
 })
-export class AddCountryComponent {
-    country: Country;
-    @Output() countryCreated = new EventEmitter<Country>();
+export class AddCountryComponent extends ModalComponent<AddCountryComponent>{
+ public country: Country = new Country(Guid.create());
+    save() {
+        this.close(this.country);
+    }
 }
