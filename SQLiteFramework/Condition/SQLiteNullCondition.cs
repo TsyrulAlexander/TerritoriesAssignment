@@ -14,12 +14,12 @@ namespace SQLiteFramework.Condition
 			ColumnPath = columnPath;
 			Type = type;
 		}
-		public string GetSqlText() {
+		public string GetSqlText(string tableName) {
 			switch (Type) {
 				case SQLiteNullType.Null:
-					return $" {ColumnPath} {IsCommandName} {NullCommandName} ";
+					return $" {tableName}.{ColumnPath} {IsCommandName} {NullCommandName} ";
 				case SQLiteNullType.NotNull:
-					return $" {ColumnPath} {IsCommandName} {NotCommandName} {NullCommandName} ";
+					return $" {tableName}.{ColumnPath} {IsCommandName} {NotCommandName} {NullCommandName} ";
 				default:
 					throw new NotImplementedException(nameof(Type));
 			}

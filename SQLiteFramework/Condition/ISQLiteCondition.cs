@@ -5,6 +5,6 @@ using SQLiteFramework.Condition.Value;
 
 namespace SQLiteFramework.Condition {
 	public interface ISQLiteCondition {
-		string GetSqlText();
+		string GetSqlText(string tableName);
 	}
 }

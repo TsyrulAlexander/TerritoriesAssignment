@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace TerritoriesAssignment.Core.Entities.Map {
@@ -18,8 +19,8 @@ namespace TerritoriesAssignment.Core.Entities.Map {
 			if (coordinate.Length != 2) {
 				throw new FormatException();
 			}
-			var x = float.Parse(coordinate[0]);
-			var y = float.Parse(coordinate[1]);
+			var x = double.Parse(coordinate[0], CultureInfo.InvariantCulture);
+			var y = double.Parse(coordinate[1], CultureInfo.InvariantCulture);
 			return new MapPoint {
 				X = x,
 				Y = y

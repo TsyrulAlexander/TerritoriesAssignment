@@ -14,8 +14,8 @@ namespace SQLiteFramework.Condition
 			SecondCondition = secondCondition;
 			LogicalOperation = logicalOperation;
 		}
-		public string GetSqlText() {
-			return $"({FirstCondition.GetSqlText()} {GetLogicalOperatorSql()} {SecondCondition.GetSqlText()})";
+		public string GetSqlText(string tableName) {
+			return $"({FirstCondition.GetSqlText(tableName)} {GetLogicalOperatorSql()} {SecondCondition.GetSqlText(tableName)})";
 		}
 
 		protected virtual string GetLogicalOperatorSql() {

@@ -101,20 +101,20 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		protected virtual IEnumerable<SQLiteColumn> GetAreaRecordSelectColumns() {
 			return GetBaseRecordSelectColumns().Concat(new[] {
 				SQLiteUtilities.CreateGuidColumn("Country.Id"),
-				SQLiteUtilities.CreateGuidColumn("Country.Name")
+				SQLiteUtilities.CreateStringColumn("Country.Name")
 			});
 		}
 		protected virtual IEnumerable<SQLiteColumn> GetRegionRecordSelectColumns() {
 			return GetBaseRecordSelectColumns().Concat(new[] {
 				SQLiteUtilities.CreateGuidColumn("Area.Id"),
-				SQLiteUtilities.CreateGuidColumn("Area.Name")
+				SQLiteUtilities.CreateStringColumn("Area.Name")
 			});
 		}
 		protected virtual IEnumerable<SQLiteColumn> GetBaseRecordSelectColumns() {
 			return new[] {
 				SQLiteUtilities.CreateGuidColumn("Id"),
-				SQLiteUtilities.CreateGuidColumn("Name"),
-				SQLiteUtilities.CreateGuidColumn("MapPoint")
+				SQLiteUtilities.CreateStringColumn("Name"),
+				SQLiteUtilities.CreateStringColumn("MapPoint")
 			};
 		}
 		protected virtual IEnumerable<BaseLookup> GetRecords(string tableName, string search, string displayColumnName = "Name",
