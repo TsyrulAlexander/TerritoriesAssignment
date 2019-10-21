@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit } from '@angular/core';
+﻿import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import { CountryListItem } from "../../models/country-list-item";
 import { AreaListItem } from "../../models/area-list-item";
 import { AreaService } from "../../services/area.service";
@@ -15,10 +15,10 @@ import {AreaComponent} from "../area/area.component";
     providers: [AreaService]
 })
 
-export class AreaListComponent extends BaseListComponent<AreaListItem, AreaComponent> {
+export class AreaListComponent extends BaseListComponent<AreaListItem> {
     @Input() isShow: boolean;
     @Input() country: CountryListItem;
-
+    @ViewChildren(AreaComponent) itemComponents !: QueryList<AreaComponent>;
     constructor(public areaService: AreaService, private dialog: MatDialog) {
         super();
     }
@@ -33,6 +33,9 @@ export class AreaListComponent extends BaseListComponent<AreaListItem, AreaCompo
     }
     selectAllItems(): void {
         super.selectAllItems();
+        this.itemComponents.forEach(itemComponent=> {
+            itemComponent.isSelected = true;
+        })
     }
 
     createItem(): void {

@@ -13,7 +13,7 @@ import {CountryComponent} from "../country/country.component";
 	styleUrls: ["country-list.component.css"],
 	providers: [CountryService]
 })
-export class CountryListComponent extends BaseListComponent<CountryListItem, CountryComponent> implements OnInit {
+export class CountryListComponent extends BaseListComponent<CountryListItem> implements OnInit {
 	constructor(private countryService: CountryService, private dialog: MatDialog) {
 		super();
 	}
