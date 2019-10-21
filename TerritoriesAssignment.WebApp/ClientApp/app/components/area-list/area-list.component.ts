@@ -7,6 +7,7 @@ import {AddCountryComponent} from "../add-country/add-country.component";
 import {MatDialog} from "@angular/material";
 import {AddAreaComponent} from "../add-area/add-area.component";
 import {Area} from "../../models/area";
+import {AreaComponent} from "../area/area.component";
 
 @Component({
     selector: 'ks-area-list',
@@ -14,16 +15,24 @@ import {Area} from "../../models/area";
     providers: [AreaService]
 })
 
-export class AreaListComponent extends BaseListComponent<AreaListItem> implements OnInit {
+export class AreaListComponent extends BaseListComponent<AreaListItem, AreaComponent> {
     @Input() isShow: boolean;
     @Input() country: CountryListItem;
+
     constructor(public areaService: AreaService, private dialog: MatDialog) {
         super();
     }
-    ngOnInit(): void {
+
+    loadItems(): void {
+        if (this.items != null) {
+            return;
+        }
         this.areaService.getAreas(this.country).subscribe(date => {
             this.items = date;
         });
+    }
+    selectAllItems(): void {
+        super.selectAllItems();
     }
 
     createItem(): void {

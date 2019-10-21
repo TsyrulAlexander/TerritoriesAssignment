@@ -8,7 +8,9 @@ import {ListItemSelected} from "../../models/list-item-selected";
 @Injectable()
 export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseComponent {
     isSelected: boolean;
+    isExpanded: boolean;
     @Output() add = new EventEmitter();
+	@Output() expanded = new EventEmitter<boolean>();
     @Output() selected = new EventEmitter<boolean>();
     @Input() item: T;
     constructor(private messageService: MessageService) {
@@ -19,6 +21,9 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
         this.selected.emit(this.isSelected);
         this.onSelectedChange();
     }
+    expandedClick() {
+        this.isExpanded = !this.isExpanded;
+	}
     abstract getItemType(): ListItemType;
     onSelectedChange() {
         let args = new ListItemSelected();

@@ -46,6 +46,7 @@ export class MapComponent extends BaseComponent implements OnInit, AfterViewInit
         item.points.forEach((point)=>{
             this.context.lineTo(point.x, point.y);
         }, this);
+        this.context.closePath();
         //this.context.lineTo(firstPoint.x, firstPoint.y);
         this.context.stroke();
     }

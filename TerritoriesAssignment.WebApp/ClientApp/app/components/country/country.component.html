@@ -1,15 +1,24 @@
-﻿<div>
-    <div>
-        <button type="button" class="btn btn-block collapse-btn" [class.selected-list-item-button] = "isSelected"
-                [attr.aria-expanded]="!isSelected"
-                [attr.aria-controls]="item.id + '-content'" (click)="itemClick()">
-            <p>{{item.name}}</p>
-        </button>
+﻿<div class="container">
+    <div class="row">
+        <div class="col-4 no-gutters">
+            <button type="button" class="btn btn-block collapse-btn" [class.selected-list-item-button] = "isExpanded"
+                    [attr.aria-expanded]="!isExpanded"
+                    [attr.aria-controls]="item.id + '-content'" (click)="expandedClick()">
+                <div *ngIf="isExpanded">-</div>
+                <div *ngIf="!isExpanded">+</div>
+            </button>
+        </div>
+        <div class="col-8 no-gutters">
+            <button (click)="itemClick()" class="btn btn-block">
+                <div>{{item.name}}</div>
+            </button>
+        </div>
     </div>
-    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
-        <ks-area-list [country]="item" [isShow]="isSelected"></ks-area-list>
+    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isExpanded">
+        <ks-area-list #areaList [country]="item" ></ks-area-list>
     </div>
     <div>
         <button *ngIf="isEdit" class="btn btn-block add-list-item-button">Add area</button>
     </div>
-</div>
+</div><!--todo
+<ks-list-item-view [item]="item" [isUseExpanded]="true" (isExpanded)="isExpanded" ></ks-list-item-view>-->

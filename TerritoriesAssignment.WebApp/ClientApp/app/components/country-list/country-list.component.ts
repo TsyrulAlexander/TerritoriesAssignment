@@ -1,10 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {CountryService} from "../../services/country.service";
 import {CountryListItem} from "../../models/country-list-item";
 import {BaseListComponent} from "../base-list/base-list.component";
 import {MatDialog} from "@angular/material";
 import {AddCountryComponent} from "../add-country/add-country.component";
 import {Country} from "../../models/country";
+import {CountryComponent} from "../country/country.component";
 
 @Component({
 	selector: "ks-country-list",
@@ -12,16 +13,12 @@ import {Country} from "../../models/country";
 	styleUrls: ["country-list.component.css"],
 	providers: [CountryService]
 })
-export class CountryListComponent extends BaseListComponent<CountryListItem> implements OnInit {
-
+export class CountryListComponent extends BaseListComponent<CountryListItem, CountryComponent> implements OnInit {
 	constructor(private countryService: CountryService, private dialog: MatDialog) {
 		super();
 	}
 	ngOnInit() {
-		this.countryService.getCountries().subscribe((data: CountryListItem[])=> {
-			this.items = data;
-		});
-
+		this.loadItems();
 	}
 
 	createItem() {
@@ -38,5 +35,11 @@ export class CountryListComponent extends BaseListComponent<CountryListItem> imp
 			debugger;
 			this.items.push(country);
 		})
+	}
+
+	loadItems(): void {
+		this.countryService.getCountries().subscribe((data: CountryListItem[])=> {
+			this.items = data;
+		});
 	}
 }
