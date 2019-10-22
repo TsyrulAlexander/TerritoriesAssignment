@@ -6,16 +6,17 @@ import {ObjectUtilities} from "../utilities/object-utilities";
 @Injectable({ providedIn: 'root' })
 export class MessageService {
     private subjects: SubjectTag<any>[]  = [];
-    constructor() {
-
-    }
     sendMessages(body: any, tag: string) {
         let subjects = this.getSubjects(tag);
-        subjects.forEach(value => value.subscriber.apply(value.sender, [body]));
+        subjects.forEach(value => MessageService.callSubscriber(value, body));
     }
     sendMessage(body: any, tag: string) {
         let subject = this.getSubjects(tag)[0];
-        return subject && subject.subscriber.apply(subject.sender, [body]);
+        return subject && MessageService.callSubscriber(subject, body);
+    }
+    static callSubscriber(subject: SubjectTag<any>, body: any): any {
+        console.log(subject.tag, body);
+        return subject.subscriber.apply(subject.sender, [body]);
     }
     getSubjects(tag: string): SubjectTag<any>[] {
         return ObjectUtilities.where(this.subjects, {tag: tag});

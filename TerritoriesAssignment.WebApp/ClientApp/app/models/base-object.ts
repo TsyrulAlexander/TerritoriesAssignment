@@ -1,7 +1,7 @@
 import {Guid} from "guid-typescript";
 
 export abstract class BaseObject {
-    protected constructor(public id: Guid) {
+    constructor(public id: Guid) {
 
     }
     toServerObject() {

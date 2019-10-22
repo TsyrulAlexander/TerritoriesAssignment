@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import {AddAreaComponent} from "../components/add-area/add-area.component";
 import {ListItemViewComponent} from "../controls/list-item-view/list-item-view.component";
+import {ItemInfoComponent} from "../components/item-info/item-info.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent }
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
 		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module],
     declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent,
         CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
-        VarDirective, AddAreaComponent, ListItemViewComponent],
+        VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent],
 	entryComponents: [AddCountryComponent],
     providers:[MessageService],
     bootstrap: [AppComponent]

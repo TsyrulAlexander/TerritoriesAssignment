@@ -1,5 +1,3 @@
-﻿import { MapPoint } from "./map-point";
-
-export interface IMapItem {
-    points: MapPoint[]; 
+﻿export interface IMapItem {
+    path: string;
 }

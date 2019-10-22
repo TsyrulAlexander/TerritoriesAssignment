@@ -2,17 +2,17 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ToolsVersionPromptShown>2.8</ToolsVersionPromptShown>
+    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Update="ClientApp\app\models\imap-item.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Update="ClientApp\app\models\map-point.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Update="ClientApp\app\models\map-item.ts">
       <SubType>Code</SubType>

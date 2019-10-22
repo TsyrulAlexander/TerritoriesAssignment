@@ -33,7 +33,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			Engine.CreateTable("Country", new[] {
 				CreatePrimaryColumn(),
 				CreateStringColumn("Name"),
-				CreateStringColumn("MapPoint", false, false)
+				CreateStringColumn("Path", false, false)
 			});
 		}
 
@@ -41,7 +41,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			Engine.CreateTable("Area", new[] {
 				CreatePrimaryColumn(),
 				CreateStringColumn("Name"),
-				CreateStringColumn("MapPoint", false, false),
+				CreateStringColumn("Path", false, false),
 				CreateGuidColumn("CountryId", true, false, new SQLiteForeignKey("Country", "Id"))
 			});
 		}
@@ -50,7 +50,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			Engine.CreateTable("Region", new[] {
 				CreatePrimaryColumn(),
 				CreateStringColumn("Name"),
-				CreateStringColumn("MapPoint", false, false),
+				CreateStringColumn("Path", false, false),
 				CreateGuidColumn("AreaId", true, false, new SQLiteForeignKey("Area", "Id"))
 			});
 		}

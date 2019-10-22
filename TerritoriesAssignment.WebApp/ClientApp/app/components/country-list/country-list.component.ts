@@ -17,6 +17,7 @@ export class CountryListComponent extends BaseListComponent<CountryListItem> imp
 	constructor(private countryService: CountryService, private dialog: MatDialog) {
 		super();
 	}
+
 	ngOnInit() {
 		this.loadItems();
 	}
@@ -30,6 +31,7 @@ export class CountryListComponent extends BaseListComponent<CountryListItem> imp
 			this.onCountryCreated(country);
 		});
 	}
+
 	onCountryCreated(country: Country) {
 		this.countryService.addCountry(country).subscribe(value => {
 			debugger;

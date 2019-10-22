@@ -9,6 +9,7 @@ using SQLiteFramework.Query;
 using SQLiteFramework.Table;
 using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
+using TerritoriesAssignment.Core.Entities.Map;
 
 namespace TerritoriesAssignment.Database.Storages.SQLite {
 	public class SQLiteDataStorage : IDataStorage {
@@ -56,6 +57,15 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public virtual IEnumerable<BaseLookup> GetAreas(Guid countryId, string search = null) {
 			return GetRecords(nameof(Area), search, "Name", countryId.CreateCondition("CountryId"));
 		}
+		public IEnumerable<BaseMapLookup> GetAreasMap(Guid countryId) {
+			var select = new SQLiteSelect(Engine);
+			select.AddCondition(countryId.CreateCondition("CountryId"));
+			return select.GetEntities<BaseMapLookup>("Area", 
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Name", SQLiteColumnType.String),
+				new SQLiteColumn("Path", SQLiteColumnType.String)
+			);
+		}
 		public virtual IEnumerable<BaseLookup> GetRegions(Guid areaId, string search = null) {
 			return GetRecords(nameof(Region), search, "Name", areaId.CreateCondition("AreaId"));
 		}
@@ -95,7 +105,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			return new[] {
 				"Id",
 				"Name",
-				"MapPoint"
+				"Path"
 			};
 		}
 		protected virtual IEnumerable<SQLiteColumn> GetAreaRecordSelectColumns() {
@@ -114,7 +124,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			return new[] {
 				SQLiteUtilities.CreateGuidColumn("Id"),
 				SQLiteUtilities.CreateStringColumn("Name"),
-				SQLiteUtilities.CreateStringColumn("MapPoint")
+				SQLiteUtilities.CreateStringColumn("Path")
 			};
 		}
 		protected virtual IEnumerable<BaseLookup> GetRecords(string tableName, string search, string displayColumnName = "Name",

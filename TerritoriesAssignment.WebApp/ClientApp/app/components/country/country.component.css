@@ -1,8 +1,8 @@
 ﻿.collapse-btn {
 	background-color: rgba(105, 105, 84, 0.41);
 }
-.item-button-container {
-
+.selected-list-item-container {
+	background-color: rgba(225, 224, 153, 0.41);
 }
 @keyframes add-item-button-show-anim {
 	from {opacity: 0;width: 50%}

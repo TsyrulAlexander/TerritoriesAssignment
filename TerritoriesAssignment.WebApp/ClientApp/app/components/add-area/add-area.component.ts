@@ -1,6 +1,4 @@
 import {Component} from "@angular/core";
-import {BaseComponent} from "../base/base.component";
-import {Country} from "../../models/country";
 import {Guid} from "guid-typescript";
 import {Area} from "../../models/area";
 import {ModalComponent} from "../modal/modal.component";

@@ -7,6 +7,9 @@ export class ObjectUtilities {
 	static where(array: any[], findObject: any) {
 		return _.where(array, findObject);
 	}
+	static findItem<T>(array: T[], findObject: any): T {
+		return _.findWhere(array, findObject);
+	}
 	static findWhere(array: any[], findObject: any) {
 		return _.findWhere(array, findObject);
 	}

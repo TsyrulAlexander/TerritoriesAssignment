@@ -7,7 +7,6 @@ import {AddCountryComponent} from "../add-country/add-country.component";
 import {MatDialog} from "@angular/material";
 import {AddAreaComponent} from "../add-area/add-area.component";
 import {Area} from "../../models/area";
-import {AreaComponent} from "../area/area.component";
 
 @Component({
     selector: 'ks-area-list',
@@ -18,7 +17,6 @@ import {AreaComponent} from "../area/area.component";
 export class AreaListComponent extends BaseListComponent<AreaListItem> {
     @Input() isShow: boolean;
     @Input() country: CountryListItem;
-    @ViewChildren(AreaComponent) itemComponents !: QueryList<AreaComponent>;
     constructor(public areaService: AreaService, private dialog: MatDialog) {
         super();
     }
@@ -30,12 +28,6 @@ export class AreaListComponent extends BaseListComponent<AreaListItem> {
         this.areaService.getAreas(this.country).subscribe(date => {
             this.items = date;
         });
-    }
-    selectAllItems(): void {
-        super.selectAllItems();
-        this.itemComponents.forEach(itemComponent=> {
-            itemComponent.isSelected = true;
-        })
     }
 
     createItem(): void {

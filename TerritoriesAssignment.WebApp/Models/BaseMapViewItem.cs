@@ -7,10 +7,10 @@ using TerritoriesAssignment.Core.Entities.Map;
 namespace TerritoriesAssignment.WebApp.Models
 {
 	public class BaseMapViewItem : BaseLookupViewItem {
-		public MapPoint[] Points { get; }
+		public string Path { get; }
 		public BaseMapViewItem() { }
 		public BaseMapViewItem(BaseMapLookup baseMapLookup) : base(baseMapLookup) {
-			Points = baseMapLookup.GetPoints();
+			Path = baseMapLookup.Path;
 		}
 	}
 }

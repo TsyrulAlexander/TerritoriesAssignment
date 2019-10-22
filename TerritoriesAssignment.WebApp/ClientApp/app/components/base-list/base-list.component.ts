@@ -10,5 +10,4 @@ export abstract class BaseListComponent<T extends BaseLookup> extends BaseCompon
 
 	abstract createItem(): void;
 	abstract loadItems(): void;
-	selectAllItems(): void {}
 }
