@@ -8,32 +8,54 @@ using TerritoriesAssignment.Core.Utilities;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
-	public class SequentialHeuristicAlgorithm
+	public class SequentialHeuristicAlgorithm<T>
 	{
-		private readonly int _managerCount;
+		private readonly List<T> _managerIds;
+		private readonly List<T> _attributeIds;
 		private readonly int _bricksCount;
-		private readonly int _attributesCount;
-		private readonly IEnumerable<Brick<int>> _allBricks;
-		private readonly List<Brick<int>> _startBricks;
-		private readonly Dictionary<int, List<int>> _neighborhoodMatrix; //n * n
-		private readonly Dictionary<int, List<int>> _attributiveMatrix; // n * k
+		private readonly ICollection<Brick<T>> _allBricks;
+		private readonly List<Brick<T>> _startBricks;
+		private readonly Dictionary<T, List<T>> _neighborhoodMatrix; //n * n
+		private readonly Dictionary<T, Dictionary<T, double>> _attributiveMatrix; // n * k		brickId - attributeId  
 
-		public SequentialHeuristicAlgorithm(int managerCount, Dictionary<int, List<int>> neighborhoodMatrix, 
-			Dictionary<int, List<int>> attributiveMatrix, int attributesCount, IEnumerable<int> startBrickIds) {
-			
-			_managerCount = managerCount;
+		public SequentialHeuristicAlgorithm(List<T> managerIds, List<T> attributeIds, Dictionary<T, List<T>> neighborhoodMatrix, 
+			Dictionary<T, Dictionary<T, double>> attributiveMatrix, IEnumerable<T> startBrickIds) {
 			_bricksCount = neighborhoodMatrix.Count;
-			_attributesCount = attributesCount;
 			_allBricks = GetAllBricks(neighborhoodMatrix, attributiveMatrix);
 			_startBricks = _allBricks.Where(brick => startBrickIds.Contains(brick.Id)).ToList();
 			_neighborhoodMatrix = neighborhoodMatrix;
 			_attributiveMatrix = attributiveMatrix;
+			_managerIds = managerIds;
+			_attributeIds = attributeIds;
 		}
 
-		public TerritorySolution<int> Solve() {	 // m * n
+		public bool IsValidAlgorithmParameters(out string exceptionMessage) {
+			exceptionMessage = string.Empty;
+			if (_attributiveMatrix.Values.All(att => att.Count.Equals(_attributeIds.Count))) {
+				exceptionMessage += "Attributes count in matrix is not equal attribute Ids count. ";
+			}
+			if (_attributiveMatrix.Count != _neighborhoodMatrix.Count) {
+				exceptionMessage += "Some bricks have not attributes. ";
+			}
+			if (_neighborhoodMatrix.Values.Any(brick => brick.Count == 0)) {
+				exceptionMessage += "Some of bricks have not any neighborhood. ";
+			}
+			if (_startBricks.Count == 0) {
+				exceptionMessage += "There is no start bricks. ";
+			}
+			if (_startBricks.Count != _managerIds.Count) {
+				exceptionMessage += "Start bricks count must be equal manager Ids count. ";
+			}
+			if (_neighborhoodMatrix.Count <= _managerIds.Count) {
+				exceptionMessage += "Manager count must be less than bricks count. ";
+			}
+			return exceptionMessage.Equals(string.Empty);
+		}
+
+		public TerritorySolution<T> Solve() {	 // m * n
 			var	resultTerritories = InitStartBricks();
 			PrintTerritorySolution(resultTerritories);
-			while (resultTerritories.GetBricksCount() != _bricksCount) //while all bricks will be assigned
+			while (resultTerritories.GetBricksCount() != _allBricks.Count) //while all bricks will be assigned
 			{
 				foreach (var currentTerritoryKey in resultTerritories.Territories.Keys) // for each territory
 				{
@@ -55,51 +77,50 @@ namespace TerritoriesAssignment.Core.Algorithms
 					}
 				}
 			}
-
 			Console.WriteLine($"Value of target function: {TargetFunction(resultTerritories)}");
 			return resultTerritories;
 		}
 
-		private double CountPartialTargetFunction(int currentTerritoryId, Brick<int> newValidBrick, TerritorySolution<int> currentTerritorySolution) {
+		private double CountPartialTargetFunction(T currentTerritoryId, Brick<T> newValidBrick, TerritorySolution<T> currentTerritorySolution) {
 			var territorySolutionCopy = currentTerritorySolution.DeepClone();
 			var tempTerritory = territorySolutionCopy.Territories[currentTerritoryId].AddBrick(newValidBrick);
 			return PartialTargetFunction(tempTerritory, territorySolutionCopy);
 		}
 
-		private double PartialTargetFunction(Territory<int> newTerritory, TerritorySolution<int> newTerritorySolution) {
+		private double PartialTargetFunction(Territory<T> newTerritory, TerritorySolution<T> newTerritorySolution) {
 			double result = 0;
-			for (int i = 0; i < _attributesCount; i++) {
-				var averageByManager = GetAttributeAverageByManager(i, newTerritorySolution);
-				var attributeSum = GetAttributeSumByAttributeId(i, newTerritory);
+			foreach (var attributeId in _attributeIds) {
+				var averageByManager = GetAttributeAverageByManager(attributeId, newTerritorySolution);
+				var attributeSum = GetAttributeSumByAttributeId(attributeId, newTerritory);
 				result += Math.Abs(attributeSum - averageByManager);
 			}
 			return result;
 		}
 
-		private double TargetFunction(TerritorySolution<int> territorySolution) {
+		private double TargetFunction(TerritorySolution<T> territorySolution) {
 			double result = 0;
-			for (int i = 0; i < _managerCount; i++) {
-				for (int j = 0; j < _attributesCount; j++) {
-					var averageByManager = GetAttributeAverageByManager(j, territorySolution);
-					var attributeSum = GetAttributeSumByAttributeId(i, j, territorySolution);
+			foreach (var managerId in _managerIds) {
+				foreach (var attributeId in _attributeIds) {
+					var averageByManager = GetAttributeAverageByManager(attributeId, territorySolution);
+					var attributeSum = GetAttributeSumByAttributeId(managerId, attributeId, territorySolution);
 					result += Math.Abs(attributeSum - averageByManager);
 				}
 			}
 			return result;
 		}
 
-		private double GetAttributeSumByAttributeId(int attributeId, Territory<int> newTerritory) {
+		private double GetAttributeSumByAttributeId(T attributeId, Territory<T> newTerritory) {
 			return newTerritory.GetAttributesSum(attributeId);
 		}
 
-		private double GetAttributeSumByAttributeId(int managerId, int attributeId, TerritorySolution<int> allCurrentTerritories) {
+		private double GetAttributeSumByAttributeId(T managerId, T attributeId, TerritorySolution<T> allCurrentTerritories) {
 			return allCurrentTerritories.Territories[managerId].GetAttributesSum(attributeId);
 		}
 
-		private double GetAttributeAverageByManager(int attributeId, TerritorySolution<int> allCurrentTerritories) {
+		private double GetAttributeAverageByManager(T attributeId, TerritorySolution<T> allCurrentTerritories) {
 			var attributeAverageByManager = allCurrentTerritories.Territories.Values
 				.Select(territories => territories.GetAttributesSum(attributeId)).Sum();
-			attributeAverageByManager /= _managerCount;
+			attributeAverageByManager /= _managerIds.Count;
 			return attributeAverageByManager;
 		}
 
@@ -107,17 +128,17 @@ namespace TerritoriesAssignment.Core.Algorithms
 		/// Init start territories which consist of one brick per each.
 		/// </summary>
 		/// <returns></returns>
-		private TerritorySolution<int> InitStartBricks() {
-			var currentTerritories = new Dictionary<int, Territory<int>>();
-			for (int i = 0; i < _managerCount; i++) {
-				currentTerritories.Add(i, new Territory<int>(i, _startBricks[i]));
+		private TerritorySolution<T> InitStartBricks() {
+			var currentTerritories = new Dictionary<T, Territory<T>>();
+			for (int i = 0; i < _managerIds.Count; i++) {
+				currentTerritories.Add(_managerIds[i], new Territory<T>(_managerIds[i], _startBricks[i]));
 			}
-			return new TerritorySolution<int>(currentTerritories);
+			return new TerritorySolution<T>(currentTerritories);
 		}
 
-		private IEnumerable<Brick<int>> GetValidBricksToJoin(Territory<int> currentTerritory,
-			TerritorySolution<int> allCurrentTerritories) {
-			var validBricks = new HashSet<Brick<int>>();
+		private IEnumerable<Brick<T>> GetValidBricksToJoin(Territory<T> currentTerritory,
+			TerritorySolution<T> allCurrentTerritories) {
+			var validBricks = new HashSet<Brick<T>>();
 			foreach (var brick in currentTerritory.Bricks) {
 				validBricks.UnionWith(brick.NeighborhoodBricks);
 			}
@@ -126,24 +147,24 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return validBricks.ToList();
 		}
 
-		private IEnumerable<Brick<int>> GetAllBricks(Dictionary<int, List<int>> neighborhoodMatrix, Dictionary<int, List<int>> attributiveMatrix) {
+		private ICollection<Brick<T>> GetAllBricks(Dictionary<T, List<T>> neighborhoodMatrix, Dictionary<T, Dictionary<T, double>> attributiveMatrix) {
 			if (neighborhoodMatrix.Count != attributiveMatrix.Count) {
 				 throw new ArgumentException("Neighborhood matrix is not suitable to attributive matrix");
 			}
-			var allBricks = new HashSet<Brick<int>>();
-			foreach (var attribute in attributiveMatrix) {
-				var attributeDictionary = attribute.Value.Select((value,index) => new {index,value}).ToDictionary(k => k.index,
-					v => new Attribute<double>(v.value));
-				allBricks.Add(new Brick<int>(attribute.Key, attributeDictionary));
+			var allBricks = new HashSet<Brick<T>>();
+			foreach (var brickKey in attributiveMatrix.Keys) {
+				var attributeDictionary = attributiveMatrix[brickKey].ToDictionary(k => k.Key,
+					v => new Attribute<double>(v.Value));
+				allBricks.Add(new Brick<T>(brickKey, attributeDictionary));
 			}
 			foreach (var neighborhoods in neighborhoodMatrix) {
-				var brick = allBricks.First(x => x.Id == neighborhoods.Key);
+				var brick = allBricks.First(x => x.Id.Equals(neighborhoods.Key));
 				brick.NeighborhoodBricks = allBricks.Where(x => neighborhoods.Value.Contains(x.Id)).ToList();
 			}
 			return allBricks;
 		}
 
-		public void PrintTerritorySolution(TerritorySolution<int> territorySolution) {
+		public void PrintTerritorySolution(TerritorySolution<T> territorySolution) {
 			Console.WriteLine("Territories: ");
 			foreach (var territory in territorySolution.Territories) {
 				Console.WriteLine($"	Manager Id = { territory.Key }. Brick Ids: { string.Join(", ", territory.Value)}");

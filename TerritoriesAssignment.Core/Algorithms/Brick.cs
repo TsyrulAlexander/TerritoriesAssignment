@@ -12,7 +12,6 @@ namespace TerritoriesAssignment.Core.Algorithms
 		public List<Brick<T>> NeighborhoodBricks { get; set; }
 
 		public IBrickAttributes<T, double> Attributes { get; set; }
-		//public Dictionary<T, Attribute<double>> Attributes { get; set; }
 
 		public Brick(T brickId, Dictionary<T, Attribute<double>> attributes = null, List<Brick<T>> neighborhoodBricks = null) {
 			Id = brickId;
