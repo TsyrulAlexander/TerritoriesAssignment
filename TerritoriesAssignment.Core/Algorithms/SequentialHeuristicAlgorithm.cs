@@ -8,15 +8,13 @@ using TerritoriesAssignment.Core.Utilities;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
-	public class SequentialHeuristicAlgorithm<T>
+	public class SequentialHeuristicAlgorithm<T> : Problem<T>
 	{
-		private readonly List<T> _managerIds;
-		private readonly List<T> _attributeIds;
 		private readonly int _bricksCount;
 		private readonly ICollection<Brick<T>> _allBricks;
 		private readonly List<Brick<T>> _startBricks;
 		private readonly Dictionary<T, List<T>> _neighborhoodMatrix; //n * n
-		private readonly Dictionary<T, Dictionary<T, double>> _attributiveMatrix; // n * k		brickId - attributeId  
+		private readonly Dictionary<T, Dictionary<T, double>> _attributiveMatrix; // n * k		brickId - (attributeId - attributeValue)
 
 		public SequentialHeuristicAlgorithm(List<T> managerIds, List<T> attributeIds, Dictionary<T, List<T>> neighborhoodMatrix, 
 			Dictionary<T, Dictionary<T, double>> attributiveMatrix, IEnumerable<T> startBrickIds) {
@@ -52,7 +50,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return exceptionMessage.Equals(string.Empty);
 		}
 
-		public TerritorySolution<T> Solve() {	 // m * n
+		public override TerritorySolution<T> Solve() {	 // m * n
 			var	resultTerritories = InitStartBricks();
 			PrintTerritorySolution(resultTerritories);
 			while (resultTerritories.GetBricksCount() != _allBricks.Count) //while all bricks will be assigned
@@ -97,7 +95,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return result;
 		}
 
-		private double TargetFunction(TerritorySolution<T> territorySolution) {
+		/*private double TargetFunction(TerritorySolution<T> territorySolution) {
 			double result = 0;
 			foreach (var managerId in _managerIds) {
 				foreach (var attributeId in _attributeIds) {
@@ -122,7 +120,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 				.Select(territories => territories.GetAttributesSum(attributeId)).Sum();
 			attributeAverageByManager /= _managerIds.Count;
 			return attributeAverageByManager;
-		}
+		}*/
 
 		/// <summary>
 		/// Init start territories which consist of one brick per each.
@@ -162,14 +160,6 @@ namespace TerritoriesAssignment.Core.Algorithms
 				brick.NeighborhoodBricks = allBricks.Where(x => neighborhoods.Value.Contains(x.Id)).ToList();
 			}
 			return allBricks;
-		}
-
-		public void PrintTerritorySolution(TerritorySolution<T> territorySolution) {
-			Console.WriteLine("Territories: ");
-			foreach (var territory in territorySolution.Territories) {
-				Console.WriteLine($"	Manager Id = { territory.Key }. Brick Ids: { string.Join(", ", territory.Value)}");
-			}
-			Console.WriteLine(new string('-', 20));
 		}
 	}
 }
