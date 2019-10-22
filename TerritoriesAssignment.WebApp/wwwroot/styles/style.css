@@ -4,7 +4,14 @@
 .menu-list-group-item {
 	padding: 1px;
 }
+.add-list-item-button.btn {
+	background: beige;
+	padding: 0.1px;
+}
 .no-gutter > [class*='col-'] {
 	padding-right:0;
 	padding-left:0;
+}
+.selected-list-item-button {
+	opacity: 0.5;
 }

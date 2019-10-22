@@ -1,7 +1,8 @@
 import {BaseObject} from "./base-object";
+import {Guid} from "guid-typescript";
 
-export abstract class BaseLookup implements BaseObject {
-    id: string;
-
-    constructor(id: string, public name: string) {}
+export abstract class BaseLookup extends BaseObject {
+    protected constructor(id: Guid, public name: string) {
+        super(id);
+    }
 }

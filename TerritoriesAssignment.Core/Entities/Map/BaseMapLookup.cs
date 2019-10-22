@@ -1,25 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace TerritoriesAssignment.Core.Entities.Map {
 	public class BaseMapLookup : BaseLookup {
 		public string MapPoint { get; set; }
-		public IEnumerable<MapPoint> GetPoints() {
-			return ParseCoordinateList(MapPoint);
+		public MapPoint[] GetPoints() {
+			return ParseCoordinateList()?.ToArray();
 		}
 
-		public IEnumerable<MapPoint> ParseCoordinateList(string coordinateStr) {
+		protected virtual IEnumerable<MapPoint> ParseCoordinateList() {
 			return MapPoint?.Split(new []{ ',' }, StringSplitOptions.RemoveEmptyEntries).Select(ParseCoordinate);
 		}
 
-		public MapPoint ParseCoordinate(string coordinateStr) {
+		protected virtual MapPoint ParseCoordinate(string coordinateStr) {
 			var coordinate = coordinateStr.Split(':');
 			if (coordinate.Length != 2) {
 				throw new FormatException();
 			}
-			var x = float.Parse(coordinate[0]);
-			var y = float.Parse(coordinate[1]);
+			var x = double.Parse(coordinate[0], CultureInfo.InvariantCulture);
+			var y = double.Parse(coordinate[1], CultureInfo.InvariantCulture);
 			return new MapPoint {
 				X = x,
 				Y = y

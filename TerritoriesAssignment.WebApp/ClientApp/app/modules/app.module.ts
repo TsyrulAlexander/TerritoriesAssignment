@@ -16,18 +16,25 @@ import { MapComponent } from "../components/map/map.component";
 import {ModalComponent} from "../components/modal/modal.component";
 import {MessageService} from "../services/message.service";
 import {AddCountryComponent} from "../components/add-country/add-country.component";
-import {BaseListItemComponent} from "../components/base-list-item/base-list-item.component";
-import {BaseComponent} from "../components/base/base.component";
-
+import {VarDirective} from "../directives/VarDirective";
+import {OverlayModule} from '@angular/cdk/overlay';
+import {MatDialogModule} from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import {AddAreaComponent} from "../components/add-area/add-area.component";
+import {ListItemViewComponent} from "../controls/list-item-view/list-item-view.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent }
 ];
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule, NgbModule],
+	imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule, OverlayModule, NgbModule,
+		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module],
     declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent,
-        CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent],
+        CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
+        VarDirective, AddAreaComponent, ListItemViewComponent],
+	entryComponents: [AddCountryComponent],
     providers:[MessageService],
     bootstrap: [AppComponent]
 })

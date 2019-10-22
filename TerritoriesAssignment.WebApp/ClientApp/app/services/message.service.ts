@@ -1,40 +1,32 @@
 ﻿import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import {SubjectTag} from "../models/subject-tag";
+import {ObjectUtilities} from "../utilities/object-utilities";
+
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
     private subjects: SubjectTag<any>[]  = [];
+    constructor() {
 
+    }
     sendMessages(body: any, tag: string) {
-        this.subjects.forEach(subject => {
-            if (subject.tag == tag) {
-                subject.subscriber.next(body);
-            }
-        }, this);
+        let subjects = this.getSubjects(tag);
+        subjects.forEach(value => value.subscriber.apply(value.sender, [body]));
     }
     sendMessage(body: any, tag: string) {
-        let result: any = null;
-        this.subjects.every(((subject: any) => {
-            if (subject.tag === tag) {
-                result = subject.subscriber.next(body);
-                return false;
-            }
-            return true;
-        }) as any, this);
-        return result;
+        let subject = this.getSubjects(tag)[0];
+        return subject && subject.subscriber.apply(subject.sender, [body]);
     }
-
+    getSubjects(tag: string): SubjectTag<any>[] {
+        return ObjectUtilities.where(this.subjects, {tag: tag});
+    }
     subscribe(sender: any, next: (value: any) => void, tag: string): void {
-        var subscribers = new Observable((observer) => {
-            this.subjects.push(new SubjectTag(tag, observer, sender));
-        }).subscribe(next);
+        this.subjects.push(new SubjectTag(tag, next, sender));
     }
-
     unSubscribe(sender: any, tag: string): void {
-        this.subjects.forEach(function (subject) {
+        this.subjects.forEach(function (subject, index) {
             if (subject.tag === tag && subject.sender === sender) {
-                subject.subscriber.complete();
+               this.subjects.splice(index, 1);
             }
         }, this);
     }

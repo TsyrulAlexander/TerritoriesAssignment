@@ -26,7 +26,7 @@ namespace SQLiteFramework.Command
 			return $"{WhereCommandName} {string.Join("AND", Conditions.Select(GetConditionSql))}";
 		}
 		protected virtual string GetConditionSql(ISQLiteCondition condition) {
-			return condition.GetSqlText();
+			return condition.GetSqlText(TableName);
 		}
 		protected virtual bool GetJoinPath(string columnName, out (string tableName, string columnName) info) {
 			return SQLiteUtilities.GetJoinPath(columnName, out info);

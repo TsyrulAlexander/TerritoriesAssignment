@@ -1,23 +1,36 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
-import { Region } from "../../models/region";
+﻿import {Component, OnInit, Input, ViewChildren, QueryList} from '@angular/core';
+import { RegionListItem } from "../../models/region-list-item";
 import { RegionService } from "../../services/region.service";
-import { Area } from "../../models/area";
+import { AreaListItem } from "../../models/area-list-item";
+import {BaseListComponent} from "../base-list/base-list.component";
+import {RegionComponent} from "../region/region.component";
 
 @Component({
     selector: 'ks-region-list',
     templateUrl: 'region-list.component.html',
     providers: [RegionService]
 })
-export class RegionListComponent implements OnInit {
+export class RegionListComponent extends  BaseListComponent<RegionListItem> {
     @Input() isShow: boolean;
-    @Input() area: Area;
-    public regions: Region[];
+    @Input() area: AreaListItem;
+    @ViewChildren(RegionComponent) itemComponents !: QueryList<RegionComponent>;
     constructor(public regionService: RegionService) {
-
+        super();
     }
-    ngOnInit(): void {
+
+    createItem(): void {
+    }
+
+    loadItems(): void {
         this.regionService.getRegions(this.area).subscribe(date => {
-            this.regions = date;
+            this.items = date;
         });
+    }
+
+    selectAllItems(): void {
+        super.selectAllItems();
+        this.itemComponents.forEach(itemComponent=> {
+            itemComponent.isSelected = true;
+        })
     }
 }

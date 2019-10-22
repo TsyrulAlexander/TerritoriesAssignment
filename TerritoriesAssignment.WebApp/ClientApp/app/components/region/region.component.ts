@@ -1,5 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
-import {Region} from "../../models/region";
+import {RegionListItem} from "../../models/region-list-item";
+import {BaseListItemComponent} from "../base-list-item/base-list-item.component";
+import {ListItemType} from "../../models/listItemType";
 
 @Component({
 	selector: 'ks-region',
@@ -7,7 +9,8 @@ import {Region} from "../../models/region";
 	styleUrls: ['./region.component.css']
 })
 
-export class RegionComponent {
-    @Input() region: Region;
-	constructor() {}
+export class RegionComponent extends BaseListItemComponent<RegionListItem>{
+	getItemType(): ListItemType {
+		return ListItemType.Region;
+	}
 }

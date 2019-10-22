@@ -7,7 +7,7 @@ using TerritoriesAssignment.Core.Entities.Map;
 namespace TerritoriesAssignment.WebApp.Models
 {
 	public class BaseMapViewItem : BaseLookupViewItem {
-		private IEnumerable<MapPoint> Points { get; }
+		public MapPoint[] Points { get; }
 		public BaseMapViewItem() { }
 		public BaseMapViewItem(BaseMapLookup baseMapLookup) : base(baseMapLookup) {
 			Points = baseMapLookup.GetPoints();

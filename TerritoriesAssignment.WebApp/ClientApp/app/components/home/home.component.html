@@ -1,6 +1,9 @@
 ﻿<div class="row">
     <div class="col-sm-2">
-        <ks-country-list></ks-country-list>
+        <ks-country-list #countryList></ks-country-list>
+        <div *ngIf="isEdit">
+            <button class="btn btn-block add-list-item-button" (click)="countryList.createItem()">Add country</button>
+        </div>
     </div>
     <div class="col-sm-10">
         <ks-map></ks-map>

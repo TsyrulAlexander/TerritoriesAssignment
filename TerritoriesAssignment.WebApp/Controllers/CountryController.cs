@@ -20,15 +20,19 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public IEnumerable<BaseLookupViewItem> Get() {
 			return Storage.GetCountries().ToView();
 		}
+		[HttpGet]
 		public CountryView Get(Guid id) {
 			return Storage.GetCountry(id).ToView();
 		}
-		public void Post(CountryView item) {
+		[HttpPost]
+		public void Post([FromBody]CountryView item) {
 			Storage.AddCountry(item.Cast());
 		}
-		public void Put(CountryView item) {
+		[HttpPut]
+		public void Put([FromBody]CountryView item) {
 			Storage.UpdateCountry(item.Cast());
 		}
+		[HttpDelete]
 		public void Delete(Guid id) {
 			Storage.DeleteCountry(id);
 		}

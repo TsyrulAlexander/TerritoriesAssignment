@@ -17,15 +17,19 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public IEnumerable<BaseLookupViewItem> GetItems(Guid areaId) {
 			return Storage.GetRegions(areaId).ToView();
 		}
+		[HttpGet]
 		public RegionView Get(Guid id) {
 			return Storage.GetRegion(id).ToView();
 		}
-		public void Post(RegionView item) {
+		[HttpPost]
+		public void Post([FromBody]RegionView item) {
 			Storage.AddRegion(item.Cast());
 		}
-		public void Put(RegionView item) {
+		[HttpPut]
+		public void Put([FromBody]RegionView item) {
 			Storage.UpdateRegion(item.Cast());
 		}
+		[HttpDelete]
 		public void Delete(Guid id) {
 			Storage.DeleteRegion(id);
 		}

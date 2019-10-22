@@ -1,0 +1,33 @@
+<div class="container">
+    <div *ngIf="isUseExpanded">
+        <div class="row">
+            <div class="col-4 no-gutters">
+                <button type="button" class="btn btn-block collapse-btn" [class.selected-list-item-button] = "isExpanded"
+                        [attr.aria-expanded]="!isExpanded"
+                        [attr.aria-controls]="item.id + '-content'" (click)="expandedClick()">
+                    <div *ngIf="isExpanded">-</div>
+                    <div *ngIf="!isExpanded">+</div>
+                </button>
+            </div>
+            <div class="col-8 no-gutters">
+                <button (click)="itemClick()" class="btn btn-block">
+                    <div>{{item.name}}</div>
+                </button>
+            </div>
+        </div>
+        <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isExpanded">
+            //todo
+        </div>
+    </div>
+    <div *ngIf="!isUseExpanded">
+        <div>
+            <button (click)="itemClick()" class="btn btn-block">
+                <div>{{item.name}}</div>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <button *ngIf="isEdit" class="btn btn-block add-list-item-button">Add area</button>
+    </div>
+</div>

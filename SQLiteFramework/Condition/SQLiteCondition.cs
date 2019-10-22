@@ -6,8 +6,8 @@ namespace SQLiteFramework.Condition {
 		public string ColumnPath { get; set; }
 		public SQLiteComparisonType ComparisonType { get; set; }
 		public IConditionValue Value { get; set; }
-		public virtual string GetSqlText() {
-			return $" {ColumnPath} {ToString(ComparisonType, Value)} ";
+		public virtual string GetSqlText(string tableName) {
+			return $" {tableName}.{ColumnPath} {ToString(ComparisonType, Value)} ";
 		}
 		public SQLiteCondition(string columnPath = null, 
 			SQLiteComparisonType comparisonType = SQLiteComparisonType.Equal,

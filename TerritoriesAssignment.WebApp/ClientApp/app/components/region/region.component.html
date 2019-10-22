@@ -1,3 +1,4 @@
-﻿<button type="button" class="btn btn-block collapse-btn">
-    <p>{{region.name}}</p>
+﻿<button type="button" class="btn btn-block collapse-btn" (click)="itemClick()"
+        [class.selected-list-item-button] = "isSelected">
+    <p>{{item.name}}</p>
 </button>
