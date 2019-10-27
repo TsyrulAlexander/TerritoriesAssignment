@@ -5,7 +5,7 @@
 			Value = value;
 		}
 		public string GetValue() {
-			return $"'{Value}'".Replace("`", "``").Replace("'", "''");
+			return $"'{Value.Replace("`", "``").Replace("'", "''")}'";
 		}
 	}
 }
