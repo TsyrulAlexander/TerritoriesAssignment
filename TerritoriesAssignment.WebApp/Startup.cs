@@ -18,12 +18,14 @@ namespace TerritoriesAssignment.WebApp {
 					HotModuleReplacement = true
 				});
 			}
+
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
-			app.UseMvc(routes => {
-				routes
-				.MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
-			});
+			app.UseMvc();
+			//app.UseMvc(routes => {
+			//	routes
+			//	.MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
+			//});
 		}
 	}
 }

@@ -15,8 +15,8 @@ export class CountryComponent extends BaseListItemComponent<CountryListItem>{
     getItemType(): ListItemType {
         return ListItemType.Country;
     }
-    expandedClick() {
-        super.expandedClick();
+    itemClick() {
+        super.itemClick();
         this.areaList.loadItems();
     }
 }

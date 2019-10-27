@@ -1,5 +1,5 @@
 ﻿<div>
     <div *ngFor="let country of items">
-        <ks-country [item]="country"></ks-country>
+        <ks-country [item]="country" (update)="updateItem($event)" (delete)="deleteItem($event)"></ks-country>
     </div>
 </div>

@@ -1,21 +1,25 @@
 ﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {CountryListItem} from "../models/country-list-item";
 import {Country} from "../models/country";
 import {Guid} from "guid-typescript";
+import {BaseHttpService} from "./base-http-service";
 @Injectable()
-export class CountryService {
-	constructor(private http: HttpClient) {
-	}
+export class CountryService extends BaseHttpService {
 	private url = "/api/country";
 	getCountries(): Observable<CountryListItem[]> {
-		return this.http.get<CountryListItem[]>(this.url + "/getItems");
+		return this.castObjects(this.http.get<CountryListItem[]>(this.url + "/getItems"), CountryListItem);
 	}
 	getCountry(id: Guid): Observable<Country> {
-		return this.http.get<Country>(this.url + "?id=" + id.toString());
+		return this.castObject(this.http.get<Country>(this.url + "?id=" + id.toString()), Country);
 	}
 	addCountry(country: Country) {
-		return this.http.post(this.url, country.toServerObject());
+		return this.http.post(this.url + "/add", country.toServerObject());
+	}
+	updateCountry(country: Country) {
+		return this.http.post(this.url + "/update", country.toServerObject());
+	}
+	deleteCountry(countryId: Guid) {
+		return this.http.delete(this.url + "/" + countryId.toString());
 	}
 }

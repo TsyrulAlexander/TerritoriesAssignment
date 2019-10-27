@@ -3,10 +3,11 @@ import { CountryListItem } from "../../models/country-list-item";
 import { AreaListItem } from "../../models/area-list-item";
 import { AreaService } from "../../services/area.service";
 import {BaseListComponent} from "../base-list/base-list.component";
-import {AddCountryComponent} from "../add-country/add-country.component";
 import {MatDialog} from "@angular/material";
 import {AddAreaComponent} from "../add-area/add-area.component";
 import {Area} from "../../models/area";
+import {AddCountryComponent} from "../add-country/add-country.component";
+import {ObjectUtilities} from "../../utilities/object-utilities";
 
 @Component({
     selector: 'ks-area-list',
@@ -17,8 +18,8 @@ import {Area} from "../../models/area";
 export class AreaListComponent extends BaseListComponent<AreaListItem> {
     @Input() isShow: boolean;
     @Input() country: CountryListItem;
-    constructor(public areaService: AreaService, private dialog: MatDialog) {
-        super();
+    constructor(public areaService: AreaService, dialog: MatDialog) {
+        super(dialog);
     }
 
     loadItems(): void {
@@ -31,17 +32,41 @@ export class AreaListComponent extends BaseListComponent<AreaListItem> {
     }
 
     createItem(): void {
-        let dialog = this.dialog.open(AddAreaComponent);
-        dialog.afterClosed().subscribe(country => {
-            if (country == null) {
+        this.openModal(AddAreaComponent).then(value => {
+            if (value == null) {
                 return;
             }
-            this.onAreaCreated(country);
+            this.onAreaCreated(value);
+        });
+    }
+
+    updateItem(area: AreaListItem) {
+        this.openModal(AddAreaComponent, {
+            areaId: area.id
+        }).then(value => {
+            if (value == null) {
+                return;
+            }
+            this.onAreaUpdated(value);
+        });
+    }
+
+    deleteItem(area: AreaListItem) {
+        this.areaService.deleteArea(area.id).subscribe(() => {
+            let listItem = ObjectUtilities.findItemFromPath(this.items, "id.value", area.id.toString());
+            ObjectUtilities.delete(this.items, listItem);
         });
     }
 
     onAreaCreated(area: Area) {
+        area.country = this.country;
         this.areaService.addArea(area).subscribe(() => {
+            this.items.push(area);
+        });
+    }
+
+    onAreaUpdated(area: Area) {
+        this.areaService.updateArea(area).subscribe(() => {
             this.items.push(area);
         });
     }

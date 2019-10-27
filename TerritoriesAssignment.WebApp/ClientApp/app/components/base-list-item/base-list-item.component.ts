@@ -21,6 +21,8 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
     @Output() add = new EventEmitter();
 	@Output() expanded = new EventEmitter<boolean>();
     @Output() selected = new EventEmitter<boolean>();
+    @Output() update = new EventEmitter<T>();
+    @Output() delete = new EventEmitter<T>();
     @Input() item: T;
     constructor(private messageService: MessageService) {
         super()
@@ -35,14 +37,30 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
         }
         this.isSelected = false;
     }
+    updateClick() {
+        this.updateItem();
+    }
+    deleteClick() {
+        this.deleteItem();
+    }
     itemClick() {
-        this.isSelected = true;
+        if (!this.isSelected) {
+            this.isSelected = true;
+        } else {
+            this.onSelectedChange();
+        }
     }
     expandedClick() {
         this.isExpanded = !this.isExpanded;
 	}
+	updateItem(): void {
+        this.update.emit(this.item);
+    }
+    deleteItem(): void {
+        this.delete.emit(this.item);
+    }
     abstract getItemType(): ListItemType;
-        onSelectedChange() {
+    onSelectedChange() {
         let args = new ListItemSelected();
         args.item = this.item;
         args.itemType = this.getItemType();

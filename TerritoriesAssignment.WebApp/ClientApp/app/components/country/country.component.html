@@ -1,24 +1,21 @@
-﻿<div class="container selected-list-item-container">
-    <div class="row no-gutters">
-        <div class="col-4">
-            <button type="button" class="btn btn-block collapse-btn" [class.selected-list-item-button] = "isExpanded"
-                    [attr.aria-expanded]="!isExpanded"
-                    [attr.aria-controls]="item.id + '-content'" (click)="expandedClick()">
-                <div *ngIf="isExpanded">-</div>
-                <div *ngIf="!isExpanded">+</div>
-            </button>
-        </div>
-        <div class="col-8">
-            <button (click)="itemClick()" class="btn btn-block">
+﻿<div class="selected-list-item-container container">
+    <div class="row">
+        <div class="btn-group dropright col-12">
+            <button (click)="itemClick()" class="btn btn-block btn-secondary">
                 <div>{{item.name}}</div>
             </button>
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropright</span>
+            </button>
+            <div class="dropdown-menu">
+                <button type="button" class="btn btn-block" (click)="areaList.createItem()">Add area</button>
+                <button type="button" class="btn btn-block" (click)="updateClick()">Update country</button>
+                <button type="button" class="btn btn-block" (click)="deleteClick()">Remove country</button>
+            </div>
         </div>
     </div>
-    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isExpanded">
+    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
         <ks-area-list #areaList [country]="item" ></ks-area-list>
-    </div>
-    <div>
-        <button *ngIf="isEdit" class="btn btn-block add-list-item-button">Add area</button>
     </div>
 </div><!--todo
 <ks-list-item-view [item]="item" [isUseExpanded]="true" (isExpanded)="isExpanded" ></ks-list-item-view>-->

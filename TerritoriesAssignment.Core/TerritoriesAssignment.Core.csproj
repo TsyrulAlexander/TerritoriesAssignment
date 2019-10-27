@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <HintPath>..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.0.0\ref\netcoreapp3.0\PresentationCore.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.SQLite">
       <HintPath>..\..\..\..\..\.nuget\packages\system.data.sqlite.core\1.0.111\lib\netstandard2.0\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <HintPath>..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.0.0\ref\netcoreapp3.0\WindowsBase.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -15,10 +15,18 @@ export class AreaService {
 	}
 
 	addArea(area: Area) {
-		return this.http.post<Area>(this.url, area);
+		return this.http.post(this.url + "/add", area);
+	}
+
+	updateArea(area: Area) {
+		return this.http.post(this.url + "/update", area);
 	}
 
 	getArea(id: Guid): Observable<Area> {
 		return this.http.get<Area>(this.url + "?id=" + id.toString());
+	}
+
+	deleteArea(areaId: Guid) {
+		return this.http.delete(this.url + "/" + areaId.toString());
 	}
 }

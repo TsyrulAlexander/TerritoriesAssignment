@@ -1,7 +1,7 @@
 ﻿<div >
     <svg width="1000" height="1000">
         <g *ngFor="let mapItem of mapItems">
-            <path *ngIf="selectItem && mapItem.id == selectItem.id" [attr.d]="mapItem.path" [attr.fill]="selectColorName" [attr.stroke]="'black'"></path>
+            <path [id]="mapItem.id" *ngIf="selectItem && mapItem.id == selectItem.id" [attr.d]="mapItem.path" [attr.fill]="selectColorName" [attr.stroke]="'black'"></path>
             <path *ngIf="!selectItem || mapItem.id != selectItem.id" [attr.d]="mapItem.path" [attr.fill]="defaultColorName" [attr.stroke]="'black'"></path>
         </g>
     </svg>

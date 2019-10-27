@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import * as _ from "underscore";
-//const _ = require('underscore');
 
 @Injectable({ providedIn: 'root' })
 export class ObjectUtilities {
@@ -10,6 +9,18 @@ export class ObjectUtilities {
 	static findItem<T>(array: T[], findObject: any): T {
 		return _.findWhere(array, findObject);
 	}
+	static findItemFromPath<T>(array: T[], path: string, object: any): T {
+		if (!array) {
+			return null;
+		}
+		for (let i = 0; i < array.length; i++) {
+			let value = this.deepFind(array[i], path);
+			if (value === object) {
+				return array[i];
+			}
+		}
+		return null;
+	}
 	static findWhere(array: any[], findObject: any) {
 		return _.findWhere(array, findObject);
 	}
@@ -18,5 +29,17 @@ export class ObjectUtilities {
 		if (index > -1) {
 			array.splice(index, 1);
 		}
+	}
+	static deepFind(obj: any, path: string) {
+		let paths = path.split('.');
+		let current = obj;
+		for (let i = 0; i < paths.length; ++i) {
+			if (current[paths[i]] == undefined) {
+				return undefined;
+			} else {
+				current = current[paths[i]];
+			}
+		}
+		return current;
 	}
 }
