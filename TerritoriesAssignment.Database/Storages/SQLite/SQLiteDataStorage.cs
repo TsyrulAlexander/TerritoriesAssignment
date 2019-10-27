@@ -10,6 +10,7 @@ using SQLiteFramework.Table;
 using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 using TerritoriesAssignment.Core.Entities.Map;
+using Attribute = TerritoriesAssignment.Core.Entities.Attribute;
 
 namespace TerritoriesAssignment.Database.Storages.SQLite {
 	public class SQLiteDataStorage : IDataStorage {
@@ -33,6 +34,23 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public virtual Region GetRegion(Guid id) {
 			return GetRecord<Region>(id, GetRegionRecordSelectColumns());
 		}
+		public Attribute GetAttribute(Guid id) {
+			return GetRecord<Attribute>(id, GetBaseLookupSelectColumns());
+		}
+		public AttributeValue GetAttributeValue(Guid attributeId, Guid regionId) {
+			var select = new SQLiteSelect(Engine);
+			select.AddCondition(
+				attributeId.CreateCondition("AttributeId"),
+				regionId.CreateCondition("RegionId"));
+			return select.GetEntities<AttributeValue>("AttributeValue",
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("DoubleValue", SQLiteColumnType.Double),
+				new SQLiteColumn("Attribute.Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Attribute.Name", SQLiteColumnType.String),
+				new SQLiteColumn("Region.Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Region.Name", SQLiteColumnType.String)
+			).FirstOrDefault();
+		}
 		public virtual void AddCountry(Country country) {
 			AddRecord(country, GetBaseRecordColumns());
 		}
@@ -42,6 +60,12 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public virtual void AddRegion(Region region) {
 			AddRecord(region, GetRegionRecordColumns());
 		}
+		public void AddAttribute(Attribute attribute) {
+			AddRecord(attribute, GetBaseLookupColumns());
+		}
+		public void AddAttributeValue(AttributeValue attributeValue) {
+			AddRecord(attributeValue, GetAttributeValueColumns());
+		}
 		public virtual void UpdateCountry(Country country) {
 			UpdateRecord(country, country.Id, GetBaseRecordColumns());
 		}
@@ -50,6 +74,12 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		}
 		public virtual void UpdateRegion(Region region) {
 			UpdateRecord(region, region.Id, GetRegionRecordColumns());
+		}
+		public void UpdateAttribute(Attribute attribute) {
+			UpdateRecord(attribute, attribute.Id, GetBaseLookupColumns());
+		}
+		public void UpdateAttributeValue(AttributeValue attributeValue) {
+			UpdateRecord(attributeValue, attributeValue.Id, GetAttributeValueColumns());
 		}
 		public virtual IEnumerable<BaseLookup> GetCountries(string search = null) {
 			return GetRecords(nameof(Country), search);
@@ -69,6 +99,24 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public virtual IEnumerable<BaseLookup> GetRegions(Guid areaId, string search = null) {
 			return GetRecords(nameof(Region), search, "Name", areaId.CreateCondition("AreaId"));
 		}
+		public IEnumerable<BaseLookup> GetAttributes(string search = null) {
+			return GetRecords(nameof(Attribute), search);
+		}
+		public IEnumerable<AttributeValue> GetAttributeValues(Guid regionId) {
+			var select = new SQLiteSelect(Engine);
+			select.AddCondition(regionId.CreateCondition("RegionId"));
+			return select.GetEntities<AttributeValue>("AttributeValue", GetAttributeValueSelectColumns().ToArray());
+		}
+		public IEnumerable<AttributeValue> GetAttributeValuesFromCountry(Guid countryId) {
+			var select = new SQLiteSelect(Engine);
+			select.AddCondition(countryId.CreateCondition("Region.Area.Country.Id"));
+			return select.GetEntities<AttributeValue>("AttributeValue", GetAttributeValueSelectColumns().ToArray());
+		}
+		public IEnumerable<AttributeValue> GetAttributeValuesFromArea(Guid areaId) {
+			var select = new SQLiteSelect(Engine);
+			select.AddCondition(areaId.CreateCondition("Region.Area.Id"));
+			return select.GetEntities<AttributeValue>("AttributeValue", GetAttributeValueSelectColumns().ToArray());
+		}
 		public virtual void DeleteCountry(Guid countryId) {
 			DeleteRecord(nameof(Country), countryId);
 		}
@@ -77,6 +125,12 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		}
 		public virtual void DeleteRegion(Guid regionId) {
 			DeleteRecord(nameof(Region), regionId);
+		}
+		public void DeleteAttribute(Guid attributeId) {
+			DeleteRecord(nameof(Attribute), attributeId);
+		}
+		public void DeleteAttributeValue(Guid attributeValueId) {
+			DeleteRecord(nameof(AttributeValue), attributeValueId);
 		}
 		protected virtual T GetRecord<T>(Guid recordId, IEnumerable<SQLiteColumn> columns) {
 			var select = new SQLiteSelect(Engine);
@@ -91,6 +145,16 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			var update = new SQLiteUpdate(Engine);
 			update.Execute(entity, new []{ GetPrimaryCondition(recordId) }, columnNames);
 		}
+		protected virtual IEnumerable<SQLiteColumn> GetAttributeValueSelectColumns() {
+			return new[] {
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("DoubleValue", SQLiteColumnType.Double),
+				new SQLiteColumn("Attribute.Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Attribute.Name", SQLiteColumnType.String),
+				new SQLiteColumn("Region.Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Region.Name", SQLiteColumnType.String)
+			};
+		}
 		protected virtual IEnumerable<string> GetAreaRecordColumns() {
 			return GetBaseRecordColumns().Concat(new[] {
 				"Country.Id"
@@ -101,11 +165,23 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				"Area.Id"
 			});
 		}
-		protected virtual IEnumerable<string> GetBaseRecordColumns() {
+		protected virtual IEnumerable<string> GetAttributeValueColumns() {
 			return new[] {
 				"Id",
-				"Name",
+				"DoubleValue",
+				"Attribute.Id",
+				"Region.Id"
+			};
+		}
+		protected virtual IEnumerable<string> GetBaseRecordColumns() {
+			return GetBaseLookupColumns().Concat(new[] {
 				"Path"
+			});
+		}
+		protected virtual IEnumerable<string> GetBaseLookupColumns() {
+			return new[] {
+				"Id",
+				"Name"
 			};
 		}
 		protected virtual IEnumerable<SQLiteColumn> GetAreaRecordSelectColumns() {
@@ -120,12 +196,16 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				SQLiteUtilities.CreateStringColumn("Area.Name")
 			});
 		}
-		protected virtual IEnumerable<SQLiteColumn> GetBaseRecordSelectColumns() {
+		protected virtual IEnumerable<SQLiteColumn> GetBaseLookupSelectColumns() {
 			return new[] {
 				SQLiteUtilities.CreateGuidColumn("Id"),
-				SQLiteUtilities.CreateStringColumn("Name"),
-				SQLiteUtilities.CreateStringColumn("Path")
+				SQLiteUtilities.CreateStringColumn("Name")
 			};
+		}
+		protected virtual IEnumerable<SQLiteColumn> GetBaseRecordSelectColumns() {
+			return GetBaseLookupSelectColumns().Concat(new[] {
+				SQLiteUtilities.CreateStringColumn("Path")
+			});
 		}
 		protected virtual IEnumerable<BaseLookup> GetRecords(string tableName, string search, string displayColumnName = "Name",
 			params ISQLiteCondition[] conditions) {
@@ -144,7 +224,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			delete.Execute(tableName, GetPrimaryCondition(id));
 		}
 		protected virtual ISQLiteCondition GetPrimaryCondition(Guid id) {
-			string columnName = "Id";
+			const string columnName = "Id";
 			return id.CreateCondition(columnName);
 		}
 	}

@@ -21,15 +21,15 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public RegionView Get(Guid id) {
 			return Storage.GetRegion(id).ToView();
 		}
-		[HttpPost]
+		[HttpPost("add")]
 		public void Post([FromBody]RegionView item) {
 			Storage.AddRegion(item.Cast());
 		}
-		[HttpPut]
+		[HttpPost("update")]
 		public void Put([FromBody]RegionView item) {
 			Storage.UpdateRegion(item.Cast());
 		}
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public void Delete(Guid id) {
 			Storage.DeleteRegion(id);
 		}

@@ -8,9 +8,8 @@ namespace TerritoriesAssignment.WebApp.Models
 {
 	public class BaseMapViewItem : BaseLookupViewItem {
 		public string Path { get; }
-		public BaseMapViewItem() { }
-		public BaseMapViewItem(BaseMapLookup baseMapLookup) : base(baseMapLookup) {
-			Path = baseMapLookup.Path;
+		public BaseMapViewItem(BaseMapLookup baseMapLookup = null) : base(baseMapLookup) {
+			Path = baseMapLookup?.Path;
 		}
 	}
 }

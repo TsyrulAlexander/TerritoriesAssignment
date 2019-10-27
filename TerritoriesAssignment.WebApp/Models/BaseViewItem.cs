@@ -9,8 +9,8 @@ namespace TerritoriesAssignment.WebApp.Models
 	public class BaseViewItem {
 		public Guid Id { get; set; }
 		public BaseViewItem() { }
-		public BaseViewItem(BaseObject baseObject) {
-			Id = baseObject.Id;
+		public BaseViewItem(BaseObject baseObject = null) {
+			Id = baseObject?.Id ?? Guid.Empty;
 		}
 	}
 }

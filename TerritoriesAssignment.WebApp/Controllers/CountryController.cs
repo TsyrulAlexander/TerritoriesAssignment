@@ -10,7 +10,7 @@ using TerritoriesAssignment.WebApp.Utilities;
 namespace TerritoriesAssignment.WebApp.Controllers {
 	[Route("api/country")]
 	[ApiController]
-	public class CountryController : Controller, IStorageController<CountryView> {
+	public class CountryController : Controller {
 		public IDataStorage Storage { get; }
 
 		public CountryController(IDataStorage storage) {
@@ -24,15 +24,15 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public CountryView Get(Guid id) {
 			return Storage.GetCountry(id).ToView();
 		}
-		[HttpPost]
+		[HttpPost("add")]
 		public void Post([FromBody]CountryView item) {
 			Storage.AddCountry(item.Cast());
 		}
-		[HttpPut]
+		[HttpPost("update")]
 		public void Put([FromBody]CountryView item) {
-			Storage.UpdateCountry(item.Cast());
+			Storage.UpdateCountry(item?.Cast());
 		}
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public void Delete(Guid id) {
 			Storage.DeleteCountry(id);
 		}

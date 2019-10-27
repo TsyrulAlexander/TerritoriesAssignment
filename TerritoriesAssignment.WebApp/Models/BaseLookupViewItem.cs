@@ -4,8 +4,8 @@ namespace TerritoriesAssignment.WebApp.Models {
 	public class BaseLookupViewItem : BaseViewItem, IDataItemView<BaseLookup> {
 		public string Name { get; set; }
 		public BaseLookupViewItem() { }
-		public BaseLookupViewItem(BaseLookup baseLookup) : base(baseLookup) {
-			Name = baseLookup.Name;
+		public BaseLookupViewItem(BaseLookup baseLookup = null) : base(baseLookup) {
+			Name = baseLookup?.Name;
 		}
 		public BaseLookup Cast() {
 			return new BaseLookup {

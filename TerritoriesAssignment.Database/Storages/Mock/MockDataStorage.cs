@@ -4,6 +4,7 @@ using System.Linq;
 using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 using TerritoriesAssignment.Core.Entities.Map;
+using Attribute = TerritoriesAssignment.Core.Entities.Attribute;
 
 namespace TerritoriesAssignment.Database.Storages.Mock {
 	public class MockDataStorage : IDataStorage {
@@ -59,11 +60,23 @@ namespace TerritoriesAssignment.Database.Storages.Mock {
 		public Region GetRegion(Guid id) {
 			return _regions.Find(region => region.Id == id);
 		}
+		public Attribute GetAttribute(Guid id) {
+			throw new NotImplementedException();
+		}
+		public AttributeValue GetAttributeValue(Guid attributeId, Guid regionId) {
+			throw new NotImplementedException();
+		}
 		public void AddCountry(Country country) {
 			_countries.Add(country);
 		}
 		public void AddRegion(Region region) {
 			_regions.Add(region);
+		}
+		public void AddAttribute(Attribute attribute) {
+			throw new NotImplementedException();
+		}
+		public void AddAttributeValue(AttributeValue attributeValue) {
+			throw new NotImplementedException();
 		}
 		public void UpdateCountry(Country country) {
 			var item = GetCountry(country.Id);
@@ -76,6 +89,12 @@ namespace TerritoriesAssignment.Database.Storages.Mock {
 		public void UpdateRegion(Region region) {
 			var item = GetRegion(region.Id);
 			item.Name = region.Name;
+		}
+		public void UpdateAttribute(Attribute attribute) {
+			throw new NotImplementedException();
+		}
+		public void UpdateAttributeValue(AttributeValue attributeValue) {
+			throw new NotImplementedException();
 		}
 		public void AddArea(Area area) {
 			_areas.Add(area);
@@ -92,6 +111,18 @@ namespace TerritoriesAssignment.Database.Storages.Mock {
 		public IEnumerable<BaseLookup> GetRegions(Guid areaId, string search = null) {
 			return _regions.Where(region => region.Area.Id == areaId);
 		}
+		public IEnumerable<BaseLookup> GetAttributes(string search = null) {
+			throw new NotImplementedException();
+		}
+		public IEnumerable<AttributeValue> GetAttributeValues(Guid regionId) {
+			throw new NotImplementedException();
+		}
+		public IEnumerable<AttributeValue> GetAttributeValuesFromCountry(Guid countryId) {
+			throw new NotImplementedException();
+		}
+		public IEnumerable<AttributeValue> GetAttributeValuesFromArea(Guid areaId) {
+			throw new NotImplementedException();
+		}
 		public void DeleteCountry(Guid countryId) {
 			var item = GetCountry(countryId);
 			_countries.Remove(item);
@@ -103,6 +134,12 @@ namespace TerritoriesAssignment.Database.Storages.Mock {
 		public void DeleteRegion(Guid regionId) {
 			var item = GetRegion(regionId);
 			_regions.Remove(item);
+		}
+		public void DeleteAttribute(Guid attributeId) {
+			throw new NotImplementedException();
+		}
+		public void DeleteAttributeValue(Guid attributeValueId) {
+			throw new NotImplementedException();
 		}
 	}
 }

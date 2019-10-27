@@ -5,7 +5,7 @@ using SQLiteFramework;
 using SQLiteFramework.Table;
 
 namespace TerritoriesAssignment.Database.Storages.SQLite {
-	internal class SQLiteDatabaseCreator {
+	public class SQLiteDatabaseCreator {
 		private SQLiteEngine Engine { get; }
 		public SQLiteDatabaseCreator(string path) {
 			Engine = new SQLiteEngine(path);
@@ -55,6 +55,22 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			});
 		}
 
+		public virtual void CreateAttributeTable() {
+			Engine.CreateTable("Attribute", new[] {
+				CreatePrimaryColumn(),
+				CreateStringColumn("Name")
+			});
+		}
+
+		public virtual void CreateAttributeValueTable() {
+			Engine.CreateTable("AttributeValue", new[] {
+				CreatePrimaryColumn(),
+				CreateDoubleColumn("DoubleValue"),
+				CreateGuidColumn("RegionId", true, false, new SQLiteForeignKey("Region", "Id")),
+				CreateGuidColumn("AttributeId", true, false, new SQLiteForeignKey("Attribute", "Id"))
+			});
+		}
+
 		protected virtual SQLiteTableColumn CreatePrimaryColumn(string columnName = "Id") {
 			var guidColumn = CreateGuidColumn(columnName);
 			guidColumn.IsPrimaryKey = true;
@@ -77,6 +93,13 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				Type = SQLiteColumnType.String,
 				IsRequired = isRequired,
 				IsUnique = isUnique
+			};
+		}
+		protected virtual SQLiteTableColumn CreateDoubleColumn(string columnName, bool isRequired = true) {
+			return new SQLiteTableColumn {
+				Name = columnName,
+				Type = SQLiteColumnType.Double,
+				IsRequired = isRequired
 			};
 		}
 	}
