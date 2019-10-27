@@ -25,6 +25,18 @@ namespace SQLiteFramework.Condition.Column {
 			if (type == typeof(string)) {
 				return new StringConditionValue((string) value);
 			}
+			if (type == typeof(double)) {
+				return new DoubleConditionValue((double)value);
+			}
+			if (type == typeof(int)) {
+				return new IntegerConditionValue((int)value);
+			}
+			if (type == typeof(bool)) {
+				return new BooleanConditionValue((bool)value);
+			}
+			if (type == typeof(DateTime)) {
+				return new DateTimeConditionValue((DateTime)value);
+			}
 			throw new NotSupportedException(type.Name);
 		}
 	}

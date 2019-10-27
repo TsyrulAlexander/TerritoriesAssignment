@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using SQLiteFramework.Condition;
 using SQLiteFramework.Condition.Column;
 using SQLiteFramework.Condition.Value;
@@ -9,6 +10,18 @@ using SQLiteFramework.Table;
 
 namespace SQLiteFramework {
 	public static class SQLiteUtilities {
+		public static SQLiteColumn CreateDateTimeColumn(string columnName) {
+			return new SQLiteColumn(columnName, SQLiteColumnType.DateTime);
+		}
+		public static SQLiteColumn CreateDoubleColumn(string columnName) {
+			return new SQLiteColumn(columnName, SQLiteColumnType.Double);
+		}
+		public static SQLiteColumn CreateIntegerColumn(string columnName) {
+			return new SQLiteColumn(columnName, SQLiteColumnType.Integer);
+		}
+		public static SQLiteColumn CreateBooleanColumn(string columnName) {
+			return new SQLiteColumn(columnName, SQLiteColumnType.Boolean);
+		}
 		public static SQLiteColumn CreateStringColumn(string columnName) {
 			return new SQLiteColumn(columnName, SQLiteColumnType.String);
 		}
@@ -35,6 +48,14 @@ namespace SQLiteFramework {
 					return "NVARCHAR(36)";
 				case SQLiteColumnType.String:
 					return "TEXT";
+				case SQLiteColumnType.Integer:
+					return "INTEGER";
+				case SQLiteColumnType.Double:
+					return "DOUBLE";
+				case SQLiteColumnType.Boolean:
+					return "BOOLEAN";
+				case SQLiteColumnType.DateTime:
+					return "DATETIME";
 				default:
 					throw new NotSupportedException(nameof(columnType));
 			}
@@ -99,16 +120,42 @@ namespace SQLiteFramework {
 			return columnName;
 		}
 
-		public static bool GetJoinPath(string columnName, out (string tableName, string columnName) info) {
-			info = (null, null);
-			var path = columnName.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-			if (path.Length == 1) {
+		public static bool GetJoinPath(string columnName, out SQLiteJoinPath[] info, out string lastColumnName) {
+			info = new SQLiteJoinPath[0];
+			var paths = columnName.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+			lastColumnName = paths[paths.Count - 1];
+			if (paths.Count == 1) {
 				return false;
 			}
-			if (path.Length > 2) {
-				throw new NotImplementedException(columnName);
+			var infoList = new List<SQLiteJoinPath>();
+			for (int i = 0; i < paths.Count - 1; i++) {
+				var path = paths[i];
+				if (GetIsBackwardPath(path, out var joinPath)) {
+					infoList.Add(joinPath);
+				} else {
+					infoList.Add(new SQLiteJoinPath {
+						TableName = path,
+						ColumnName = path + "Id"
+					});
+					
+				}
+				
 			}
-			info = (path[0], path[1]);
+			info = infoList.ToArray();
+			return true;
+		}
+		private static bool GetIsBackwardPath(string path, out SQLiteJoinPath joinPath) {
+			joinPath = null;
+			var startIndex = path.IndexOf('(');
+			var endIndex = path.IndexOf(')');
+			if (startIndex < 0 || endIndex < 0) {
+				return false;
+			}
+			joinPath = new SQLiteJoinPath {
+				TableName = path.Replace(path.Remove(0, startIndex), ""),
+				ColumnName = path.Remove(0, startIndex).Replace("(", "").Replace(")", ""),
+				IsBackward = true
+			};
 			return true;
 		}
 		public static void SetPropertyValue(object obj, string columnName, object value) {

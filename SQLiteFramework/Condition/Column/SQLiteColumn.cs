@@ -26,6 +26,15 @@ namespace SQLiteFramework.Condition.Column
 			if (type == typeof(string)) {
 				return SQLiteColumnType.String;
 			}
+			if (type == typeof(int)) {
+				return SQLiteColumnType.Integer;
+			}
+			if (type == typeof(double)) {
+				return SQLiteColumnType.Double;
+			}
+			if (type == typeof(bool)) {
+				return SQLiteColumnType.Boolean;
+			}
 			throw new NotSupportedException(type.Name);
 		}
 	}

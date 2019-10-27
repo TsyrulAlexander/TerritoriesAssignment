@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SQLiteFramework.Condition;
 using SQLiteFramework.Condition.Column;
+using SQLiteFramework.Table;
 
 namespace SQLiteFramework.Command
 {
@@ -28,12 +29,13 @@ namespace SQLiteFramework.Command
 		protected virtual string GetConditionSql(ISQLiteCondition condition) {
 			return condition.GetSqlText(TableName);
 		}
-		protected virtual bool GetJoinPath(string columnName, out (string tableName, string columnName) info) {
-			return SQLiteUtilities.GetJoinPath(columnName, out info);
+		protected virtual bool GetJoinPath(string columnName, out SQLiteJoinPath[] info, out string lastColumnName) {
+			return SQLiteUtilities.GetJoinPath(columnName, out info, out lastColumnName);
 		}
 		protected virtual string GetColumnSql(SQLiteColumn column) {
-			if (GetJoinPath(column.Name, out var info)) {
-				return $"{info.tableName}{info.columnName}";
+			if (GetJoinPath(column.Name, out var joinInfo, out var lastColumnName)) {
+				var lastJoin = joinInfo[joinInfo.Length - 1];
+				return $"{lastJoin.TableName}{lastColumnName}";
 			}
 			return column.Name;
 		}

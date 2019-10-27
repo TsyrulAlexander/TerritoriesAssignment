@@ -14,6 +14,9 @@ namespace SQLiteFramework.Condition
 			ColumnPath = columnPath;
 			Type = type;
 		}
+		public string[] GetJoinPath() {
+			return new[] {ColumnPath};
+		}
 		public string GetSqlText(string tableName) {
 			switch (Type) {
 				case SQLiteNullType.Null:

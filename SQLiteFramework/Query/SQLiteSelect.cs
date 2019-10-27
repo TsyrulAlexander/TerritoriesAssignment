@@ -52,6 +52,14 @@ namespace SQLiteFramework.Query {
 					return Guid.Parse(dataReader.GetString(index));
 				case SQLiteColumnType.String:
 					return dataReader.GetString(index);
+				case SQLiteColumnType.Double:
+					return dataReader.GetDouble(index);
+				case SQLiteColumnType.Integer:
+					return dataReader.GetInt32(index);
+				case SQLiteColumnType.Boolean:
+					return dataReader.GetBoolean(index);
+				case SQLiteColumnType.DateTime:
+					return dataReader.GetDateTime(index);
 				default:
 					return dataReader.GetValue(index);
 			}

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SQLiteFramework.Table {
+﻿namespace SQLiteFramework.Table {
 	public enum SQLiteColumnType {
 		Guid,
-		String
+		String,
+		Double,
+		Integer,
+		Boolean,
+		DateTime
 	}
 }

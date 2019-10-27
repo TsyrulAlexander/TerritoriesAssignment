@@ -6,7 +6,14 @@ namespace SQLiteFramework.Condition {
 		public string ColumnPath { get; set; }
 		public SQLiteComparisonType ComparisonType { get; set; }
 		public IConditionValue Value { get; set; }
+		public string[] GetJoinPath() {
+			return new []{ ColumnPath };
+		}
 		public virtual string GetSqlText(string tableName) {
+			if (SQLiteUtilities.GetJoinPath(ColumnPath, out var info, out var lastColumnName)) {
+				var lastJoin = info[info.Length - 1];
+				return $" {lastJoin.TableName}.{lastColumnName} {ToString(ComparisonType, Value)} ";
+			}
 			return $" {tableName}.{ColumnPath} {ToString(ComparisonType, Value)} ";
 		}
 		public SQLiteCondition(string columnPath = null, 
