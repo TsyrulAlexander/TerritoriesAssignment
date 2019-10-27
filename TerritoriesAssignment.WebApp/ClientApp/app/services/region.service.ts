@@ -10,7 +10,7 @@ import {Region} from "../models/region";
 export class RegionService extends BaseHttpService {
 	private url = "/api/region";
 	getRegions(area: AreaListItem): Observable<RegionListItem[]> {
-		return this.castObjects(this.http.get<AreaListItem[]>(this.url + "/getItems?areaId=" + area.id), Region);
+		return this.castObjects(this.http.get<AreaListItem[]>(this.url + "/getItems?areaId=" + area.id.toString()), Region);
 	}
 	getRegion(id: Guid): Observable<Region> {
 		return this.castObject(this.http.get<Region>(this.url + "?id=" + id.toString()), Region);

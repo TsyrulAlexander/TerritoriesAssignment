@@ -11,15 +11,15 @@ export class AreaService {
 	}
 	private url = "/api/area";
 	getAreas(country: CountryListItem): Observable<AreaListItem[]> {
-		return this.http.get<AreaListItem[]>(this.url + "/getItems?countryId=" + country.id);
+		return this.http.get<AreaListItem[]>(this.url + "/getItems?countryId=" + country.id.toString());
 	}
 
 	addArea(area: Area) {
-		return this.http.post(this.url + "/add", area);
+		return this.http.post(this.url + "/add", area.toServerObject());
 	}
 
 	updateArea(area: Area) {
-		return this.http.post(this.url + "/update", area);
+		return this.http.post(this.url + "/update", area.toServerObject());
 	}
 
 	getArea(id: Guid): Observable<Area> {
