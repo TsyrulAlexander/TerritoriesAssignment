@@ -1,28 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="ClientApp\app.component.ts" />
-    <None Remove="ClientApp\app\app.module.ts" />
-    <None Remove="ClientApp\app\models\imap-item.ts" />
-    <None Remove="ClientApp\app\models\map-item.ts" />
-    <None Remove="ClientApp\app\models\map-point.ts" />
-    <None Remove="ClientApp\main.ts" />
-    <None Remove="ClientApp\polyfills.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\models\imap-item.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\map-item.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\map-point.ts" />
-    <TypeScriptCompile Include="ClientApp\app\modules\app.module.ts" />
-    <TypeScriptCompile Include="ClientApp\main.ts" />
-    <TypeScriptCompile Include="ClientApp\polyfills.ts" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TerritoriesAssignment.Core\TerritoriesAssignment.Core.csproj" />
