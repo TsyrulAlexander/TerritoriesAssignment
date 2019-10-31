@@ -67,6 +67,9 @@ export class ItemInfoComponent extends BaseComponent implements OnInit {
 		this.messageService.subscribe(this, this.onListItemSelected, "ListItemSelected");
 	}
 	onListItemSelected(info: ListItemSelected) {
+		if (this.item && this.item.id === info.item.id) {
+			return;
+		}
 		this.item = info.item;
 		this.itemType = info.itemType;
 		this.isAddAttributeValue = false;

@@ -32,10 +32,10 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
         this.messageService.subscribe(this, this.onListItemSelected, "ListItemSelected");
     }
     onListItemSelected(info: ListItemSelected) {
-        if (info.itemType !== this.getItemType() || info.item.id == this.item.id) {
+        if (info.itemType !== this.getItemType()) {
             return;
         }
-        this.isSelected = false;
+        this.isSelected = info.item.id == this.item.id;
     }
     updateClick() {
         this.updateItem();
