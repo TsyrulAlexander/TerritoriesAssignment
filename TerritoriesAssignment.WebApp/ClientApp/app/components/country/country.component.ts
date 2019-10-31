@@ -19,4 +19,7 @@ export class CountryComponent extends BaseListItemComponent<CountryListItem>{
         super.itemClick();
         this.areaList.loadItems();
     }
+    managersDistribution() {
+
+    }
 }

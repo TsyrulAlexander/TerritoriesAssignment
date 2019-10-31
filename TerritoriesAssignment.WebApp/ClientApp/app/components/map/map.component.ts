@@ -13,24 +13,13 @@ import {MapService} from "../../services/map.service";
     styleUrls: ['./map.component.css'],
     providers: [MapService]
 })
-export class MapComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class MapComponent extends BaseComponent {
     mapItems: MapItem[] = [];
     selectItem: MapItem = null;
     defaultColorName: string = "blue";
     selectColorName: string = "red";
     constructor(private messageService: MessageService, private mapService: MapService) {
         super();
-    }
-    ngAfterViewInit(): void {
-    }
-    draw(): void {
-
-    }
-    clear() {
-
-    }
-    drawMapItem(item: MapItem) {
-
     }
     subscribeMessages() {
         super.subscribeMessages();
@@ -44,11 +33,16 @@ export class MapComponent extends BaseComponent implements OnInit, AfterViewInit
         }
         if (body.itemType === ListItemType.Area) {
             let mapItem = ObjectUtilities.findItem(this.mapItems, {id: item.id});
-            if (this.selectItem && this.selectItem.id === mapItem.id) {
+            if (!mapItem || (this.selectItem && this.selectItem.id === mapItem.id)) {
                 this.selectItem = null;
             }
         }
-        this.draw();
+    }
+    selectMap(mapItem: MapItem) {
+        let args = new ListItemSelected();
+        args.item = mapItem;
+        args.itemType = ListItemType.Area;
+        this.messageService.sendMessages(args, "ListItemSelected");
     }
     onListItemSelected(body: ListItemSelected) {
         let item = body.item;
@@ -58,7 +52,6 @@ export class MapComponent extends BaseComponent implements OnInit, AfterViewInit
                 mapItems.forEach(mapItem => {
                     this.mapItems.push(mapItem);
                 });
-                this.draw();
             });
         }
         if (itemType === ListItemType.Area) {

@@ -24,8 +24,8 @@ import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import {AddAreaComponent} from "../components/add-area/add-area.component";
 import {ListItemViewComponent} from "../controls/list-item-view/list-item-view.component";
 import {ItemInfoComponent} from "../components/item-info/item-info.component";
-import {SelectDropDownModule} from "ngx-select-dropdown";
 import {AddRegionComponent} from "../components/add-region/add-region.component";
+import {ManagerDistributionComponent} from "../components/manager-distribution/manager-distribution.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent }
@@ -33,10 +33,11 @@ const appRoutes: Routes = [
 
 @NgModule({
 	imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule, OverlayModule, NgbModule,
-		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module, SelectDropDownModule],
+		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module],
     declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent,
         CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
-        VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent, AddRegionComponent],
+        VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent, AddRegionComponent,
+		ManagerDistributionComponent],
 	entryComponents: [AddCountryComponent, AddAreaComponent, AddRegionComponent],
     providers:[MessageService],
     bootstrap: [AppComponent]

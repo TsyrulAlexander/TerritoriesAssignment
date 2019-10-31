@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
-using SQLiteFramework.Condition;
 using SQLiteFramework.Condition.Column;
 using SQLiteFramework.Query;
-using SQLiteFramework.Table;
 
 namespace SQLiteFramework.Command {
 	public abstract class SQLiteCommand {

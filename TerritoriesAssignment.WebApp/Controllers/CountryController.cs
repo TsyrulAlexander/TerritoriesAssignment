@@ -20,6 +20,10 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public IEnumerable<BaseLookupViewItem> Get() {
 			return Storage.GetCountries().ToView();
 		}
+		[HttpGet("managersDistribution")]
+		public void ManagersDistribution(int managerCount, Guid countryId) {
+			
+		}
 		[HttpGet]
 		public CountryView Get(Guid id) {
 			return Storage.GetCountry(id).ToView();
