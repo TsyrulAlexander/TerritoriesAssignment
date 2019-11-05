@@ -3,6 +3,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Schema;
+using TerritoriesAssignment.Core.Utilities;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
@@ -31,6 +33,15 @@ namespace TerritoriesAssignment.Core.Algorithms
 				for (int i = 0; i < _managerIds.Count; i++) {
 					for (int j = i + 1; j < _managerIds.Count; j++) {
 						Console.WriteLine($"{_managerIds[i]} {_managerIds[j]}");
+						var donorManager = _managerIds[i];
+						var recipientManager = _managerIds[j];
+
+						BrickExchange(resultSolution.Territories[donorManager],
+							resultSolution.Territories[recipientManager]); // i -> j
+
+						BrickExchange(resultSolution.Territories[donorManager],
+							resultSolution.Territories[recipientManager]); // i <- j
+
 					}
 				}
 			}
@@ -41,11 +52,50 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return _managerIds.Count * (_managerIds.Count - 1) / 2;
 		}
 
-		/*private 
+		protected virtual void BrickExchange(Territory<T> donorTerritory, Territory<T> recipientTerritory) {
+			var borderDonorBricks = GetDonorBorderBricks(donorTerritory, recipientTerritory);
+			var donorTerritoryClone = donorTerritory.DeepClone();
+			var recipientTerritoryClone = recipientTerritory.DeepClone();
+			for (int i = 0; i < borderDonorBricks.Count; i++) {
+				donorTerritoryClone.RemoveBrick(borderDonorBricks[i]);
+				if (donorTerritoryClone.IsAllBricksConnected()) {
+					
+				}
+			}
+		}
 
-		protected virtual void GeneratedPairToExchange() {
+		protected virtual IEnumerable<Brick<T>> GetValidDonorBricks(Territory<T> donorTerritory) {
+			var validDonorBricks = new List<Brick<T>>();
+			
+			var newDonor = donorTerritory.Bricks.Select(brick =>
+				brick.NeighborhoodBricks.RemoveAll(neighBrick => donorTerritory.Bricks.Contains(neighBrick)));
+			//var connectedDonorBricks = GetConnectedBricksDFS(donorTerritory.Bricks.);
 
-		}*/
+			return validDonorBricks;
+		}
+
+		
+
+		private IList<Brick<T>> GetValidBorderBricks(Territory<T> donorTerritory, Territory<T> recipientTerritory) {
+			var validDonorBricks = GetValidDonorBricks(donorTerritory);
+			var borderDonorBricks = new List<Brick<T>>();
+
+			return borderDonorBricks;
+		}
+
+		private IList<Brick<T>> GetDonorBorderBricks(Territory<T> donorTerritory, Territory<T> recipientTerritory) {
+			var borderDonorBricks = new List<Brick<T>>();
+			for (int i = 0; i < donorTerritory.GetBricksCount(); i++) {
+				var currDonorBrick = donorTerritory.Bricks[i];
+				for (int j = 0; j < recipientTerritory.GetBricksCount(); j++) {
+					if (currDonorBrick.IsNeighbor(recipientTerritory.Bricks[j])) {
+						borderDonorBricks.Add(currDonorBrick);
+						break;
+					}
+				}
+			}
+			return borderDonorBricks;
+		}
 
 		protected virtual TerritorySolution<T> GetStartSolution() {
 			return StartSolution;
