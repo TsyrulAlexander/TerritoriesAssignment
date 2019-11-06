@@ -4,17 +4,16 @@ import { BaseLookup } from "../../models/base-lookup";
 import {MessageService} from "../../services/message.service";
 import {ListItemType} from "../../models/listItemType";
 import {ListItemSelected} from "../../models/list-item-selected";
+import {ViewListItem} from "../../models/view-list-item";
 
 @Injectable()
 export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseComponent implements OnInit {
-    _isSelected: boolean;
     get isSelected(): boolean {
-        return this._isSelected;
+        return this.item.isSelected;
     }
     set isSelected(value: boolean) {
-        if (this._isSelected !== value) {
-            this._isSelected = value;
-            this.onSelectedChange();
+        if (this.item.isSelected !== value) {
+            this.item.isSelected = value;
         }
     }
     isExpanded: boolean;
@@ -23,7 +22,7 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
     @Output() selected = new EventEmitter<boolean>();
     @Output() update = new EventEmitter<T>();
     @Output() delete = new EventEmitter<T>();
-    @Input() item: T;
+    @Input() item: ViewListItem<T>;
     constructor(private messageService: MessageService) {
         super()
     }
@@ -35,7 +34,7 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
         if (info.itemType !== this.getItemType()) {
             return;
         }
-        this.isSelected = info.item.id == this.item.id;
+        this.isSelected = info.item.id == this.item.item.id;
     }
     updateClick() {
         this.updateItem();
@@ -43,27 +42,30 @@ export abstract class BaseListItemComponent<T extends BaseLookup> extends BaseCo
     deleteClick() {
         this.deleteItem();
     }
-    itemClick() {
-        if (!this.isSelected) {
+    itemClick(event: MouseEvent) {
+        if (this.isSelected && event.ctrlKey) {
+            this.isSelected = false;
+            this.onSelectedChange(event.ctrlKey);
+        } else if (!this.isSelected) {
             this.isSelected = true;
-        } else {
-            this.onSelectedChange();
+            this.onSelectedChange(event.ctrlKey);
         }
     }
     expandedClick() {
         this.isExpanded = !this.isExpanded;
 	}
 	updateItem(): void {
-        this.update.emit(this.item);
+        this.update.emit(this.item.item);
     }
     deleteItem(): void {
-        this.delete.emit(this.item);
+        this.delete.emit(this.item.item);
     }
     abstract getItemType(): ListItemType;
-    onSelectedChange() {
+    onSelectedChange(isMultiSelected: boolean = false) {
         let args = new ListItemSelected();
-        args.item = this.item;
+        args.item = this.item.item;
         args.itemType = this.getItemType();
+        args.isMultiSelected = isMultiSelected;
         if (this.isSelected) {
             this.messageService.sendMessages(args, "ListItemSelected");
         } else {

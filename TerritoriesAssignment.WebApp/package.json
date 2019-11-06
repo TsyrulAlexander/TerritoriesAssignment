@@ -24,6 +24,7 @@
     "css-loader": "^3.2.0",
     "guid-typescript": "^1.0.9",
     "jw-bootstrap-switch-ng2": "^2.0.5",
+    "ngx-color-picker": "^8.2.0",
     "rxjs": "6.5.2",
     "sass": "^1.23.0",
     "style-loader": "^1.0.0",

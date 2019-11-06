@@ -4,6 +4,8 @@ import {CountryListItem} from "../models/country-list-item";
 import {Country} from "../models/country";
 import {Guid} from "guid-typescript";
 import {BaseHttpService} from "./base-http-service";
+import {ManagerInfo} from "../models/manager-info";
+import {ManagerInfoResponse} from "../models/manager-info-response";
 @Injectable()
 export class CountryService extends BaseHttpService {
 	private url = "/api/country";
@@ -21,5 +23,11 @@ export class CountryService extends BaseHttpService {
 	}
 	deleteCountry(countryId: Guid) {
 		return this.http.delete(this.url + "/" + countryId.toString());
+	}
+	managersDistribution(countryId: Guid, managers: ManagerInfo[]): Observable<ManagerInfoResponse[]> {
+		return this.castObjects(this.http.post<ManagerInfoResponse[]>(this.url + "/managersDistribution", {
+			countryId: countryId.toString(),
+			managers: managers
+		}), ManagerInfoResponse);
 	}
 }

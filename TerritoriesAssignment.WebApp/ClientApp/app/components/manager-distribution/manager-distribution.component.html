@@ -1,0 +1,31 @@
+<div class="modal d-block" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content container">
+            <div class="modal-header row">
+                <h5 class="modal-title col-auto">Managers distribution</h5>
+                <button *ngIf="!isUseStartAreas" class="btn btn-success col-2" (click)="addManager()">Add</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div *ngFor="let managerInfo of managers" class="row">
+                        <div class="col-3">
+                            <input type="number" class="form-control-plaintext" readonly  [value]="managerInfo.number">
+                        </div>
+                        <div *ngIf="isUseStartAreas" class="col-6">
+                            <input type="text" class="form-control-plaintext" readonly  [value]="managerInfo.area.name">
+                        </div>
+                        <div [class.col-3]="isUseStartAreas" [class.col-9]="!isUseStartAreas">
+                            <div class="form-group">
+                                <input [(colorPicker)]="managerInfo.color" [style.background]="managerInfo.color" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="start()">Start</button>
+            </div>
+        </div>
+    </div>
+</div>

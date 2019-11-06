@@ -1,8 +1,8 @@
 ﻿<div class="container">
     <div class="row">
         <div class="btn-group dropright col-12">
-            <button (click)="itemClick()" class="btn btn-block btn-secondary">
-                <div>{{item.name}}</div>
+            <button (click)="itemClick($event)" class="btn btn-block btn-secondary">
+                <div>{{item.item.name}}</div>
             </button>
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropright</span>
@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div id="{{item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
-        <ks-area-list #areaList [country]="item" ></ks-area-list>
+    <div id="{{item.item.id}}-content" class="collapse" [ngbCollapse]="!isSelected">
+        <ks-area-list #areaList [country]="item"></ks-area-list>
     </div>
 </div>

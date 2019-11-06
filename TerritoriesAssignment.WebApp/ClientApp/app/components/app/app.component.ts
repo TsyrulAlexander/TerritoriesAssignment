@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import {Component, HostListener, OnInit} from '@angular/core';
 import {BaseComponent} from "../base/base.component";
 
 @Component({
@@ -6,8 +6,4 @@ import {BaseComponent} from "../base/base.component";
     templateUrl: 'app.component.html'
 })
 export class AppComponent extends BaseComponent implements OnInit {
-
-    ngOnInit(): void {
-
-    }
 }

@@ -1,4 +1,4 @@
-﻿import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+﻿import {Component, Input} from '@angular/core';
 import { CountryListItem } from "../../models/country-list-item";
 import { AreaListItem } from "../../models/area-list-item";
 import { AreaService } from "../../services/area.service";
@@ -6,8 +6,8 @@ import {BaseListComponent} from "../base-list/base-list.component";
 import {MatDialog} from "@angular/material";
 import {AddAreaComponent} from "../add-area/add-area.component";
 import {Area} from "../../models/area";
-import {AddCountryComponent} from "../add-country/add-country.component";
 import {ObjectUtilities} from "../../utilities/object-utilities";
+import {ViewListItem} from "../../models/view-list-item";
 
 @Component({
     selector: 'ks-area-list',
@@ -17,7 +17,7 @@ import {ObjectUtilities} from "../../utilities/object-utilities";
 
 export class AreaListComponent extends BaseListComponent<AreaListItem> {
     @Input() isShow: boolean;
-    @Input() country: CountryListItem;
+    @Input() country: ViewListItem<CountryListItem>;
     constructor(public areaService: AreaService, dialog: MatDialog) {
         super(dialog);
     }
@@ -26,8 +26,11 @@ export class AreaListComponent extends BaseListComponent<AreaListItem> {
         if (this.items != null) {
             return;
         }
-        this.areaService.getAreas(this.country).subscribe(date => {
-            this.items = date;
+        this.areaService.getAreas(this.country.item).subscribe((data: AreaListItem[]) => {
+            this.items = [];
+            data.forEach(listItem => {
+                this.items.push(new ViewListItem<CountryListItem>(listItem))
+            }, this);
         });
     }
 
@@ -59,15 +62,16 @@ export class AreaListComponent extends BaseListComponent<AreaListItem> {
     }
 
     onAreaCreated(area: Area) {
-        area.country = this.country;
+        area.country = this.country.item;
         this.areaService.addArea(area).subscribe(() => {
-            this.items.push(area);
+            this.items.push(new ViewListItem<AreaListItem>(area));
         });
     }
 
     onAreaUpdated(area: Area) {
         this.areaService.updateArea(area).subscribe(() => {
-            this.items.push(area);
+            let listItem = ObjectUtilities.findItemFromPath(this.items, "item.id.value", area.id.toString());
+            listItem.item.name = area.name;
         });
     }
 }

@@ -22,5 +22,9 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public BaseMapViewItem GetAreaMap(Guid areaId) {
 			return new BaseMapViewItem(Storage.GetArea(areaId));
 		}
+		[HttpPost("getAreas")]
+		public BaseMapViewItem[] GetAreasMap([FromBody] Guid[] areas) {
+			return areas.Select(areaId => new BaseMapViewItem(Storage.GetArea(areaId))).ToArray();
+		}
 	}
 }

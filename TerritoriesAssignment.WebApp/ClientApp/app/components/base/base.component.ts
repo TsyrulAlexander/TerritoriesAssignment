@@ -3,6 +3,7 @@
 @Injectable()
 export abstract class BaseComponent implements OnInit {
 	private static _isEdit: boolean;
+	protected keyboardEvent: KeyboardEvent;
 	get isEdit(): boolean {
 		return BaseComponent._isEdit;
 	}

@@ -9,6 +9,7 @@ import {CountryListItem} from "../../models/country-list-item";
 import {ObjectUtilities} from "../../utilities/object-utilities";
 import {AddRegionComponent} from "../add-region/add-region.component";
 import {Region} from "../../models/region";
+import {ViewListItem} from "../../models/view-list-item";
 
 @Component({
     selector: 'ks-region-list',
@@ -17,7 +18,7 @@ import {Region} from "../../models/region";
 })
 export class RegionListComponent extends  BaseListComponent<RegionListItem> {
     @Input() isShow: boolean;
-    @Input() area: AreaListItem;
+    @Input() area: ViewListItem<AreaListItem>;
     constructor(public regionService: RegionService, dialog: MatDialog) {
         super(dialog);
     }
@@ -50,22 +51,25 @@ export class RegionListComponent extends  BaseListComponent<RegionListItem> {
     }
 
     onRegionCreated(region: Region) {
-        region.area = this.area;
+        region.area = this.area.item;
         this.regionService.addRegion(region).subscribe(() => {
-            this.items.push(region);
+            this.items.push(new ViewListItem<RegionListItem>(region));
         });
     }
 
     onRegionUpdate(region: Region) {
         this.regionService.updateRegion(region).subscribe(() => {
-            let listItem = ObjectUtilities.findItemFromPath(this.items, "id.value", region.id.toString());
-            listItem.name = region.name;
+            let listItem = ObjectUtilities.findItemFromPath(this.items, "item.id.value", region.id.toString());
+            listItem.item.name = region.name;
         });
     }
 
     loadItems(): void {
-        this.regionService.getRegions(this.area).subscribe(date => {
-            this.items = date;
+        this.regionService.getRegions(this.area.item).subscribe((data: RegionListItem[]) => {
+            this.items = [];
+            data.forEach(listItem => {
+                this.items.push(new ViewListItem<CountryListItem>(listItem))
+            }, this);
         });
     }
 }

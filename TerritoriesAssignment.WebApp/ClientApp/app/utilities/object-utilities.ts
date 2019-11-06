@@ -3,7 +3,7 @@ import * as _ from "underscore";
 
 @Injectable({ providedIn: 'root' })
 export class ObjectUtilities {
-	static where(array: any[], findObject: any) {
+	static where<T>(array: T[], findObject: any) {
 		return _.where(array, findObject);
 	}
 	static findItem<T>(array: T[], findObject: any): T {

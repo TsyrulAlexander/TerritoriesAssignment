@@ -12,7 +12,7 @@ export abstract class BaseObject {
             this.Id = Guid.parse(String(value));
         }
     }
-    public get id() {
+    public get id(): Guid {
         return this.Id;
     }
     constructor(id: Guid = null) {

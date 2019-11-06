@@ -26,19 +26,19 @@ import {ListItemViewComponent} from "../controls/list-item-view/list-item-view.c
 import {ItemInfoComponent} from "../components/item-info/item-info.component";
 import {AddRegionComponent} from "../components/add-region/add-region.component";
 import {ManagerDistributionComponent} from "../components/manager-distribution/manager-distribution.component";
-
+import { ColorPickerModule } from 'ngx-color-picker';
 const appRoutes: Routes = [
     { path: '', component: HomeComponent }
 ];
 
 @NgModule({
 	imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule, OverlayModule, NgbModule,
-		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module],
+		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module, ColorPickerModule],
     declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent,
         CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
         VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent, AddRegionComponent,
 		ManagerDistributionComponent],
-	entryComponents: [AddCountryComponent, AddAreaComponent, AddRegionComponent],
+	entryComponents: [AddCountryComponent, AddAreaComponent, AddRegionComponent, ManagerDistributionComponent],
     providers:[MessageService],
     bootstrap: [AppComponent]
 })
