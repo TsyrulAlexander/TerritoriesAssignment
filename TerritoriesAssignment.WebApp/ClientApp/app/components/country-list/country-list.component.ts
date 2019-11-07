@@ -15,6 +15,7 @@ import {MapItem} from "../../models/map-item";
 import {ManagerInfo} from "../../models/manager-info";
 import {Guid} from "guid-typescript";
 import {ManagerInfoResponse} from "../../models/manager-info-response";
+import {ManagerDistributionResultComponent} from "../manager-distribution-result/manager-distribution-result.component";
 
 @Component({
 	selector: "ks-country-list",
@@ -107,12 +108,17 @@ export class CountryListComponent extends BaseListComponent<CountryListItem> imp
 	}
 	callManagersDistribution(countryId: Guid, managers: ManagerInfo[]) {
 		this.countryService.managersDistribution(countryId, managers)
-			.subscribe(this.callManagersDistributionResponse.bind(this));
+			.subscribe(this.callManagersDistributionResponse.bind(this, managers));
 	}
-	callManagersDistributionResponse(managersResponse: ManagerInfoResponse[]) {
-		this.openManagerDistributionDialogResult();
+	callManagersDistributionResponse(managers: ManagerInfo[], managersResponse: ManagerInfoResponse[]) {
+		this.openManagerDistributionDialogResult(managers, managersResponse);
 	}
-	openManagerDistributionDialogResult() {
+	openManagerDistributionDialogResult(managers: ManagerInfo[], managersResponse: ManagerInfoResponse[]) {
+		this.openModal(ManagerDistributionResultComponent, {
+			managers,
+			territorySolution: managersResponse
+		}).then(value => {
 
+		});
 	}
 }

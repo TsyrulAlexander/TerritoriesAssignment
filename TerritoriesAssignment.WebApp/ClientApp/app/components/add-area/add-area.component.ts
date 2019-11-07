@@ -12,7 +12,8 @@ import {AreaService} from "../../services/area.service";
 })
 export class AddAreaComponent extends ModalComponent<AddAreaComponent> {
 	public area: Area = new Area(Guid.create());
-	constructor(dialogRef: MatDialogRef<AddAreaComponent> = null, @Inject(MAT_DIALOG_DATA) protected data: any = null, protected areaService: AreaService = null) {
+	constructor(dialogRef: MatDialogRef<AddAreaComponent> = null, @Inject(MAT_DIALOG_DATA) protected data: any = null,
+				protected areaService: AreaService = null) {
 		super(dialogRef);
 		let areaId = data && data.areaId;
 		if (areaId && Guid.isGuid(areaId)) {

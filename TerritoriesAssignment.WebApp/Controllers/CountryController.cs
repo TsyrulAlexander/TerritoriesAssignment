@@ -22,7 +22,8 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		}
 		[HttpPost("managersDistribution")]
 		public ManagerResponseView[] ManagersDistribution(Guid countryId, [FromBody]ManagerView[] managers) {
-			return new ManagerResponseView[0];
+			ManagerHelper helper = new ManagerHelper(Storage);
+			return helper.ManagersDistribution(countryId, managers);
 		}
 		[HttpGet]
 		public CountryView Get(Guid id) {

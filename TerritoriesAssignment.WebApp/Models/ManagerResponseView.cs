@@ -2,6 +2,6 @@
 
 namespace TerritoriesAssignment.WebApp.Models {
 	public class ManagerResponseView : BaseObject {
-		public BaseMapViewItem Areas { get; set; }
+		public BaseMapViewItem[] Areas { get; set; }
 	}
 }

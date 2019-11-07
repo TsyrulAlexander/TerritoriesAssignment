@@ -1,4 +1,4 @@
-﻿import {Component, ElementRef, ViewChild} from '@angular/core';
+﻿import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {MapItem} from "../../models/map-item";
 import {MessageService} from "../../services/message.service";
 import {BaseComponent} from "../base/base.component";
@@ -17,7 +17,7 @@ import {ViewListItem} from "../../models/view-list-item";
 export class MapComponent extends BaseComponent{
     height: 100;
     width: 100;
-    mapItems: ViewListItem<MapItem>[] = [];
+    @Input()mapItems: ViewListItem<MapItem>[] = [];
     defaultColorName: string = "blue";
     selectColorName: string = "red";
     @ViewChild('mySvg', {static: true}) mySvg: ElementRef;

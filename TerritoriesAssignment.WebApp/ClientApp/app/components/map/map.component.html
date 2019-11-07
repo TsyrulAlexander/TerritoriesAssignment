@@ -2,7 +2,7 @@
     <svg #mySvg width = "1000px" height = "1000px">
         <g *ngFor="let mapItem of mapItems">
             <path *ngIf="mapItem.isSelected" [attr.d]="mapItem.item.path" [attr.fill]="selectColorName" [attr.stroke]="'black'"></path>
-            <path *ngIf="!mapItem.isSelected" [attr.d]="mapItem.item.path" [attr.fill]="defaultColorName" [attr.stroke]="'black'" (click)="selectMap($event, mapItem)"></path>
+            <path *ngIf="!mapItem.isSelected" [attr.d]="mapItem.item.path" [attr.fill]="mapItem.item.color || defaultColorName" [attr.stroke]="'black'" (click)="selectMap($event, mapItem)"></path>
         </g>
     </svg>
 </div>

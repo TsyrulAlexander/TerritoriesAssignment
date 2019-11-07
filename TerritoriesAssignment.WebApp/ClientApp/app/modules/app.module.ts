@@ -27,6 +27,7 @@ import {ItemInfoComponent} from "../components/item-info/item-info.component";
 import {AddRegionComponent} from "../components/add-region/add-region.component";
 import {ManagerDistributionComponent} from "../components/manager-distribution/manager-distribution.component";
 import { ColorPickerModule } from 'ngx-color-picker';
+import {ManagerDistributionResultComponent} from "../components/manager-distribution-result/manager-distribution-result.component";
 const appRoutes: Routes = [
     { path: '', component: HomeComponent }
 ];
@@ -37,8 +38,9 @@ const appRoutes: Routes = [
     declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent,
         CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
         VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent, AddRegionComponent,
-		ManagerDistributionComponent],
-	entryComponents: [AddCountryComponent, AddAreaComponent, AddRegionComponent, ManagerDistributionComponent],
+		ManagerDistributionComponent, ManagerDistributionResultComponent],
+	entryComponents: [AddCountryComponent, AddAreaComponent, AddRegionComponent, ManagerDistributionComponent,
+		ManagerDistributionResultComponent],
     providers:[MessageService],
     bootstrap: [AppComponent]
 })
