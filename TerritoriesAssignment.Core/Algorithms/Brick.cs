@@ -6,7 +6,7 @@ using TerritoriesAssignment.Core.Utilities;
 namespace TerritoriesAssignment.Core.Algorithms
 {
 	[Serializable]
-	public class Brick<T> : ICloneable
+	public class Brick<T> : ICloneable, IEquatable<T>
 	{
 		public T Id { get; }
 		public List<Brick<T>> NeighborhoodBricks { get; set; }
@@ -17,6 +17,14 @@ namespace TerritoriesAssignment.Core.Algorithms
 			Id = brickId;
 			NeighborhoodBricks = neighborhoodBricks;
 			Attributes = new DoubleBrickAttributes<T>(attributes);
+		}
+
+		public bool IsNeighbor(Brick<T> brick) {
+			return NeighborhoodBricks.Exists(x => x.Equals(brick));
+		}
+
+		public bool Equals(T other) {
+			return Id.Equals(other);
 		}
 
 		public override bool Equals(object brickObj) {

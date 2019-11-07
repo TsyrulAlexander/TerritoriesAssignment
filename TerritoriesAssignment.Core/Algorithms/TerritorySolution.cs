@@ -8,7 +8,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 	[Serializable]
 	public class TerritorySolution<T> : ICloneable
 	{
-		public Dictionary<T, Territory<T>> Territories { get; }
+		public Dictionary<T, Territory<T>> Territories { get; }  //ManagerId - Territories
 
 		public TerritorySolution(Dictionary<T, Territory<T>> startTerritories) {
 			Territories = startTerritories;
@@ -36,6 +36,27 @@ namespace TerritoriesAssignment.Core.Algorithms
 				ids.AddRange(territory.Value.GetBrickIds());
 			}
 			return ids;
+		}
+
+		public IList<Brick<T>> GetDonorBorderBricks(T donorManagerId, T recipientManagerId) {
+			var borderDonorBricks = new List<Brick<T>>();
+			var donorTerritory = Territories[donorManagerId];
+			var recipientTerritory = Territories[recipientManagerId];
+			for (int i = 0; i < donorTerritory.GetBricksCount(); i++) {
+				var currDonorBrick = donorTerritory.Bricks[i];
+				for (int j = 0; j < recipientTerritory.GetBricksCount(); j++) {
+					if (currDonorBrick.IsNeighbor(recipientTerritory.Bricks[j])) {
+						borderDonorBricks.Add(currDonorBrick);
+						break;
+					}
+				}
+			}
+			return borderDonorBricks;
+		}
+
+		public void MoveBrick(T fromTerritoryId, T toTerritoryId, Brick<T> brickToMove) {
+			Territories[fromTerritoryId].RemoveBrick(brickToMove);
+			Territories[toTerritoryId].AddBrick(brickToMove);
 		}
 
 		public double GetAttributesSum() {

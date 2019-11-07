@@ -10,16 +10,20 @@ namespace TerritoriesAssignment.Core.Algorithms
 	public class Territory<T> : ICloneable
 	{
 		public T Id { get; }		//Manager Id
-		public HashSet<Brick<T>> Bricks { get; }
+		public IList<Brick<T>> Bricks { get; } //TODO: change list to dictionary
 
 		public Territory(T territoryId, Brick<T> firstBrick) {
 			Id = territoryId;
-			Bricks = new HashSet<Brick<T>> { firstBrick };
+			Bricks = new List<Brick<T>> { firstBrick };
 		}
 
 		public Territory(T territoryId, IEnumerable<Brick<T>> bricks) {
 			Id = territoryId;
-			Bricks = new HashSet<Brick<T>>(bricks);
+			Bricks = new List<Brick<T>>(bricks);
+		}
+
+		public virtual bool BelongsToTheTerritory(Brick<T> brick) {
+			return Bricks.Contains(brick);
 		}
 
 		public virtual int GetBricksCount() {
@@ -39,8 +43,39 @@ namespace TerritoriesAssignment.Core.Algorithms
 		}
 
 		public virtual Territory<T> AddBrick(Brick<T> brick) {
-			Bricks.Add(brick);
+			if (!Bricks.Contains(brick)) {
+				Bricks.Add(brick);
+			} else {
+				Console.WriteLine($"Add brick error. Territory {Id} already contains brick {brick.Id}");
+			}
 			return this;
+		}
+
+		public void RemoveBrick(Brick<T> brick) {
+			if (!Bricks.Remove(brick)) {
+				Console.WriteLine($"Remove brick error. Territory {Id} does not contain brick {brick.Id}");
+			}
+		}
+
+		public bool IsAllBricksConnected() {//DFS
+			if (GetBricksCount() == 0) {
+				return false;
+			}
+			var stackOfBricks = new Stack<Brick<T>>();
+			var firstBrick = Bricks.First();
+			stackOfBricks.Push(firstBrick);
+			var visitedBricks = new List<Brick<T>> { firstBrick };
+			while (stackOfBricks.Count != 0) {
+				var peekBrick = stackOfBricks.Peek();
+				var firstNeighbor = peekBrick.NeighborhoodBricks.FirstOrDefault(x => !visitedBricks.Contains(x) && BelongsToTheTerritory(x));	//TODO: Check belonging current brick current territory. Search in dictionary of bricks
+				if (firstNeighbor != null) {
+					stackOfBricks.Push(firstNeighbor);
+					visitedBricks.Add(firstNeighbor);
+				} else {
+					stackOfBricks.Pop();
+				}
+			}
+			return visitedBricks.Count == GetBricksCount();
 		}
 
 		public object Clone() {
