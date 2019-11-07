@@ -21,8 +21,8 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 			return Storage.GetCountries().ToView();
 		}
 		[HttpPost("managersDistribution")]
-		public void ManagersDistribution(Guid countryId, ManagerView[] managers) {
-
+		public ManagerResponseView[] ManagersDistribution(Guid countryId, [FromBody]ManagerView[] managers) {
+			return new ManagerResponseView[0];
 		}
 		[HttpGet]
 		public CountryView Get(Guid id) {
