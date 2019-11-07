@@ -10,7 +10,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 	public class Territory<T> : ICloneable
 	{
 		public T Id { get; }		//Manager Id
-		public IList<Brick<T>> Bricks { get; }
+		public IList<Brick<T>> Bricks { get; } //TODO: change list to dictionary
 
 		public Territory(T territoryId, Brick<T> firstBrick) {
 			Id = territoryId;
@@ -20,6 +20,10 @@ namespace TerritoriesAssignment.Core.Algorithms
 		public Territory(T territoryId, IEnumerable<Brick<T>> bricks) {
 			Id = territoryId;
 			Bricks = new List<Brick<T>>(bricks);
+		}
+
+		public virtual bool BelongsToTheTerritory(Brick<T> brick) {
+			return Bricks.Contains(brick);
 		}
 
 		public virtual int GetBricksCount() {
@@ -54,7 +58,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 		}
 
 		public bool IsAllBricksConnected() {//DFS
-			if (Bricks.Count == 0) {
+			if (GetBricksCount() == 0) {
 				return false;
 			}
 			var stackOfBricks = new Stack<Brick<T>>();
@@ -63,7 +67,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 			var visitedBricks = new List<Brick<T>> { firstBrick };
 			while (stackOfBricks.Count != 0) {
 				var peekBrick = stackOfBricks.Peek();
-				var firstNeighbor = peekBrick.NeighborhoodBricks.FirstOrDefault(x => !visitedBricks.Contains(x));
+				var firstNeighbor = peekBrick.NeighborhoodBricks.FirstOrDefault(x => !visitedBricks.Contains(x) && BelongsToTheTerritory(x));	//TODO: Check belonging current brick current territory. Search in dictionary of bricks
 				if (firstNeighbor != null) {
 					stackOfBricks.Push(firstNeighbor);
 					visitedBricks.Add(firstNeighbor);
@@ -71,7 +75,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 					stackOfBricks.Pop();
 				}
 			}
-			return visitedBricks.Count == Bricks.Count;
+			return visitedBricks.Count == GetBricksCount();
 		}
 
 		public object Clone() {

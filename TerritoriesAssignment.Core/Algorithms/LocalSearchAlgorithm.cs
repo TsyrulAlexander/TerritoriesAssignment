@@ -14,6 +14,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 		private readonly Dictionary<T, List<T>> _neighborhoodMatrix; //n * n
 		private readonly Dictionary<T, Dictionary<T, double>> _attributiveMatrix; // n * k		brickId - (attributeId - attributeValue)
 		protected TerritorySolution<T> StartSolution { get; set; }
+		protected TerritorySolution<T> ResultSolution { get; set; }
 
 		public LocalSearchAlgorithm(TerritorySolution<T> startSolution, List<T> managerIds, List<T> attributeIds, 
 			Dictionary<T, List<T>> neighborhoodMatrix, Dictionary<T, Dictionary<T, double>> attributiveMatrix) {
@@ -23,78 +24,58 @@ namespace TerritoriesAssignment.Core.Algorithms
 			_attributiveMatrix = attributiveMatrix;
 			_managerIds = managerIds;
 			_attributeIds = attributeIds;
+			ResultSolution = startSolution;
 		}
 
 		public override TerritorySolution<T> Solve() {
-			var resultSolution = GetStartSolution();
+			ResultSolution = GetStartSolution();
 			int withoutImprovement = 0;
 			var counterValueToStop = GetCounterValueToStop();
 			while (withoutImprovement != counterValueToStop) {
+				withoutImprovement = 0;
 				for (int i = 0; i < _managerIds.Count; i++) {
 					for (int j = i + 1; j < _managerIds.Count; j++) {
-						Console.WriteLine($"{_managerIds[i]} {_managerIds[j]}");
-						var donorManager = _managerIds[i];
-						var recipientManager = _managerIds[j];
-
-						BrickExchange(resultSolution.Territories[donorManager],
-							resultSolution.Territories[recipientManager]); // i -> j
-
-						BrickExchange(resultSolution.Territories[donorManager],
-							resultSolution.Territories[recipientManager]); // i <- j
-
+						var firstManagerId = _managerIds[i];
+						var secondManagerId = _managerIds[j];
+						Console.WriteLine($"1-st manager {firstManagerId}, 2-nd manager {secondManagerId}");
+						if (BrickExchangeSuccessful(firstManagerId, secondManagerId)) {		// i -> j
+							withoutImprovement = 0;
+						}
+						else { withoutImprovement++; } 
+						if (BrickExchangeSuccessful(secondManagerId, firstManagerId)) {		// i <- j
+							withoutImprovement = 0;
+						} 
+						else { withoutImprovement++; }
 					}
 				}
 			}
-			return resultSolution;
+			return ResultSolution;
 		}
 
 		protected virtual int GetCounterValueToStop() {
-			return _managerIds.Count * (_managerIds.Count - 1) / 2;
+			return _managerIds.Count * (_managerIds.Count - 1);
 		}
 
-		protected virtual void BrickExchange(Territory<T> donorTerritory, Territory<T> recipientTerritory) {
-			var borderDonorBricks = GetDonorBorderBricks(donorTerritory, recipientTerritory);
-			var donorTerritoryClone = donorTerritory.DeepClone();
-			var recipientTerritoryClone = recipientTerritory.DeepClone();
-			for (int i = 0; i < borderDonorBricks.Count; i++) {
-				donorTerritoryClone.RemoveBrick(borderDonorBricks[i]);
-				if (donorTerritoryClone.IsAllBricksConnected()) {
-					
-				}
-			}
-		}
-
-		protected virtual IEnumerable<Brick<T>> GetValidDonorBricks(Territory<T> donorTerritory) {
-			var validDonorBricks = new List<Brick<T>>();
-			
-			var newDonor = donorTerritory.Bricks.Select(brick =>
-				brick.NeighborhoodBricks.RemoveAll(neighBrick => donorTerritory.Bricks.Contains(neighBrick)));
-			//var connectedDonorBricks = GetConnectedBricksDFS(donorTerritory.Bricks.);
-
-			return validDonorBricks;
-		}
-
-		
-
-		private IList<Brick<T>> GetValidBorderBricks(Territory<T> donorTerritory, Territory<T> recipientTerritory) {
-			var validDonorBricks = GetValidDonorBricks(donorTerritory);
-			var borderDonorBricks = new List<Brick<T>>();
-
-			return borderDonorBricks;
-		}
-
-		private IList<Brick<T>> GetDonorBorderBricks(Territory<T> donorTerritory, Territory<T> recipientTerritory) {
-			var borderDonorBricks = new List<Brick<T>>();
-			for (int i = 0; i < donorTerritory.GetBricksCount(); i++) {
-				var currDonorBrick = donorTerritory.Bricks[i];
-				for (int j = 0; j < recipientTerritory.GetBricksCount(); j++) {
-					if (currDonorBrick.IsNeighbor(recipientTerritory.Bricks[j])) {
-						borderDonorBricks.Add(currDonorBrick);
-						break;
+		protected virtual bool BrickExchangeSuccessful(T donorManagerId, T recipientManagerId) {
+			var tempTerritorySolution = ResultSolution.DeepClone();
+			var borderDonorBricks = tempTerritorySolution.GetDonorBorderBricks(donorManagerId, recipientManagerId);
+			for (var i = 0; i < borderDonorBricks.Count; i++) {
+				tempTerritorySolution.MoveBrick(donorManagerId, recipientManagerId, borderDonorBricks[i]);
+				if (tempTerritorySolution.Territories[donorManagerId].IsAllBricksConnected()) {
+					var tempTargetFuncValue = TargetFunction(tempTerritorySolution);
+					var bestTargetFuncValue = TargetFunction(ResultSolution);
+					if (tempTargetFuncValue < bestTargetFuncValue) {
+						ResultSolution.MoveBrick(donorManagerId, recipientManagerId, borderDonorBricks[i]);
+						PrintTerritorySolution(ResultSolution);
+						Console.Write("Improvement found");
+						return true;
 					}
+				} else {
+					tempTerritorySolution.MoveBrick( recipientManagerId, donorManagerId, borderDonorBricks[i]);
 				}
 			}
-			return borderDonorBricks;
+			Console.Write("No improvement");
+			return false;
 		}
 
 		protected virtual TerritorySolution<T> GetStartSolution() {
