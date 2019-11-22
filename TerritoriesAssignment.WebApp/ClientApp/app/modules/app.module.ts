@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from "../components/home/home.component";
+import { NavbarComponent } from "../components/navbar/navbar.component";
 import { AppComponent } from "../components/app/app.component";
 import { CountryListComponent } from "../components/country-list/country-list.component";
 import { AreaListComponent } from "../components/area-list/area-list.component";
@@ -28,14 +29,17 @@ import {AddRegionComponent} from "../components/add-region/add-region.component"
 import {ManagerDistributionComponent} from "../components/manager-distribution/manager-distribution.component";
 import { ColorPickerModule } from 'ngx-color-picker';
 import {ManagerDistributionResultComponent} from "../components/manager-distribution-result/manager-distribution-result.component";
+
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent }
+    { path: '', component: HomeComponent },
+    { path: 'territory', component: HomeComponent },
+    { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({
 	imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule, OverlayModule, NgbModule,
 		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module, ColorPickerModule],
-    declarations: [AppComponent, HomeComponent, CountryListComponent, AreaListComponent, RegionListComponent,
+    declarations: [AppComponent, HomeComponent, NavbarComponent, CountryListComponent, AreaListComponent, RegionListComponent,
         CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
         VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent, AddRegionComponent,
 		ManagerDistributionComponent, ManagerDistributionResultComponent],
