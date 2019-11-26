@@ -9,7 +9,7 @@ import {BaseHttpService} from "./base-http-service";
 export class AttributeService extends BaseHttpService {
 	url: string = "api/attribute";
 	getAttributes(): Observable<Attribute[]> {
-		return this.http.get<Attribute[]>(this.url + "/getAttributes");
+		return this.castObjects(this.http.get<Attribute[]>(this.url + "/getAttributes"), Attribute);
 	}
 	getAttributeValues(regionId: Guid): Observable<AttributeValue[]> {
 		return this.castObjects(this.http.get<AttributeValue[]>(this.url + "/getAttributeValues/" + regionId.toString()), AttributeValue);

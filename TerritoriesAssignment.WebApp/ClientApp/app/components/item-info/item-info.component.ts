@@ -44,7 +44,10 @@ export class ItemInfoComponent extends BaseComponent implements OnInit {
 	}
 
 	addAttributeToList(value: Guid) {
-		let attribute = ObjectUtilities.findItemFromPath(this.attributes, "item.id", value);
+		let attribute = ObjectUtilities.findItemFromPath(this.attributes, "item.id.value", value.toString());
+		if (!attribute) {
+			return;
+		}
 		let attributeValue = new AttributeValue(Guid.create());
 		attributeValue.attribute = attribute.item;
 		attributeValue.region = this.item;
