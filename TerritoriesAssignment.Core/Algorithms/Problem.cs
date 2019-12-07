@@ -10,7 +10,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 		protected List<T> _managerIds { get; set; }
 		protected List<T> _attributeIds { get; set; }
 		public abstract TerritorySolution<T> Solve();
-		protected virtual double TargetFunction(TerritorySolution<T> territorySolution) {
+		public virtual double TargetFunction(TerritorySolution<T> territorySolution) {
 			double result = 0;
 			foreach (var managerId in _managerIds) {
 				foreach (var attributeId in _attributeIds) {

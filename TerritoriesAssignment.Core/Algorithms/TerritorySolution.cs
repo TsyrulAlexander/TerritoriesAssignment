@@ -9,7 +9,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 	public class TerritorySolution<T> : ICloneable
 	{
 		public Dictionary<T, Territory<T>> Territories { get; }  //ManagerId - Territories
-
+		public long ElapsedTime { get; set; }
 		public TerritorySolution(Dictionary<T, Territory<T>> startTerritories) {
 			Territories = startTerritories;
 		}

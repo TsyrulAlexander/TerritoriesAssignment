@@ -15,7 +15,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 		private readonly List<Brick<T>> _startBricks;
 		private readonly Dictionary<T, List<T>> _neighborhoodMatrix; //n * n
 		private readonly Dictionary<T, Dictionary<T, double>> _attributiveMatrix; // n * k		brickId - (attributeId - attributeValue)
-
+		protected TerritorySolution<T> ResultSolution { get; set; } 
 		public SequentialHeuristicAlgorithm(List<T> managerIds, List<T> attributeIds, Dictionary<T, List<T>> neighborhoodMatrix, 
 			Dictionary<T, Dictionary<T, double>> attributiveMatrix, IEnumerable<T> startBrickIds) {
 			_bricksCount = neighborhoodMatrix.Count;
@@ -52,7 +52,8 @@ namespace TerritoriesAssignment.Core.Algorithms
 
 		public override TerritorySolution<T> Solve() {	 // m * n
 			var	resultTerritories = InitStartBricks();
-			PrintTerritorySolution(resultTerritories);
+
+			var watch = System.Diagnostics.Stopwatch.StartNew();
 			while (resultTerritories.GetBricksCount() != _allBricks.Count) //while all bricks will be assigned
 			{
 				foreach (var currentTerritoryKey in resultTerritories.Territories.Keys) // for each territory
@@ -71,11 +72,12 @@ namespace TerritoriesAssignment.Core.Algorithms
 					}
 					if (finalBrickToJoin != null) {
 						resultTerritories.AddBrick(currentTerritoryKey, finalBrickToJoin);
-						PrintTerritorySolution(resultTerritories);
 					}
 				}
 			}
-			Console.WriteLine($"Value of target function: {TargetFunction(resultTerritories)}");
+			watch.Stop();
+			resultTerritories.ElapsedTime = watch.ElapsedMilliseconds;
+			ResultSolution = resultTerritories;
 			return resultTerritories;
 		}
 
@@ -95,6 +97,9 @@ namespace TerritoriesAssignment.Core.Algorithms
 			return result;
 		}
 
+		public double TargetFunction() {
+			return base.TargetFunction(ResultSolution);
+		}
 		/*private double TargetFunction(TerritorySolution<T> territorySolution) {
 			double result = 0;
 			foreach (var managerId in _managerIds) {

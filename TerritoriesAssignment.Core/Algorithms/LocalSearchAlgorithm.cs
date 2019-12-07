@@ -8,6 +8,15 @@ using TerritoriesAssignment.Core.Utilities;
 
 namespace TerritoriesAssignment.Core.Algorithms
 {
+	class Experiment
+	{
+		public double FirstAlgExecutionTime {
+			get; set;
+		}
+		public double SecondAlgExecutionTime {
+			get; set;
+		}
+	}
 	public class LocalSearchAlgorithm<T> : Problem<T>
 	{
 		private readonly ICollection<Brick<T>> _allBricks;
@@ -29,6 +38,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 
 		public override TerritorySolution<T> Solve() {
 			ResultSolution = GetStartSolution();
+			var watch = System.Diagnostics.Stopwatch.StartNew();
 			int withoutImprovement = 0;
 			var counterValueToStop = GetCounterValueToStop();
 			while (withoutImprovement != counterValueToStop) {
@@ -37,7 +47,7 @@ namespace TerritoriesAssignment.Core.Algorithms
 					for (int j = i + 1; j < _managerIds.Count; j++) {
 						var firstManagerId = _managerIds[i];
 						var secondManagerId = _managerIds[j];
-						Console.WriteLine($"1-st manager {firstManagerId}, 2-nd manager {secondManagerId}");
+						//Console.WriteLine($"1-st manager {firstManagerId}, 2-nd manager {secondManagerId}");
 						if (BrickExchangeSuccessful(firstManagerId, secondManagerId)) {		// i -> j
 							withoutImprovement = 0;
 						}
@@ -49,7 +59,13 @@ namespace TerritoriesAssignment.Core.Algorithms
 					}
 				}
 			}
+			watch.Stop();
+			ResultSolution.ElapsedTime = watch.ElapsedMilliseconds;
 			return ResultSolution;
+		}
+
+		public double TargetFunction() {
+			return base.TargetFunction(ResultSolution);
 		}
 
 		protected virtual int GetCounterValueToStop() {
@@ -66,15 +82,15 @@ namespace TerritoriesAssignment.Core.Algorithms
 					var bestTargetFuncValue = TargetFunction(ResultSolution);
 					if (tempTargetFuncValue < bestTargetFuncValue) {
 						ResultSolution.MoveBrick(donorManagerId, recipientManagerId, borderDonorBricks[i]);
-						PrintTerritorySolution(ResultSolution);
-						Console.Write("Improvement found");
+						//PrintTerritorySolution(ResultSolution);
+						//Console.Write("Improvement found");
 						return true;
 					}
 				} else {
 					tempTerritorySolution.MoveBrick( recipientManagerId, donorManagerId, borderDonorBricks[i]);
 				}
 			}
-			Console.Write("No improvement");
+			//Console.Write("No improvement");
 			return false;
 		}
 
