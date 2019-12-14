@@ -28,6 +28,7 @@ export class MapComponent extends BaseComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         let observer = new MutationObserver(this.onSvgContentChange.bind(this));
         observer.observe(this.mySvg.nativeElement, {attributes: false, childList: true, characterData: false, subtree:true});
+		this.resize();
     }
     onSvgContentChange() {
         this.resize();

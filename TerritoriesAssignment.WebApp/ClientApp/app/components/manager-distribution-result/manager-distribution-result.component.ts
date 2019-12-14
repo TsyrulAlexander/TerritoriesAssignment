@@ -9,7 +9,8 @@ import {ObjectUtilities} from "../../utilities/object-utilities";
 
 @Component({
 	selector: "ks-manager-distribution-result",
-	templateUrl: "./manager-distribution-result.component.html"
+	templateUrl: "./manager-distribution-result.component.html",
+	styleUrls: ["./manager-distribution-result.component.css"]
 })
 export class ManagerDistributionResultComponent extends ModalComponent<ManagerDistributionResultComponent> {
 	mapItems: ViewListItem<MapItem>[] = [];
