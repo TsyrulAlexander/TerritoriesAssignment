@@ -10,6 +10,7 @@ using SQLiteFramework.Table;
 using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 using TerritoriesAssignment.Core.Entities.Map;
+using TerritoriesAssignment.Core.Entities.Setting;
 using Attribute = TerritoriesAssignment.Core.Entities.Attribute;
 
 namespace TerritoriesAssignment.Database.Storages.SQLite {
@@ -37,6 +38,11 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public Attribute GetAttribute(Guid id) {
 			return GetRecord<Attribute>(id, GetBaseLookupSelectColumns());
 		}
+		public Setting GetSetting(Guid id) {
+			return GetRecord<Setting>(id, GetBaseLookupSelectColumns().Concat(new [] {
+				new SQLiteColumn("Type"), 
+			}));
+		}
 		public AttributeValue GetAttributeValue(Guid attributeId, Guid regionId) {
 			var select = new SQLiteSelect(Engine);
 			select.AddCondition(
@@ -49,6 +55,19 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				new SQLiteColumn("Attribute.Name", SQLiteColumnType.String),
 				new SQLiteColumn("Region.Id", SQLiteColumnType.Guid),
 				new SQLiteColumn("Region.Name", SQLiteColumnType.String)
+			).FirstOrDefault();
+		}
+		public SettingValue GetSettingValue(Guid settingId) {
+			var select = new SQLiteSelect(Engine);
+			select.AddCondition(
+				settingId.CreateCondition("SettingId"));
+			return select.GetEntities<SettingValue>("SettingValue",
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Setting.Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Setting.Name", SQLiteColumnType.String),
+				new SQLiteColumn("DoubleValue", SQLiteColumnType.Double),
+				new SQLiteColumn("IntegerValue", SQLiteColumnType.Integer),
+				new SQLiteColumn("BooleanValue", SQLiteColumnType.Boolean)
 			).FirstOrDefault();
 		}
 		public virtual void AddCountry(Country country) {
@@ -66,6 +85,17 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public void AddAttributeValue(AttributeValue attributeValue) {
 			AddRecord(attributeValue, GetAttributeValueColumns());
 		}
+		public void AddSetting(Setting setting) {
+			AddRecord(setting, GetBaseLookupColumns());
+		}
+		public void AddSettingValue(SettingValue value) {
+			AddRecord(value, GetBaseLookupColumns().Concat(new [] {
+				"Setting.Id",
+				"IntegerValue",
+				"DoubleValue",
+				"BooleanValue"
+			}));
+		}
 		public virtual void UpdateCountry(Country country) {
 			UpdateRecord(country, country.Id, GetBaseRecordColumns());
 		}
@@ -80,6 +110,12 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		}
 		public void UpdateAttributeValue(AttributeValue attributeValue) {
 			UpdateRecord(attributeValue, attributeValue.Id, GetAttributeValueColumns());
+		}
+		public void UpdateSetting(Setting setting) {
+			UpdateRecord(setting, setting.Id, GetBaseLookupColumns());
+		}
+		public void UpdateSettingValue(SettingValue value) {
+			UpdateRecord(value, value.Id, GetSettingValueColumns());
 		}
 		public virtual IEnumerable<BaseLookup> GetCountries(string search = null) {
 			return GetRecords(nameof(Country), search);
@@ -117,6 +153,14 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			select.AddCondition(areaId.CreateCondition("Region.Area.Id"));
 			return select.GetEntities<AttributeValue>("AttributeValue", GetAttributeValueSelectColumns().ToArray());
 		}
+		public IEnumerable<Setting> GetSettings() {
+			var select = new SQLiteSelect(Engine);
+			return select.GetEntities<Setting>("Setting", GetSettingSelectColumns().ToArray());
+		}
+		public IEnumerable<SettingValue> GetSettingsValue() {
+			var select = new SQLiteSelect(Engine);
+			return select.GetEntities<SettingValue>("SettingValue", GetSettingValueSelectColumns().ToArray());
+		}
 		public virtual void DeleteCountry(Guid countryId) {
 			DeleteRecord(nameof(Country), countryId);
 		}
@@ -132,6 +176,9 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 		public void DeleteAttributeValue(Guid attributeValueId) {
 			DeleteRecord(nameof(AttributeValue), attributeValueId);
 		}
+		public void DeleteSetting(Guid settingId) {
+			throw new NotImplementedException();
+		}
 		protected virtual T GetRecord<T>(Guid recordId, IEnumerable<SQLiteColumn> columns) {
 			var select = new SQLiteSelect(Engine);
 			select.AddCondition(GetPrimaryCondition(recordId));
@@ -145,6 +192,7 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			var update = new SQLiteUpdate(Engine);
 			update.Execute(entity, new []{ GetPrimaryCondition(recordId) }, columnNames);
 		}
+
 		protected virtual IEnumerable<SQLiteColumn> GetAttributeValueSelectColumns() {
 			return new[] {
 				new SQLiteColumn("Id", SQLiteColumnType.Guid),
@@ -153,6 +201,24 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				new SQLiteColumn("Attribute.Name", SQLiteColumnType.String),
 				new SQLiteColumn("Region.Id", SQLiteColumnType.Guid),
 				new SQLiteColumn("Region.Name", SQLiteColumnType.String)
+			};
+		}
+		protected virtual IEnumerable<SQLiteColumn> GetSettingValueSelectColumns() {
+			return new[] {
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Setting.Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Setting.Name", SQLiteColumnType.String),
+				new SQLiteColumn("Setting.Type", SQLiteColumnType.Integer),
+				new SQLiteColumn("DoubleValue", SQLiteColumnType.Double),
+				new SQLiteColumn("IntegerValue", SQLiteColumnType.Integer),
+				new SQLiteColumn("BooleanValue", SQLiteColumnType.Boolean)
+			};
+		}
+		protected virtual IEnumerable<SQLiteColumn> GetSettingSelectColumns() {
+			return new[] {
+				new SQLiteColumn("Id", SQLiteColumnType.Guid),
+				new SQLiteColumn("Name", SQLiteColumnType.String),
+				new SQLiteColumn("Type", SQLiteColumnType.Integer)
 			};
 		}
 		protected virtual IEnumerable<string> GetAreaRecordColumns() {
@@ -171,6 +237,15 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 				"DoubleValue",
 				"Attribute.Id",
 				"Region.Id"
+			};
+		}
+		protected virtual IEnumerable<string> GetSettingValueColumns() {
+			return new[] {
+				"Id",
+				"Setting.Id",
+				"DoubleValue",
+				"IntegerValue",
+				"BooleanValue"
 			};
 		}
 		protected virtual IEnumerable<string> GetBaseRecordColumns() {

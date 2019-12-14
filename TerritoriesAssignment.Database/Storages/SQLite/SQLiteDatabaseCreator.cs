@@ -27,6 +27,10 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			CreateCountryTable();
 			CreateAreaTable();
 			CreateRegionTable();
+			CreateAttributeTable();
+			CreateAttributeValueTable();
+			CreateSettingTable();
+			CreateSettingValueTable();
 		}
 
 		protected virtual void CreateCountryTable() {
@@ -71,6 +75,24 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			});
 		}
 
+		public virtual void CreateSettingTable() {
+			Engine.CreateTable("Setting", new[] {
+				CreatePrimaryColumn(),
+				CreateStringColumn("Name"),
+				CreateIntegerColumn("Type")
+			});
+		}
+
+		public virtual void CreateSettingValueTable() {
+			Engine.CreateTable("SettingValue", new[] {
+				CreatePrimaryColumn(),
+				CreateGuidColumn("SettingId", true, false, new SQLiteForeignKey("Setting", "Id")),
+				CreateDoubleColumn("DoubleValue", false),
+				CreateIntegerColumn("IntegerValue", false),
+				CreateBooleanColumn("BooleanValue", false)
+			});
+		}
+
 		protected virtual SQLiteTableColumn CreatePrimaryColumn(string columnName = "Id") {
 			var guidColumn = CreateGuidColumn(columnName);
 			guidColumn.IsPrimaryKey = true;
@@ -99,6 +121,20 @@ namespace TerritoriesAssignment.Database.Storages.SQLite {
 			return new SQLiteTableColumn {
 				Name = columnName,
 				Type = SQLiteColumnType.Double,
+				IsRequired = isRequired
+			};
+		}
+		protected virtual SQLiteTableColumn CreateIntegerColumn(string columnName, bool isRequired = true) {
+			return new SQLiteTableColumn {
+				Name = columnName,
+				Type = SQLiteColumnType.Integer,
+				IsRequired = isRequired
+			};
+		}
+		protected virtual SQLiteTableColumn CreateBooleanColumn(string columnName, bool isRequired = true) {
+			return new SQLiteTableColumn {
+				Name = columnName,
+				Type = SQLiteColumnType.Boolean,
 				IsRequired = isRequired
 			};
 		}
