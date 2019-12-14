@@ -1,4 +1,4 @@
-﻿import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+﻿import {Component, ElementRef, Input, ViewChild, AfterViewInit} from '@angular/core';
 import {MapItem} from "../../models/map-item";
 import {MessageService} from "../../services/message.service";
 import {BaseComponent} from "../base/base.component";
@@ -14,7 +14,7 @@ import {ViewListItem} from "../../models/view-list-item";
     styleUrls: ['./map.component.css'],
     providers: [MapService]
 })
-export class MapComponent extends BaseComponent{
+export class MapComponent extends BaseComponent implements AfterViewInit {
     height: 100;
     width: 100;
     @Input()mapItems: ViewListItem<MapItem>[] = [];
@@ -24,6 +24,13 @@ export class MapComponent extends BaseComponent{
 
     constructor(private messageService: MessageService, private mapService: MapService) {
         super();
+    }
+    ngAfterViewInit(): void {
+        let observer = new MutationObserver(this.onSvgContentChange.bind(this));
+        observer.observe(this.mySvg.nativeElement, {attributes: false, childList: true, characterData: false, subtree:true});
+    }
+    onSvgContentChange() {
+        this.resize();
     }
     subscribeMessages() {
         super.subscribeMessages();

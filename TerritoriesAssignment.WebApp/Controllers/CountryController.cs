@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TerritoriesAssignment.Core.Entities;
 using TerritoriesAssignment.Database;
 using TerritoriesAssignment.WebApp.Models;
 using TerritoriesAssignment.WebApp.Utilities;

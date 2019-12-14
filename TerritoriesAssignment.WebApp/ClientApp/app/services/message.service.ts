@@ -15,7 +15,6 @@ export class MessageService {
         return subject && MessageService.callSubscriber(subject, body);
     }
     static callSubscriber(subject: SubjectTag<any>, body: any): any {
-        console.log(subject.tag, body);
         return subject.subscriber.apply(subject.sender, [body]);
     }
     getSubjects(tag: string): SubjectTag<any>[] {
