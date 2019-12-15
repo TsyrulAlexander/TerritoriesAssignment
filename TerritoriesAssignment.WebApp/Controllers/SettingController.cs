@@ -16,7 +16,7 @@ namespace TerritoriesAssignment.WebApp.Controllers {
 		public SettingController(IDataStorage storage) {
 			Storage = storage;
 		}
-		[HttpPost("getSettings")]
+		[HttpGet("getSettings")]
 		public SettingValueView[] GetSettings() {
 			return Storage.GetSettingsValue().Select(value => new SettingValueView(value)).ToArray();
 		}

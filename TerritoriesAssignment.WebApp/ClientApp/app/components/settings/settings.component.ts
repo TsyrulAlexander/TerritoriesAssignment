@@ -2,6 +2,7 @@
 import { SettingsService } from '../../services/settings.service';
 import { SettingValue } from '../../models/SettingValue';
 import { BaseComponent } from '../base/base.component';
+import {SettingValueType} from "../../models/enums/setting-value-type";
 
 @Component({
     selector: 'ks-settings',
@@ -11,7 +12,7 @@ import { BaseComponent } from '../base/base.component';
 })
 /** settings component*/
 export class SettingsComponent extends BaseComponent implements OnInit {
-    /** settings ctor */
+    settingType = SettingValueType;
     public settings: SettingValue[] = [];
 
     constructor(private settingService: SettingsService) {
