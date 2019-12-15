@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TerritoriesAssignment.Database;
-using TerritoriesAssignment.Database.Storages.Mock;
+using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Database.Storages.SQLite;
 
 namespace TerritoriesAssignment.WebApp.Extensions {

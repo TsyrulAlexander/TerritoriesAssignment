@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TerritoriesAssignment.Database;
+using TerritoriesAssignment.Core;
 using TerritoriesAssignment.WebApp.Models;
 
 namespace TerritoriesAssignment.WebApp.Controllers {

@@ -9,6 +9,7 @@ using TerritoriesAssignment.Database;
 using TerritoriesAssignment.WebApp.Models;
 
 namespace TerritoriesAssignment.WebApp.Utilities {
+	
 	public class ManagerHelper {
 		public IDataStorage Storage { get; }
 		public ManagerHelper(IDataStorage storage) {
@@ -22,11 +23,14 @@ namespace TerritoriesAssignment.WebApp.Utilities {
 			var attributeMatrix = GetAttributeMatrix(areas, attributes);
 			var managersList = managers.Select(manager => manager.Id).ToList();
 			var startAreasList = managers.Select(manager => manager.Area.Id).ToList();
+			var useOptimizedSolution = Storage.GetSettingValue(SettingsConst.UseOptimizedSolution)?.BooleanValue;
 			var algorithm = new SequentialHeuristicAlgorithm<Guid>(managersList, attributeList, areaMatrix, attributeMatrix, startAreasList);
 			var territorySolutionResponse = algorithm.Solve();
-			var algorithm2 = new LocalSearchAlgorithm<Guid>(territorySolutionResponse, managersList, attributeList, areaMatrix, attributeMatrix);
-			var territorySolutionResponse2 = algorithm2.Solve();
-			return territorySolutionResponse2.Territories.Select(pair => new ManagerResponseView {
+			if (useOptimizedSolution.HasValue && useOptimizedSolution.Value) {
+				var algorithm2 = new LocalSearchAlgorithm<Guid>(territorySolutionResponse, managersList, attributeList, areaMatrix, attributeMatrix);
+				territorySolutionResponse = algorithm2.Solve();
+			}
+			return territorySolutionResponse.Territories.Select(pair => new ManagerResponseView {
 				Id = pair.Key,
 				Areas = pair.Value.Bricks.Select(brick => {
 					var mapArea = areas.First(lookup => lookup.Id == brick.Id);

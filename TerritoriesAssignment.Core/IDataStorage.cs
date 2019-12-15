@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using TerritoriesAssignment.Core;
 using TerritoriesAssignment.Core.Entities;
 using TerritoriesAssignment.Core.Entities.Map;
 using TerritoriesAssignment.Core.Entities.Setting;
 using Attribute = TerritoriesAssignment.Core.Entities.Attribute;
 
-namespace TerritoriesAssignment.Database
+namespace TerritoriesAssignment.Core
 {
 	public interface IDataStorage {
 		Country GetCountry(Guid id);
