@@ -1,9 +1,9 @@
 ﻿<h1>Налаштування</h1>
 <h2>Знаходити покращенні розв'язки:</h2>
-<div *ngfor="let settingValue of settings">
-    <h2>{settingValue.setting.name}</h2>>
+<div *ngFor="let settingValue of settings">
+    <h2>{{settingValue.setting.name}}</h2>>
 </div>
 <label class="switch">
-    <input type="checkbox">
+    <input type="checkbox" [checked]="settingsChecked()">
     <span class="slider round"></span>
 </label>

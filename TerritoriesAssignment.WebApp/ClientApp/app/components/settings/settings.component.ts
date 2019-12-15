@@ -22,4 +22,7 @@ export class SettingsComponent extends BaseComponent implements OnInit {
             this.settings = data;
         })
     }
+    settingsChecked(): boolean {
+        return true;
+    }
 }
