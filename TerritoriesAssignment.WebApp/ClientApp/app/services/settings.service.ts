@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http-service';
 import { Observable } from 'rxjs';
-import { SettingValue } from '../models/SettingValue';
+import { SettingValue } from '../models/setting-value';
 
 @Injectable()
 export class SettingsService extends BaseHttpService {

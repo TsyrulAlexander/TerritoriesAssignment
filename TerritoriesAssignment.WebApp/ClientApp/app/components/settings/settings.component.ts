@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
-import { SettingValue } from '../../models/SettingValue';
+import { SettingValue } from '../../models/setting-value';
 import { BaseComponent } from '../base/base.component';
 import {SettingValueType} from "../../models/enums/setting-value-type";
 
