@@ -1,5 +1,5 @@
 ﻿
-enum SettingValueType {
+export enum SettingValueType {
     Text = 0,
     Double = 1,
     Integer = 1,

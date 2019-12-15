@@ -1,6 +1,7 @@
 ﻿import { BaseObject } from "./base-object";
 import { Guid } from "guid-typescript";
 import { Setting } from "./setting";
+import {SettingValueType} from "./enums/setting-value-type";
 
 export class SettingValue extends BaseObject {
 	public textValue: string;

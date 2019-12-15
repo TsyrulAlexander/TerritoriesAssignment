@@ -1,14 +1,13 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http-service';
 import { Observable } from 'rxjs';
-import { Guid } from 'guid-typescript';
-import { SettingValue } from '../models/SettingValue';
+import { SettingValue } from '../models/setting-value';
 
 @Injectable()
 export class SettingsService extends BaseHttpService {
-    private url = "/api/settings";
+    private url = "/api/setting";
     getSettingsValue(): Observable<SettingValue[]> {
-        return this.castObjects(this.http.get<SettingValue>(this.url + "/all"), SettingValue);
+        return this.castObjects(this.http.get<SettingValue>(this.url + "/getSettings"), SettingValue);
     }
     setSettingsValue(value: SettingValue[]) {
         return this.http.post(this.url + "/setSettings", value.map(obj => obj.toServerObject()));
