@@ -28,12 +28,20 @@ export class ManagerDistributionComponent extends ModalComponent<ManagerDistribu
 		let managerInfo = new ManagerInfo();
 		managerInfo.id = Guid.create();
 		managerInfo.area = area;
-		managerInfo.color = color;
+		managerInfo.color = color || this.getRandomColor();
 		if (!number) {
 			managerInfo.number = this.managers.length + 1;
 		}
 		this.managers.push(managerInfo);
 	}
+	getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
 	start() {
 		this.close(this.managers);
 	}
