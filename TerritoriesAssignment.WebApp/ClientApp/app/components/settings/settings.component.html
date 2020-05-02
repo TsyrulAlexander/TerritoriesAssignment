@@ -1,9 +1,26 @@
-﻿<h1>Налаштування</h1>
-<h2>Знаходити покращенні розв'язки:</h2>
-<div *ngFor="let settingValue of settings">
-    <h2>{{settingValue.setting.name}}</h2>>
+<ks-navbar></ks-navbar>
+<div class="card  card-settings">
+    <div class="card-header">
+        Налаштування
+    </div>
+    <div class="card-body">
+        <div class="container-settings">
+            <div *ngFor="let settingValue of settings">
+                <div class="row">
+                    <div class="col">
+                        <h5>{{settingValue.setting.name}}</h5>
+                    </div>
+                    <div class="col">
+                        <div *ngIf="settingValue.setting.type == settingType.Boolean">
+                            <label class="switch">
+                                <input type="checkbox" [(ngModel)]="settingValue.boolValue">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="onSave()">Зберегти</button>
+        </div>
+    </div>
 </div>
-<label class="switch">
-    <input type="checkbox" [checked]="settingsChecked()">
-    <span class="slider round"></span>
-</label>

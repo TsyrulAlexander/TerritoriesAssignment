@@ -1,4 +1,11 @@
-﻿
+﻿.container-settings {
+    width: 100%;
+    margin: 1px 1px 1px 1px;
+}
+
+.card-settings {
+    margin: 20px 20px 20px 20px;
+}
 /* The switch - the box around the slider */
 .switch {
     position: relative;

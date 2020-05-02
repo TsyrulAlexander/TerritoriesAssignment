@@ -1,4 +1,4 @@
-﻿import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {CountryService} from "../../services/country.service";
 import {CountryListItem} from "../../models/country-list-item";
 import {BaseListComponent} from "../base-list/base-list.component";

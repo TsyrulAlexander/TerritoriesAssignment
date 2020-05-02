@@ -13,7 +13,7 @@
     <!--<ngx-select-dropdown [config]="{displayKey: 'name', search:true, placeholder:'Select',searchOnKey:'name'}"
                          [multiple]="false" [options]="getNouUseAttributes()"></ngx-select-dropdown>-->
     <select *ngIf="isAddAttributeValue" class="custom-select" (change)="addAttributeToList($event.target.value)">
-        <option value="">--Please choose an option--</option>
+        <option value="">--Оберіть спеціалізацію лікаря--</option>
        <ng-container *ngFor="let attribute of attributes">
            <option *ngIf="attribute.isVisible" [value]="attribute.item.id">{{attribute.item.name}}</option>
        </ng-container>

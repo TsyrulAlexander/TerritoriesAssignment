@@ -1,4 +1,4 @@
-﻿import { Input, Output, EventEmitter, Injectable, OnInit } from '@angular/core';
+import { Input, Output, EventEmitter, Injectable, OnInit } from '@angular/core';
 import { BaseComponent } from "../base/base.component";
 import { BaseLookup } from "../../models/base-lookup";
 import {MessageService} from "../../services/message.service";

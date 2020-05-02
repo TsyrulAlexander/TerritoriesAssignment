@@ -1,4 +1,4 @@
-﻿<div>
+<div>
     <div *ngFor="let country of items">
         <ks-country [item]="country" (update)="updateItem($event)" (delete)="deleteItem($event)" (onManagersDistribution)="managersDistribution(country.item, $event)"></ks-country>
     </div>

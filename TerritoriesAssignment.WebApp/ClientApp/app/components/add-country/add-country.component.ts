@@ -1,4 +1,4 @@
-﻿import {Component, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {ModalComponent} from "../modal/modal.component";
 import {Guid} from "guid-typescript";
 import {Country} from "../../models/country";
@@ -8,7 +8,7 @@ import {CountryService} from "../../services/country.service";
 @Component({
     selector: 'ks-add-country',
     templateUrl: './add-country.component.html',
-    styleUrls: ["./add-country.component.scss"],
+    styleUrls: ["./add-country.component.css"],
     providers:[CountryService]
 })
 export class AddCountryComponent extends ModalComponent<AddCountryComponent> {

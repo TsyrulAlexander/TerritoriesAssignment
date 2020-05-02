@@ -1,4 +1,4 @@
-﻿import {Component, ElementRef, Input, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild, AfterViewInit} from '@angular/core';
 import {MapItem} from "../../models/map-item";
 import {MessageService} from "../../services/message.service";
 import {BaseComponent} from "../base/base.component";

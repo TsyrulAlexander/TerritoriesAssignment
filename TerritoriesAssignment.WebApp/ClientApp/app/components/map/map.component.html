@@ -1,4 +1,4 @@
-﻿<div>
+<div>
     <svg #mySvg>
         <g *ngFor="let mapItem of mapItems">
             <path *ngIf="mapItem.isSelected" [attr.d]="mapItem.item.path" [attr.fill]="selectColorName" [attr.stroke]="'black'"></path>

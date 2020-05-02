@@ -1,4 +1,4 @@
-﻿import {Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { RegionListItem } from "../../models/region-list-item";
 import { RegionService } from "../../services/region.service";
 import { AreaListItem } from "../../models/area-list-item";

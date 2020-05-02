@@ -1,18 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ToolsVersionPromptShown>2.8</ToolsVersionPromptShown>
-    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+    <ToolsVersionPromptShown>3.6</ToolsVersionPromptShown>
+    <ActiveDebugProfile>TerritoriesAssignment.WebApp</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="ClientApp\app\models\imap-item.ts">
+    <TypeScriptCompile Update="ClientApp\app\models\enums\setting-value-type.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <TypeScriptCompile Update="ClientApp\app\models\imap-item.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="ClientApp\app\models\setting.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Update="ClientApp\app\models\map-item.ts">
       <SubType>Code</SubType>

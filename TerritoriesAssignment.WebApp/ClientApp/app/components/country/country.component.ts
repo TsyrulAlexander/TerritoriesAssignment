@@ -1,4 +1,4 @@
-﻿import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {CountryListItem} from "../../models/country-list-item";
 import { BaseListItemComponent } from "../base-list-item/base-list-item.component";
 import {ListItemType} from "../../models/listItemType";

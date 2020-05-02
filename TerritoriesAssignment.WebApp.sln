@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerritoriesAssignment.Datab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerritoriesAssignment.Core", "TerritoriesAssignment.Core\TerritoriesAssignment.Core.csproj", "{C5859396-C309-42B8-B48A-75287104C64C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteFramework", "SQLiteFramework\SQLiteFramework.csproj", "{3713CEE1-1B94-4056-AEB4-6795AEE8E29D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteFramework", "SQLiteFramework\SQLiteFramework.csproj", "{3713CEE1-1B94-4056-AEB4-6795AEE8E29D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{C420FADE-0F97-4CC4-9A83-741B0165D1C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3713CEE1-1B94-4056-AEB4-6795AEE8E29D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3713CEE1-1B94-4056-AEB4-6795AEE8E29D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3713CEE1-1B94-4056-AEB4-6795AEE8E29D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C420FADE-0F97-4CC4-9A83-741B0165D1C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C420FADE-0F97-4CC4-9A83-741B0165D1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C420FADE-0F97-4CC4-9A83-741B0165D1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C420FADE-0F97-4CC4-9A83-741B0165D1C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

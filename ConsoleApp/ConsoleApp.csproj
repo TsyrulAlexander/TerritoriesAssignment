@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SQLiteFramework\SQLiteFramework.csproj" />
+    <ProjectReference Include="..\TerritoriesAssignment.Core\TerritoriesAssignment.Core.csproj" />
+    <ProjectReference Include="..\TerritoriesAssignment.Database\TerritoriesAssignment.Database.csproj" />
+    <ProjectReference Include="..\TerritoriesAssignment.WebApp\TerritoriesAssignment.WebApp.csproj" />
+  </ItemGroup>
+
+</Project>

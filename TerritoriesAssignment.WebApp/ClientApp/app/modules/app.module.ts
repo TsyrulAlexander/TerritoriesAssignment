@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from "../components/home/home.component";
 import { NavbarComponent } from "../components/navbar/navbar.component";
 import { SettingsComponent } from "../components/settings/settings.component";
+import { LogInComponent } from "../components/log-in/log-in.component";
 import { AppComponent } from "../components/app/app.component";
 import { CountryListComponent } from "../components/country-list/country-list.component";
 import { AreaListComponent } from "../components/area-list/area-list.component";
@@ -35,13 +36,14 @@ const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'territory', component: HomeComponent },
     { path: 'settings', component: SettingsComponent },
+    { path: 'logout', component: LogInComponent },
     { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({
 	imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), HttpClientModule, OverlayModule, NgbModule,
 		MatDialogModule, BrowserAnimationsModule, JwBootstrapSwitchNg2Module, ColorPickerModule],
-    declarations: [AppComponent, HomeComponent, NavbarComponent, SettingsComponent, CountryListComponent, AreaListComponent, RegionListComponent,
+    declarations: [AppComponent, HomeComponent, NavbarComponent, LogInComponent, SettingsComponent, CountryListComponent, AreaListComponent, RegionListComponent,
         CountryComponent, AreaComponent, RegionComponent, MapComponent, ModalComponent, AddCountryComponent,
         VarDirective, AddAreaComponent, ListItemViewComponent, ItemInfoComponent, AddRegionComponent,
 		ManagerDistributionComponent, ManagerDistributionResultComponent],

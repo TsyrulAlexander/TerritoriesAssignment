@@ -2,8 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\app\models\enums\setting-value-type.ts" />
+    <None Remove="ClientApp\app\models\setting.ts" />
+    <None Remove="ClientApp\app\models\SettingValue.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TerritoriesAssignment.Core\TerritoriesAssignment.Core.csproj" />
@@ -11,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\images\" />
     <Folder Include="wwwroot\styles\" />
   </ItemGroup>
 
@@ -22,6 +29,12 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\models\enums\setting-value-type.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\setting.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\settingValue.ts" />
   </ItemGroup>
 
 </Project>
