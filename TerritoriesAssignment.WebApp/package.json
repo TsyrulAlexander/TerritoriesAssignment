@@ -29,7 +29,7 @@
     "sass": "^1.23.0",
     "style-loader": "^1.0.0",
     "to-string-loader": "^1.1.5",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "zone.js": "0.9.1"
   },
   "devDependencies": {
